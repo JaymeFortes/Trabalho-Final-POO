@@ -1,5 +1,6 @@
 package dados;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public abstract class Drone {
@@ -10,7 +11,7 @@ public abstract class Drone {
 
 	private double autonomia;
 
-	private Collection<Transporte> transporte;
+	private ArrayList<Transporte> transportes;
 
 	public abstract double calculaCustoKm();
 
