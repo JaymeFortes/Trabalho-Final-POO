@@ -6,12 +6,39 @@ import java.util.Collection;
 public abstract class Drone {
 
 	private int codigo;
-
 	private double custoFixo;
-
 	private double autonomia;
-
 	private ArrayList<Transporte> transportes;
+
+	public Drone(int codigo, double custoFixo, double autonomia) {
+		this.codigo = codigo;
+		this.custoFixo = custoFixo;
+		this.autonomia = autonomia;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public void setCustoFixo(double custoFixo) {
+		this.custoFixo = custoFixo;
+	}
+
+	public void setAutonomia(double autonomia) {
+		this.autonomia = autonomia;
+	}
+
+	public int getCodigo() {
+		return this.codigo;
+	}
+
+	public double getCustoFixo() {
+		return this.custoFixo;
+	}
+
+	public double getAutonomia() {
+		return this.autonomia;
+	}
 
 	public abstract double calculaCustoKm();
 
