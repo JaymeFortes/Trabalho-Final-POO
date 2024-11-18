@@ -18,8 +18,19 @@ public class DroneCargaInanimada extends DroneCarga {
 	}
 
 	@Override
-	public double calculaCustoKm() {
-		return super.calculaCustoKm();
+	public String getTipoDrone() {
+		return "Drone Carga Inanimada";
+	}
+
+	@Override
+	public double custoVariado() {
+		double custo = 0;
+		if (protecao) {
+			custo = getCustoFixo() + 10.00;
+		} else {
+			custo = getCustoFixo() + 5.00;
+		}
+		return custo;
 	}
 
 	public String EstadoProtecao() {
