@@ -41,7 +41,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacao.ACMEAirDrones">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacao.ControleCadastros">
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
             <children>
@@ -51,6 +51,9 @@
                 <Button fx:id="sairButton" layoutX="293.0" layoutY="364.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Sair" />
                 <Button fx:id="mostrarButton" layoutX="379.0" layoutY="364.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Mostrar todos" />
                 <TextField fx:id="codigoField" layoutX="73.0" layoutY="13.0" prefHeight="25.0" prefWidth="177.0" />
+                <TextField fx:id="custoFixoField" layoutX="345.0" layoutY="13.0" prefHeight="25.0" prefWidth="177.0" />
+                <TextField fx:id="autonomiaField" layoutX="73.0" layoutY="55.0" prefHeight="25.0" prefWidth="177.0" />
+                <TextField fx:id="pesoMaximoField" layoutX="345.0" layoutY="55.0" prefHeight="25.0" prefWidth="185.0" />
                 <Label layoutY="12.0" prefHeight="27.0" prefWidth="98.0" text="Código:" />
                 <RadioButton fx:id="droneVivaRadio" layoutX="7.0" layoutY="138.0" mnemonicParsing="false" text="Drone de Carga Viva">
                     <font>
@@ -67,12 +70,9 @@
                         <Font size="13.0" />
                     </font>
                 </Label>
-                <Label layoutX="265.0" layoutY="17.0" text="Custo Fixo:" />
                 <Label layoutY="59.0" text="Autonomia:" />
                 <Label layoutX="265.0" layoutY="59.0" text="Peso Máximo:" />
-                <TextField fx:id="custoFixoField" layoutX="345.0" layoutY="13.0" prefHeight="25.0" prefWidth="177.0" />
-                <TextField fx:id="autonomiaField" layoutX="73.0" layoutY="55.0" prefHeight="25.0" prefWidth="177.0" />
-                <TextField fx:id="pesoMaximoField" layoutX="353.0" layoutY="55.0" prefHeight="25.0" prefWidth="177.0" />
+                <Label layoutX="280.0" layoutY="20.0" text="Custo Fixo:" />
             </children>
         </AnchorPane>
     </children>
