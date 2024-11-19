@@ -22,11 +22,12 @@ public abstract class DroneCarga extends Drone {
 
     @Override
     public double calculaCustoKm() {
-        return getCustoFixo() + custoVariado();
+        return  custoVariado();
     }
 
     @Override
     public String toString() {
-        return super.toString() + "Peso Máximo: " + String.format("%.2f", pesoMaximo) + " KG";
+        return super.toString() + "Peso Máximo: " + String.format("%.2f", pesoMaximo) + " KG\n" + "Custo por km: " +
+                String.format("%.2f", calculaCustoKm());
     }
 }

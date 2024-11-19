@@ -39,13 +39,12 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacao.ControleCadastros">
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
             <children>
-                <TextArea fx:id="txtAreaMensagem" layoutX="9.0" layoutY="172.0" prefHeight="153.0" prefWidth="474.0" />
+                <TextArea fx:id="txtAreaMensagem" layoutX="9.0" layoutY="177.0" prefHeight="148.0" prefWidth="474.0" />
                 <Button fx:id="cadastraButton" layoutX="7.0" layoutY="364.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Cadastrar Drone" />
                 <Button fx:id="limparButton" layoutX="186.0" layoutY="364.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="89.0" text="Limpar" />
                 <Button fx:id="sairButton" layoutX="293.0" layoutY="364.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Sair" />
@@ -55,24 +54,18 @@
                 <TextField fx:id="autonomiaField" layoutX="73.0" layoutY="55.0" prefHeight="25.0" prefWidth="177.0" />
                 <TextField fx:id="pesoMaximoField" layoutX="345.0" layoutY="55.0" prefHeight="25.0" prefWidth="185.0" />
                 <Label layoutY="12.0" prefHeight="27.0" prefWidth="98.0" text="Código:" />
-                <RadioButton fx:id="droneVivaRadio" layoutX="7.0" layoutY="138.0" mnemonicParsing="false" text="Drone de Carga Viva">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
-                </RadioButton>
-                <RadioButton fx:id="droneInanimadaRadio" layoutX="197.0" layoutY="138.0" mnemonicParsing="false" text="Drone de Carga Inanimada">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
-                </RadioButton>
-                <Label layoutY="105.0" prefHeight="27.0" prefWidth="164.0" text="Selecione o tipo de drone:" textFill="#222020">
-                    <font>
-                        <Font size="13.0" />
-                    </font>
-                </Label>
+                <RadioButton fx:id="droneVivaRadio" layoutX="8.0" layoutY="107.0" mnemonicParsing="false" text="Drone de Carga Viva" />
+                <RadioButton fx:id="droneInanimadaRadio" layoutX="7.0" layoutY="130.0" mnemonicParsing="false" text="Drone de Carga Inanimada" />
+                <Label layoutY="80.0" prefHeight="27.0" prefWidth="164.0" text="Selecione o tipo de drone:" textFill="#222020" />
                 <Label layoutY="59.0" text="Autonomia:" />
                 <Label layoutX="265.0" layoutY="59.0" text="Peso Máximo:" />
                 <Label layoutX="280.0" layoutY="20.0" text="Custo Fixo:" />
+            <VBox fx:id="optionsVBox" layoutX="177.0" layoutY="89.0" prefHeight="82.0" prefWidth="177.0">
+               <children>
+                  <RadioButton fx:id="climatizadoRadio" text="Climatizado" visible="false" />
+                  <RadioButton fx:id="protecaoRadio" prefHeight="47.0" prefWidth="121.0" text="Proteção" visible="false" />
+               </children>
+            </VBox>
             </children>
         </AnchorPane>
     </children>

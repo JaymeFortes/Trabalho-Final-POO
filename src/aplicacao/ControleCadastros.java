@@ -4,6 +4,7 @@ import dados.DroneCarga;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 public class ControleCadastros {
     @FXML
@@ -14,6 +15,10 @@ public class ControleCadastros {
     private Button cadastraButton, limparButton, sairButton, mostrarButton;
     @FXML
     private RadioButton droneVivaRadio, droneInanimadaRadio;
+    @FXML
+    private RadioButton climatizadoRadio, protecaoRadio;
+    @FXML
+    private VBox optionsVBox;  // Contém os RadioButtons para climatizado e proteção
 
     private ACMEAirDrones acmeAirDrones = new ACMEAirDrones();
 
@@ -30,8 +35,25 @@ public class ControleCadastros {
         ToggleGroup group = new ToggleGroup();
         droneVivaRadio.setToggleGroup(group);
         droneInanimadaRadio.setToggleGroup(group);
-        droneVivaRadio.setOnAction(event -> txtAreaMensagem.setText("Drone de Carga Viva selecionado!"));
-        droneInanimadaRadio.setOnAction(event -> txtAreaMensagem.setText("Drone de Carga Inanimada selecionado!"));
+
+        // Inicialmente, os RadioButtons de climatizado e proteção estão invisíveis
+        optionsVBox.setVisible(false); // Oculta a VBox que contém as opções de climatizado/proteção
+
+        droneVivaRadio.setOnAction(event -> {
+            txtAreaMensagem.setText("Drone de Carga Viva selecionado!\n Se o drone precisa de climatização, clique em 'Climatizado'");
+            // Exibe a opção de "Climatizado"
+            optionsVBox.setVisible(true);
+            climatizadoRadio.setVisible(true);
+            protecaoRadio.setVisible(false);
+        });
+
+        droneInanimadaRadio.setOnAction(event -> {
+            txtAreaMensagem.setText("Drone de Carga Inanimada selecionado! \nSe o drone precisa de proteção, clique em 'Proteção'");
+            // Exibe a opção de "Proteção"
+            optionsVBox.setVisible(true);
+            climatizadoRadio.setVisible(false);
+            protecaoRadio.setVisible(true);
+        });
     }
 
     public void cadastrarDrone() {
@@ -50,7 +72,11 @@ public class ControleCadastros {
             boolean isViva = droneVivaRadio.isSelected();
             boolean isInanimada = droneInanimadaRadio.isSelected();
 
-            String mensagem = acmeAirDrones.cadastrarDrone(codigo, autonomia, custoFixo, pesoMax, isViva, isInanimada);
+            // Lógica para obter as opções de climatizado e proteção
+            boolean climatizado = climatizadoRadio.isSelected();
+            boolean possuiProtecao = protecaoRadio.isSelected();
+
+            String mensagem = acmeAirDrones.cadastrarDrone(codigo, autonomia, custoFixo, pesoMax, isViva, isInanimada, climatizado, possuiProtecao);
             txtAreaMensagem.setText(mensagem);
 
         } catch (NumberFormatException e) {
@@ -66,6 +92,7 @@ public class ControleCadastros {
         txtAreaMensagem.setText("");
         droneVivaRadio.setSelected(false);
         droneInanimadaRadio.setSelected(false);
+        optionsVBox.setVisible(false); // Esconde as opções de climatizado/proteção ao limpar
     }
 
     public void mostrarDrones() {
