@@ -1,11 +1,52 @@
 package dados;
 
-public class TransporteCargaInanimada extends Transporte {
+public class TransporteCargaInanimada extends Transporte implements CalculaAcrescimos {
 
     private boolean cargaPerigosa;
 
+    public TransporteCargaInanimada(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem, double longitudeOrigem,
+                                    double latitudeDestino, double longitudeDestino, Estado estado,
+                                    boolean cargaPerigosa,GeoCalculator geoCalculator) {
+
+        super(numero, nomeCliente, descricao, peso, latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino,estado,geoCalculator);
+        this.cargaPerigosa = cargaPerigosa;
+    }
+
+    public boolean isCargaPerigosa() {
+        return cargaPerigosa;
+    }
+
+    public void setCargaPerigosa(boolean cargaPerigosa) {
+        this.cargaPerigosa = cargaPerigosa;
+    }
+
+    public String estadoTransporte(){
+        if (isCargaPerigosa()){
+            return "Sim";
+        } else {
+            return "Não";
+        }
+    }
+
+    @Override
+    public double calculaAcrescimo() {
+        double acrescimo = 0;
+        if (isCargaPerigosa()) {
+            acrescimo = 500;
+        } else {
+           acrescimo = 0;
+        }
+        return acrescimo;
+    }
+
     @Override
     public double calculaCusto() {
-        return 0;
+        double distancia = calculaDistancia();
+        return (getDrone().calculaCustoKm() * distancia) + calculaAcrescimo();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\n Carga Perigosa: " + estadoTransporte();
     }
 }
