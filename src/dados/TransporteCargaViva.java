@@ -50,7 +50,7 @@ public class TransporteCargaViva extends Transporte implements CalculaAcrescimos
 	public double calculaAcrescimo() {
 		double acrescimo = 0;
 		if (isTempaturaMaiorque10()){
-			acrescimo = 500;
+			acrescimo = 1000;
 		} else {
 			acrescimo = 0;
 		}
