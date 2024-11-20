@@ -18,11 +18,11 @@ public abstract class DroneCarga extends Drone {
 
     public abstract String getTipoDrone();
 
-    public abstract double custoVariado();
+
 
     @Override
     public double calculaCustoKm() {
-        return  custoVariado();
+        return  0;
     }
 
     @Override

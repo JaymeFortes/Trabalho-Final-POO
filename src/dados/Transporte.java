@@ -12,10 +12,10 @@ public abstract class Transporte {
 	private double longitudeDestino;
 	private Estado situacao;
 	private Drone drone;
+	private GeoCalculator geoCalculator;
 
-	public Transporte(int numero, String nomeCliente, String descricao, double peso,
-					  double latitudeOrigem, double longitudeOrigem,
-					  double latitudeDestino, double longitudeDestino) {
+	public Transporte(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem, double longitudeOrigem,
+					  double latitudeDestino, double longitudeDestino, Estado situacao, GeoCalculator geoCalculator) {
 		this.numero = numero;
 		this.nomeCliente = nomeCliente;
 		this.descricao = descricao;
@@ -25,37 +25,8 @@ public abstract class Transporte {
 		this.latitudeDestino = latitudeDestino;
 		this.longitudeDestino = longitudeDestino;
 		this.situacao = Estado.PENDENTE;
+		this.geoCalculator = geoCalculator;
 	}
-
-
-	public double calculaCustoBase() {
-		double distancia = calculaDistancia(latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino);
-		return drone.calculaCustoKm() * distancia;
-	}
-
-
-	public abstract double getAcrecimos();
-
-
-	public double calculaCusto() {
-		return calculaCustoBase() + getAcrecimos();
-	}
-
-
-	private double calculaDistancia(double latitude1,
-									double longitude1,
-									double latitude2,
-									double longitude2) {
-		final int R = 6371; // Raio da Terra em km
-		double distanciaLatitude = Math.toRadians(latitude2 - latitude1);
-		double distanciaLongitude = Math.toRadians(longitude2 - longitude1);
-		double a = Math.sin(distanciaLatitude / 2) * Math.sin(distanciaLatitude / 2) +
-				Math.cos(Math.toRadians(latitude1)) * Math.cos(Math.toRadians(latitude2)) *
-						Math.sin(distanciaLongitude / 2) * Math.sin(distanciaLongitude / 2);
-		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-		return R * c;
-	}
-
 
 	public int getNumero() {
 		return numero;
@@ -89,6 +60,38 @@ public abstract class Transporte {
 		this.peso = peso;
 	}
 
+	public double getLatitudeOrigem() {
+		return latitudeOrigem;
+	}
+
+	public void setLatitudeOrigem(double latitudeOrigem) {
+		this.latitudeOrigem = latitudeOrigem;
+	}
+
+	public double getLongitudeOrigem() {
+		return longitudeOrigem;
+	}
+
+	public void setLongitudeOrigem(double longitudeOrigem) {
+		this.longitudeOrigem = longitudeOrigem;
+	}
+
+	public double getLatitudeDestino() {
+		return latitudeDestino;
+	}
+
+	public void setLatitudeDestino(double latitudeDestino) {
+		this.latitudeDestino = latitudeDestino;
+	}
+
+	public double getLongitudeDestino() {
+		return longitudeDestino;
+	}
+
+	public void setLongitudeDestino(double longitudeDestino) {
+		this.longitudeDestino = longitudeDestino;
+	}
+
 	public Estado getSituacao() {
 		return situacao;
 	}
@@ -105,6 +108,13 @@ public abstract class Transporte {
 		this.drone = drone;
 	}
 
+	public abstract double calculaCusto();
+
+
+	public double calculaDistancia() {
+		return geoCalculator.calculaDistancia(latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino);
+	}
+
 	@Override
 	public String toString() {
 		return "Transporte Número: " + numero +
@@ -114,6 +124,6 @@ public abstract class Transporte {
 				"\nOrigem: (" + latitudeOrigem + ", " + longitudeOrigem + ")" +
 				"\nDestino: (" + latitudeDestino + ", " + longitudeDestino + ")" +
 				"\nSituação: " + situacao +
-				"\nDrone Alocado: " + (drone == null ? "Nenhum" : drone);
+				"\nStatus: " + (drone == null ? "Nenhum" : drone);
 	}
 }
