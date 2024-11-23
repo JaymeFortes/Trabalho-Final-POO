@@ -37,7 +37,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -52,18 +51,13 @@
                 <Button fx:id="limparButton" layoutX="186.0" layoutY="364.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="89.0" text="Limpar" />
                 <Button fx:id="sairButton" layoutX="293.0" layoutY="364.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Sair" />
                 <Button fx:id="mostrarButton" layoutX="379.0" layoutY="364.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Mostrar todos" />
-                <TextField fx:id="codigoField" layoutX="73.0" layoutY="13.0" prefHeight="25.0" prefWidth="177.0" />
-                <TextField fx:id="custoFixoField" layoutX="345.0" layoutY="13.0" prefHeight="25.0" prefWidth="177.0" />
-                <TextField fx:id="autonomiaField" layoutX="73.0" layoutY="55.0" prefHeight="25.0" prefWidth="177.0" />
-                <TextField fx:id="pesoMaximoField" layoutX="345.0" layoutY="55.0" prefHeight="25.0" prefWidth="185.0" />
-                <Label layoutY="12.0" prefHeight="27.0" prefWidth="98.0" text="Código:" />
-                <RadioButton fx:id="droneVivaRadio" layoutX="8.0" layoutY="107.0" mnemonicParsing="false" text="Drone de Carga Viva" />
-                <RadioButton fx:id="droneInanimadaRadio" layoutX="7.0" layoutY="130.0" mnemonicParsing="false" text="Drone de Carga Inanimada" />
-                <Label layoutY="80.0" prefHeight="27.0" prefWidth="164.0" text="Selecione o tipo de drone:" textFill="#222020" />
-                <Label layoutY="59.0" text="Autonomia:" />
-                <Label layoutX="265.0" layoutY="59.0" text="Peso Máximo:" />
-                <Label layoutX="280.0" layoutY="20.0" text="Custo Fixo:" />
-                <ComboBox fx:id="cbControl" layoutX="379.0" layoutY="95.0" prefWidth="150.0" promptText="Tipo">
+                <TextField fx:id="codigoField" layoutX="60.0" layoutY="14.0" prefHeight="25.0" prefWidth="177.0" />
+                <TextField fx:id="custoFixoField" layoutX="75.0" layoutY="70.0" prefHeight="25.0" prefWidth="177.0" />
+                <TextField fx:id="autonomiaField" layoutX="75.0" layoutY="41.0" prefHeight="25.0" prefWidth="177.0" />
+                <Label layoutX="16.0" layoutY="13.0" prefHeight="27.0" prefWidth="44.0" text="Código:" textAlignment="JUSTIFY" />
+                <Label layoutX="7.0" layoutY="53.0" text="Autonomia:" />
+                <Label layoutX="9.0" layoutY="74.0" text="Custo Fixo:" />
+                <ComboBox fx:id="cbControl" layoutX="476.0" layoutY="14.0" prefWidth="150.0" promptText="Tipo">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Opção 1" />
@@ -72,12 +66,6 @@
                         </FXCollections>
                     </items>
                 </ComboBox>
-            <VBox fx:id="optionsVBox" layoutX="177.0" layoutY="89.0" prefHeight="82.0" prefWidth="177.0">
-               <children>
-                  <RadioButton fx:id="climatizadoRadio" text="Climatizado" visible="false" />
-                  <RadioButton fx:id="protecaoRadio" prefHeight="47.0" prefWidth="121.0" text="Proteção" visible="false" />
-               </children>
-            </VBox>
             </children>
         </AnchorPane>
     </children>
