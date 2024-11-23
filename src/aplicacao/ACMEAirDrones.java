@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 
 public class ACMEAirDrones {
 	@FXML
-	private TextField codigoField, autonomiaField, custoFixoField, pessoasField,pesoMaxField;
+	private TextField codigoField, autonomiaField, custoFixoField, pessoasField, pesoMaxField;
 	@FXML
 	private TextArea txtAreaMensagem;
 	@FXML
@@ -19,7 +19,7 @@ public class ACMEAirDrones {
 	@FXML
 	private ComboBox<String> cbControl;
 	@FXML
-	private Label pessoasLabel,pesoMaxLabel;
+	private Label pessoasLabel, pesoMaxLabel;
 	@FXML
 	private CheckBox climaBox, proteBox;
 
@@ -41,30 +41,30 @@ public class ACMEAirDrones {
 			boolean isDroneCargaViva = "Drone de Carga Viva".equals(tipoSelecionado);
 			boolean isDroneCargaInanimada = "Drone de Carga Inanimada".equals(tipoSelecionado);
 
+			// Torna os campos visíveis ou invisíveis com base no tipo selecionado
 			pessoasLabel.setVisible(isDronePessoal);
 			pessoasField.setVisible(isDronePessoal);
 
 			climaBox.setVisible(isDroneCargaViva);
-			pesoMaxLabel.setVisible(isDroneCargaViva);
-			pesoMaxField.setVisible(isDroneCargaViva);
+			pesoMaxLabel.setVisible(isDroneCargaViva || isDroneCargaInanimada); // Exibe para Drone de Carga Viva ou Inanimada
+			pesoMaxField.setVisible(isDroneCargaViva || isDroneCargaInanimada); // Exibe para Drone de Carga Viva ou Inanimada
 
-			proteBox.setVisible(isDroneCargaInanimada);
-			pesoMaxField.setVisible(isDroneCargaInanimada);
-			pesoMaxLabel.setVisible(isDroneCargaInanimada);
+			proteBox.setVisible(isDroneCargaInanimada); // Torna visível apenas para Drone de Carga Inanimada
 		});
 
+		// Inicialmente, oculta os campos de pessoas, clima, peso máximo e proteção
 		pessoasLabel.setVisible(false);
 		pessoasField.setVisible(false);
 		climaBox.setVisible(false);
 		pesoMaxField.setVisible(false);
 		pesoMaxLabel.setVisible(false);
 		proteBox.setVisible(false);
-
 	}
 
 	public void cadastrarDrone() {
 		try {
 
+			// Verificação dos campos obrigatórios
 			if (codigoField.getText().isEmpty() || autonomiaField.getText().isEmpty() || custoFixoField.getText().isEmpty()) {
 				txtAreaMensagem.setText("ERRO: Todos os campos devem ser preenchidos.");
 				return;
@@ -74,6 +74,7 @@ public class ACMEAirDrones {
 			double autonomia = Double.parseDouble(autonomiaField.getText());
 			double custoFixo = Double.parseDouble(custoFixoField.getText());
 
+			// Verifica se o drone já está cadastrado
 			for (Drone drone : drones) {
 				if (drone.getCodigo() == codigo) {
 					txtAreaMensagem.setText("ERRO: Já existe um drone com este código.");
@@ -87,6 +88,7 @@ public class ACMEAirDrones {
 				return;
 			}
 
+			// Cadastro de Drone Pessoal
 			if ("Drone Pessoal".equals(tipo)) {
 				if (pessoasField.getText().isEmpty()) {
 					txtAreaMensagem.setText("ERRO: Insira a quantidade de pessoas.");
@@ -99,6 +101,7 @@ public class ACMEAirDrones {
 				drones.sort((d1, d2) -> Integer.compare(d1.getCodigo(), d2.getCodigo()));
 				txtAreaMensagem.setText("Drone Pessoal cadastrado com sucesso.");
 
+				// Cadastro de Drone de Carga Viva
 			} else if ("Drone de Carga Viva".equals(tipo)) {
 				if (pesoMaxField.getText().isEmpty()) {
 					txtAreaMensagem.setText("ERRO: Insira o peso máximo.");
@@ -113,7 +116,7 @@ public class ACMEAirDrones {
 				drones.sort((d1, d2) -> Integer.compare(d1.getCodigo(), d2.getCodigo()));
 				txtAreaMensagem.setText("Drone de Carga Viva cadastrado com sucesso.");
 
-
+				// Cadastro de Drone de Carga Inanimada
 			} else if ("Drone de Carga Inanimada".equals(tipo)) {
 				if (pesoMaxField.getText().isEmpty()) {
 					txtAreaMensagem.setText("Erro: Insira o peso máximo.");
@@ -136,12 +139,18 @@ public class ACMEAirDrones {
 	}
 
 	public void limparCampos() {
-
+		// Limpa todos os campos de entrada
 		codigoField.clear();
 		autonomiaField.clear();
 		custoFixoField.clear();
 		pessoasField.clear();
+		pesoMaxField.clear();
 		txtAreaMensagem.clear();
+
+		// Reseta a seleção do ComboBox
+		cbControl.setValue(null);
+
+		// Oculta os campos de pessoas, clima, peso máximo e proteção
 		pessoasLabel.setVisible(false);
 		pessoasField.setVisible(false);
 		climaBox.setVisible(false);
