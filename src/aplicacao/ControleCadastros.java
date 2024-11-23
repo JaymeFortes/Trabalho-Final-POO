@@ -19,6 +19,8 @@ public class ControleCadastros {
     private RadioButton climatizadoRadio, protecaoRadio;
     @FXML
     private VBox optionsVBox;  // Contém os RadioButtons para climatizado e proteção
+    @FXML
+    private ComboBox<String> cbControl;
 
     private ACMEAirDrones acmeAirDrones = new ACMEAirDrones();
 
@@ -30,6 +32,13 @@ public class ControleCadastros {
         limparButton.setOnAction(event -> limparCampos());
         mostrarButton.setOnAction(event -> mostrarDrones());
         sairButton.setOnAction(event -> System.exit(0));
+        //cbControl.getItems().addAll("Opção 1", "Opção 2", "Opção 3");
+
+        // Exemplo de manipulação de seleção
+        cbControl.setOnAction(event -> {
+            String selecionado = cbControl.getSelectionModel().getSelectedItem();
+            System.out.println("Item selecionado: " + selecionado);
+        });
 
         // Configuração dos RadioButtons
         ToggleGroup group = new ToggleGroup();
