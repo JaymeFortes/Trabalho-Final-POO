@@ -13,6 +13,7 @@ public abstract class Drone {
         this.codigo = codigo;
         this.custoFixo = custoFixo;
         this.autonomia = autonomia;
+        ArrayList<Transporte> transportes = new ArrayList<>();
     }
 
     public void setCodigo(int codigo) {
