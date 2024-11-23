@@ -1,6 +1,6 @@
 package dados;
 
-public class TransportePessoal extends Transporte implements CalculaAcrescimos {
+public class TransportePessoal extends Transporte  {
     int qtdPessoas;
 
     public TransportePessoal(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem,
@@ -12,14 +12,14 @@ public class TransportePessoal extends Transporte implements CalculaAcrescimos {
     }
 
     @Override
-    public double calculaAcrescimo() {
+    public double calculaAcrescimos() {
         return qtdPessoas * 10;
     }
 
     @Override
     public double calculaCusto() {
         double distancia = calculaDistancia();
-        return (getDrone().calculaCustoKm() * distancia) + calculaAcrescimo();
+        return (getDrone().calculaCustoKm() * distancia) + calculaAcrescimos();
     }
 
     @Override
