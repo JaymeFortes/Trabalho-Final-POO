@@ -19,9 +19,9 @@ public class ACMEAirDrones {
 	@FXML
 	private ComboBox<String> cbControl;
 	@FXML
-	private Label pessoasLabel,pesoMaxLabel; // Label para "Quantidade de Pessoas"
+	private Label pessoasLabel,pesoMaxLabel;
 	@FXML
-	private CheckBox climaBox; // Checkbox para "Climatizado"
+	private CheckBox climaBox, proteBox;
 
 	private ObservableList<Drone> drones = FXCollections.observableArrayList();
 
@@ -33,36 +33,38 @@ public class ACMEAirDrones {
 		mostrarButton.setOnAction(event -> mostrarDrones());
 		sairButton.setOnAction(event -> System.exit(0));
 
-
 		cbControl.setItems(FXCollections.observableArrayList("Drone Pessoal", "Drone de Carga Viva", "Drone de Carga Inanimada"));
-
 
 		cbControl.setOnAction(event -> {
 			String tipoSelecionado = cbControl.getSelectionModel().getSelectedItem();
 			boolean isDronePessoal = "Drone Pessoal".equals(tipoSelecionado);
 			boolean isDroneCargaViva = "Drone de Carga Viva".equals(tipoSelecionado);
-
+			boolean isDroneCargaInanimada = "Drone de Carga Inanimada".equals(tipoSelecionado);
 
 			pessoasLabel.setVisible(isDronePessoal);
-			pessoasField.setVisible(isDronePessoal); // Torna o campo de texto visível apenas se for Drone Pessoal
+			pessoasField.setVisible(isDronePessoal);
 
-			// Torna o CheckBox "Climatizado" visível apenas se for "Drone de Carga Viva"
-			climaBox.setVisible(isDroneCargaViva);// Torna o CheckBox visível apenas se for Drone de Carga Viva
+			climaBox.setVisible(isDroneCargaViva);
 			pesoMaxLabel.setVisible(isDroneCargaViva);
 			pesoMaxField.setVisible(isDroneCargaViva);
+
+			proteBox.setVisible(isDroneCargaInanimada);
+			pesoMaxField.setVisible(isDroneCargaInanimada);
+			pesoMaxLabel.setVisible(isDroneCargaInanimada);
 		});
 
-		// Inicialmente, oculta o campo de pessoas e o CheckBox de clima
 		pessoasLabel.setVisible(false);
 		pessoasField.setVisible(false);
 		climaBox.setVisible(false);
 		pesoMaxField.setVisible(false);
 		pesoMaxLabel.setVisible(false);
+		proteBox.setVisible(false);
+
 	}
 
 	public void cadastrarDrone() {
 		try {
-			// Verificação dos campos obrigatórios
+
 			if (codigoField.getText().isEmpty() || autonomiaField.getText().isEmpty() || custoFixoField.getText().isEmpty()) {
 				txtAreaMensagem.setText("ERRO: Todos os campos devem ser preenchidos.");
 				return;
@@ -72,7 +74,6 @@ public class ACMEAirDrones {
 			double autonomia = Double.parseDouble(autonomiaField.getText());
 			double custoFixo = Double.parseDouble(custoFixoField.getText());
 
-			// Verifica se o drone já está cadastrado
 			for (Drone drone : drones) {
 				if (drone.getCodigo() == codigo) {
 					txtAreaMensagem.setText("ERRO: Já existe um drone com este código.");
@@ -86,7 +87,6 @@ public class ACMEAirDrones {
 				return;
 			}
 
-			// Cadastro de Drone Pessoal
 			if ("Drone Pessoal".equals(tipo)) {
 				if (pessoasField.getText().isEmpty()) {
 					txtAreaMensagem.setText("ERRO: Insira a quantidade de pessoas.");
@@ -96,10 +96,9 @@ public class ACMEAirDrones {
 				int quantidadePessoas = Integer.parseInt(pessoasField.getText());
 				DronePessoal dronePessoal = new DronePessoal(codigo, autonomia, custoFixo, quantidadePessoas);
 				drones.add(dronePessoal);
-				drones.sort((d1, d2) -> Integer.compare(d1.getCodigo(), d2.getCodigo())); // Ordena pela quantidade de código
+				drones.sort((d1, d2) -> Integer.compare(d1.getCodigo(), d2.getCodigo()));
 				txtAreaMensagem.setText("Drone Pessoal cadastrado com sucesso.");
 
-				// Cadastro de Drone de Carga Viva
 			} else if ("Drone de Carga Viva".equals(tipo)) {
 				if (pesoMaxField.getText().isEmpty()) {
 					txtAreaMensagem.setText("ERRO: Insira o peso máximo.");
@@ -108,6 +107,7 @@ public class ACMEAirDrones {
 
 				boolean climatizado = climaBox.isSelected();
 				double pesoMaximo = Double.parseDouble(pesoMaxField.getText());
+
 				DroneCargaViva droneCargaViva = new DroneCargaViva(codigo, autonomia, custoFixo, pesoMaximo, climatizado);
 				drones.add(droneCargaViva);
 				drones.sort((d1, d2) -> Integer.compare(d1.getCodigo(), d2.getCodigo()));
@@ -115,7 +115,14 @@ public class ACMEAirDrones {
 
 
 			} else if ("Drone de Carga Inanimada".equals(tipo)) {
-				DroneCargaInanimada droneCargaInanimada = new DroneCargaInanimada(codigo, autonomia, custoFixo, 0, true);
+				if (pesoMaxField.getText().isEmpty()) {
+					txtAreaMensagem.setText("Erro: Insira o peso máximo.");
+					return;
+				}
+
+				boolean protecao = proteBox.isSelected();
+				double pesoMaximo = Double.parseDouble(pesoMaxField.getText());
+				DroneCargaInanimada droneCargaInanimada = new DroneCargaInanimada(codigo, autonomia, custoFixo, pesoMaximo, protecao);
 				drones.add(droneCargaInanimada);
 				drones.sort((d1, d2) -> Integer.compare(d1.getCodigo(), d2.getCodigo()));
 				txtAreaMensagem.setText("Drone de Carga Inanimada cadastrado com sucesso.");
@@ -140,10 +147,10 @@ public class ACMEAirDrones {
 		climaBox.setVisible(false);
 		pesoMaxField.setVisible(false);
 		pesoMaxLabel.setVisible(false);
+		proteBox.setVisible(false);
 	}
 
 	public void mostrarDrones() {
-
 		StringBuilder mensagem = new StringBuilder("Drones cadastrados:\n\n");
 		for (Drone drone : drones) {
 			mensagem.append(drone.getTipoDrone()).append(": ").append(drone).append("\n\n");

@@ -70,9 +70,10 @@
                 </ComboBox>
                 <TextField fx:id="pessoasField" layoutX="416.0" layoutY="70.0" prefHeight="25.0" prefWidth="177.0" visible="false" />
                 <Label fx:id="pessoasLabel" layoutX="275.0" layoutY="74.0" text="Quantidade de pessoas:" visible="false" />
-            <CheckBox fx:id="climaBox" layoutX="281.0" layoutY="58.0" mnemonicParsing="false" text="Climatização?" visible="false" />
+            <CheckBox fx:id="climaBox" layoutX="281.0" layoutY="58.0" mnemonicParsing="false" text="Climatização" visible="false" />
             <Label fx:id="pesoMaxLabel" layoutX="265.0" layoutY="83.0" text="Peso máximo:" visible="false" />
             <TextField fx:id="pesoMaxField" layoutX="351.0" layoutY="83.0" visible="false" />
+            <CheckBox fx:id="proteBox" layoutX="281.0" layoutY="54.0" mnemonicParsing="false" text="Proteção" visible="false" />
             </children>
         </AnchorPane>
     </children>
