@@ -1,10 +1,10 @@
 package dados;
 
-public class DronePessoal extends DroneCarga implements CustoVariado {
+public class DronePessoal extends Drone  {
     private int qtdPessoas;
 
-    public DronePessoal(int codigo, double custoFixo, double autonomia, double pesoMaximo, int qtdPessoas) {
-        super(codigo, custoFixo, autonomia, pesoMaximo);
+    public DronePessoal(int codigo, double custoFixo, double autonomia,  int qtdPessoas) {
+        super(codigo, custoFixo, autonomia);
         this.qtdPessoas = qtdPessoas;
     }
 
@@ -16,19 +16,19 @@ public class DronePessoal extends DroneCarga implements CustoVariado {
         this.qtdPessoas = QTDPessoas;
     }
 
+
     @Override
     public String getTipoDrone() {
         return "Drone Pessoal";
     }
 
-    @Override
-    public double calcularCustoVariado() {
-        return  (qtdPessoas * 2) + getCustoFixo();
+    public double custoVariado(){
+        return qtdPessoas * 2;
     }
 
     @Override
     public double calculaCustoKm() {
-        return super.calculaCustoKm() + calcularCustoVariado();
+        return custoVariado() + getCustoFixo();
     }
 
     @Override

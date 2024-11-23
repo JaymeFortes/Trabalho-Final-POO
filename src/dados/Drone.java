@@ -39,7 +39,11 @@ public abstract class Drone {
         return this.autonomia;
     }
 
-    public abstract double calculaCustoKm();
+    public abstract String getTipoDrone();
+
+    public double calculaCustoKm() {
+        return 0;
+    }
 
     public String toString() {
         return "\nCódigo: " + codigo + "\nCusto Fixo: R$ " + String.format("%.2f", custoFixo) +

@@ -4,8 +4,8 @@ public class GeoCalculator {
 
         private GeoCalculator() {}
 
-        public static double calculaDistancia(double latitude1, double longitude1, double latitude2, double longitude2) {
-            final int R = 6371;
+        public double calculaDistancia(double latitude1, double longitude1, double latitude2, double longitude2) {
+             int R = 6371;
 
             double distanciaLatitude = Math.toRadians(latitude2 - latitude1);
             double distanciaLongitude = Math.toRadians(longitude2 - longitude1);
@@ -19,7 +19,7 @@ public class GeoCalculator {
             return R * c;
         }
 
-        public static double calculaArea(double raio) {
+        public  double calculaArea(double raio) {
             return Math.PI * raio * raio;
         }
     }

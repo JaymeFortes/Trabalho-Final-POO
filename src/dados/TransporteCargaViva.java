@@ -1,6 +1,6 @@
 package dados;
 
-public class TransporteCargaViva extends Transporte implements CalculaAcrescimos {
+public class TransporteCargaViva extends Transporte {
 
 	private double temperaturaMinima;
 	private double temperaturaMaxima;
@@ -31,7 +31,7 @@ public class TransporteCargaViva extends Transporte implements CalculaAcrescimos
 	}
 
 	public boolean isTempaturaMaiorque10(){
-		if(temperaturaMinima > 10){
+		if	(temperaturaMinima > 10){
 			return true;
 		} else {
 			return false;
@@ -47,7 +47,7 @@ public class TransporteCargaViva extends Transporte implements CalculaAcrescimos
 	}
 
 	@Override
-	public double calculaAcrescimo() {
+	public double calculaAcrescimos() {
 		double acrescimo = 0;
 		if (isTempaturaMaiorque10()){
 			acrescimo = 1000;
@@ -60,7 +60,7 @@ public class TransporteCargaViva extends Transporte implements CalculaAcrescimos
 	@Override
 	public double calculaCusto() {
 		double distancia = calculaDistancia();
-		return (getDrone().calculaCustoKm() * distancia) + calculaAcrescimo();
+		return (getDrone().calculaCustoKm() * distancia) + calculaAcrescimos();
 	}
 
 	@Override
