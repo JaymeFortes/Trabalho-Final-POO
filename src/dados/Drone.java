@@ -14,7 +14,6 @@ public abstract class Drone {
         this.custoFixo = custoFixo;
         this.autonomia = autonomia;
     }
-
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
