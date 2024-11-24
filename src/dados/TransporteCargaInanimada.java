@@ -1,6 +1,6 @@
 package dados;
 
-public class TransporteCargaInanimada extends Transporte implements CalculaAcrescimos {
+public class TransporteCargaInanimada extends Transporte  {
 
     private boolean cargaPerigosa;
 
@@ -29,12 +29,12 @@ public class TransporteCargaInanimada extends Transporte implements CalculaAcres
     }
 
     @Override
-    public double calculaAcrescimo() {
+    public double calculaAcrescimos() {
         double acrescimo = 0;
         if (isCargaPerigosa()) {
             acrescimo = 500;
         } else {
-           acrescimo = 0;
+            acrescimo = 0;
         }
         return acrescimo;
     }
@@ -42,7 +42,12 @@ public class TransporteCargaInanimada extends Transporte implements CalculaAcres
     @Override
     public double calculaCusto() {
         double distancia = calculaDistancia();
-        return (getDrone().calculaCustoKm() * distancia) + calculaAcrescimo();
+        return (getDrone().calculaCustoKm() * distancia) + calculaAcrescimos();
+    }
+
+    @Override
+    public String getTipoTransporte() {
+        return "Transporte de Carga Inanimada:";
     }
 
     @Override

@@ -2,7 +2,8 @@ package dados;
 
 public abstract class Transporte {
 
-	private int numero;
+    public char[] getTi;
+    private int numero;
 	private String nomeCliente;
 	private String descricao;
 	private double peso;
@@ -108,7 +109,10 @@ public abstract class Transporte {
 		this.drone = drone;
 	}
 
+	public abstract String getTipoTransporte();
+
 	public abstract double calculaCusto();
+	public abstract double calculaAcrescimos();
 
 
 	public double calculaDistancia() {

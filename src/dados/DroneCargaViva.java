@@ -1,6 +1,6 @@
 package dados;
 
-public class DroneCargaViva extends DroneCarga implements CustoVariado {
+public class DroneCargaViva extends DroneCarga {
 
     private boolean climatizado;
 
@@ -23,19 +23,19 @@ public class DroneCargaViva extends DroneCarga implements CustoVariado {
     }
 
     @Override
-    public double calcularCustoVariado() {
-        double custo = 0;
-        if (climatizado) {
-            custo = getCustoFixo() + 20.00;
-        } else {
-            custo = getCustoFixo() + 10.00;
+    public double custoVariado() {
+            double custo = 0;
+            if (climatizado) {
+                custo = getCustoFixo() + 20.00;
+            } else {
+                custo = getCustoFixo() + 10.00;
+            }
+            return custo;
         }
-        return custo;
-    }
 
     @Override
     public double calculaCustoKm() {
-        return super.calculaCustoKm() + calcularCustoVariado();
+        return custoVariado() + getCustoFixo();
     }
 
     public String estadoClimatizado() {
