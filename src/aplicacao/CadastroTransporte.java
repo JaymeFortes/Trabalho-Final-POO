@@ -35,6 +35,26 @@ public class CadastroTransporte {
         @FXML
         private Button buttonCadastrar,buttonLimpar,buttonSair,buttonMostrar,buttonVoltar;
 
+        @FXML
+        private CheckBox cargaPerigosaCheckBox;
+
+        @FXML
+        private Label maxTempLabel;
+
+        @FXML
+        private Label minTempLabel;
+
+        @FXML
+        private Label numPessoasLabel;
+
+        @FXML
+        private TextField txtFieldMaxTemp;
+
+        @FXML
+        private TextField txtFieldMinTemp;
+
+        @FXML
+        private TextField txtFieldNumPessoas;
 
         private ObservableList<Transporte> transportes = FXCollections.observableArrayList();
 
