@@ -108,6 +108,8 @@ public abstract class Transporte {
 		this.drone = drone;
 	}
 
+	public abstract String getTipoTransporte();
+
 	public abstract double calculaCusto();
 	public abstract double calculaAcrescimos();
 

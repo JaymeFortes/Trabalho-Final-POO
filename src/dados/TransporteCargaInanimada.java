@@ -46,6 +46,11 @@ public class TransporteCargaInanimada extends Transporte  {
     }
 
     @Override
+    public String getTipoTransporte() {
+        return "Transporte de Carga Inanimada:";
+    }
+
+    @Override
     public String toString() {
         return super.toString() + "\n Carga Perigosa: " + estadoTransporte();
     }

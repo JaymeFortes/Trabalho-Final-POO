@@ -43,6 +43,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar VBox.vgrow="NEVER">
@@ -94,7 +96,6 @@
             <Label fx:id="longDestinoLabel" layoutX="323.0" layoutY="182.0" text="Longitude destino:" />
             <Label fx:id="latOrigemLabel" layoutX="14.0" layoutY="148.0" text="Latitude Origem:" />
             <Label fx:id="latDestinoLabel" layoutX="323.0" layoutY="144.0" text="Latitude Destino:" />
-            <ComboBox fx:id="comboBoxTransporteTipo" layoutX="435.0" layoutY="14.0" prefWidth="150.0" promptText="Tipo" />
             <TextField fx:id="numTextField" layoutX="121.0" layoutY="5.0" />
             <TextField fx:id="nomeClienteTextField" layoutX="121.0" layoutY="39.0" />
             <TextField fx:id="descricaoTextField" layoutX="121.0" layoutY="73.0" />
@@ -103,7 +104,16 @@
             <TextField fx:id="longOrigemTextField" layoutX="126.0" layoutY="178.0" />
             <TextField fx:id="latDestinoTextField" layoutX="435.0" layoutY="144.0" />
             <TextField fx:id="longDestinoTextField" layoutX="435.0" layoutY="178.0" />
-            <TextArea layoutX="14.0" layoutY="220.0" prefHeight="106.0" prefWidth="600.0" />
+            <TextArea fx:id="txtAreaMensagem" layoutY="220.0" prefHeight="106.0" prefWidth="600.0" />
+             <ComboBox fx:id="comboBoxTransporteTipo" layoutX="435.0" layoutY="14.0" prefWidth="150.0" promptText="Tipo" >
+                 <items>
+                     <FXCollections fx:factory="observableArrayList">
+                         <String fx:value="Transporte Pessoal" />
+                         <String fx:value="Transporte de Carga Viva" />
+                         <String fx:value="Transporte de Carga Inanimada" />
+                     </FXCollections>
+                 </items>
+             </ComboBox>
          </children>
     </AnchorPane>
   </children>

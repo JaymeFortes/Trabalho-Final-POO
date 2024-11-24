@@ -11,6 +11,8 @@ public class TransportePessoal extends Transporte  {
         this.qtdPessoas = qtdPessoas;
     }
 
+
+
     @Override
     public double calculaAcrescimos() {
         return qtdPessoas * 10;
@@ -20,6 +22,11 @@ public class TransportePessoal extends Transporte  {
     public double calculaCusto() {
         double distancia = calculaDistancia();
         return (getDrone().calculaCustoKm() * distancia) + calculaAcrescimos();
+    }
+
+    @Override
+    public String getTipoTransporte() {
+        return "Transporte Pessoal:";
     }
 
     @Override
