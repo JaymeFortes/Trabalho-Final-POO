@@ -3,12 +3,14 @@ package dados;
 public class TransportePessoal extends Transporte  {
     int qtdPessoas;
 
+
     public TransportePessoal(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem,
                              double longitudeOrigem, double latitudeDestino, double longitudeDestino,
-                             Estado situacao, GeoCalculator geoCalculator) {
+                             Estado situacao, int qtdPessoas) {
 
-        super(numero, nomeCliente, descricao, peso, latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino, situacao, geoCalculator);
+        super(numero, nomeCliente, descricao, peso, latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino, situacao);
         this.qtdPessoas = qtdPessoas;
+
     }
 
 
@@ -32,6 +34,9 @@ public class TransportePessoal extends Transporte  {
     @Override
     public String toString() {
         return super.toString() + "\n Quantidade de pessoas: " + qtdPessoas;
+    }
+
+    public void setDronePessoal(DronePessoal dronePessoal) {
     }
 }
 
