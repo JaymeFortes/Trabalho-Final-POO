@@ -1,16 +1,15 @@
 package dados;
 
 public class TransportePessoal extends Transporte  {
-    int qtdPessoas;
+    private int qtdPessoas;
 
 
     public TransportePessoal(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem,
                              double longitudeOrigem, double latitudeDestino, double longitudeDestino,
-                             Estado situacao, int qtdPessoas) {
+                             Estado situacao, GeoCalculator geoCalculator, int qtdPessoas) {
 
-        super(numero, nomeCliente, descricao, peso, latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino, situacao);
+        super(numero, nomeCliente, descricao, peso, latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino, situacao, geoCalculator);
         this.qtdPessoas = qtdPessoas;
-
     }
 
 

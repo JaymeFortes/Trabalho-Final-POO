@@ -2,7 +2,8 @@ package dados;
 
 public abstract class Transporte {
 
-	private int numero;
+    public char[] getTi;
+    private int numero;
 	private String nomeCliente;
 	private String descricao;
 	private double peso;
