@@ -12,8 +12,6 @@ public class TransportePessoal extends Transporte  {
         this.qtdPessoas = qtdPessoas;
     }
 
-
-
     @Override
     public double calculaAcrescimos() {
         return qtdPessoas * 10;
