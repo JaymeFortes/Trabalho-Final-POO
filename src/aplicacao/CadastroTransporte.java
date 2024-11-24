@@ -7,10 +7,14 @@ import dados.TransporteCargaInanimada;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class CadastroTransporte {
 
@@ -18,61 +22,31 @@ public class CadastroTransporte {
         private ComboBox<String> comboBoxTransporteTipo;
 
         @FXML
-        private Label descricaoLabel;
+        private Label descricaoLabel,latDestinoLabel,latOrigemLabel,longDestinoLabel,longOrigemLabel,nomeClienteLabel,
+                numeroLabel,pesoLabel;
 
         @FXML
-        private TextField descricaoTextField;
-
-        @FXML
-        private Label latDestinoLabel;
-
-        @FXML
-        private TextField latDestinoTextField;
-
-        @FXML
-        private Label latOrigemLabel;
-
-        @FXML
-        private TextField latOrigemTextField;
-
-        @FXML
-        private Label longDestinoLabel;
-
-        @FXML
-        private TextField longDestinoTextField;
-
-        @FXML
-        private Label longOrigemLabel;
-
-        @FXML
-        private TextField longOrigemTextField;
-
-        @FXML
-        private Label nomeClienteLabel;
-
-        @FXML
-        private TextField nomeClienteTextField;
-
-        @FXML
-        private TextField numTextField;
-
-        @FXML
-        private Label numeroLabel;
-
-        @FXML
-        private Label pesoLabel;
-
-        @FXML
-        private TextField pesoTextField;
+        private TextField descricaoTextField,latDestinoTextField,latOrigemTextField,longDestinoTextField,
+                longOrigemTextField,nomeClienteTextField,numTextField,pesoTextField;
 
         @FXML
         private TextArea txtAreaMensagem;
+
+        @FXML
+        private Button buttonCadastrar,buttonLimpar,buttonSair,buttonMostrar,buttonVoltar;
 
 
         private ObservableList<Transporte> transportes = FXCollections.observableArrayList();
 
         public void initialize() {
+
                 txtAreaMensagem.setEditable(false);
+
+                buttonCadastrar.setOnAction(e -> cadastrarTransporte());
+                buttonLimpar.setOnAction(event -> limparCampos());
+                buttonSair.setOnAction(event -> System.exit(0));
+                buttonMostrar.setOnAction(event -> mostrarTransporte());
+                buttonVoltar.setOnAction(event -> voltarParaMenuPrincipal());
 
                 comboBoxTransporteTipo.setItems(FXCollections.observableArrayList("Transporte Pessoal", "Transporte de Carga Viva", "Transporte de Carga Inanimada"));
 
@@ -81,8 +55,6 @@ public class CadastroTransporte {
                         boolean isTransportePessoal = "Transporte Pessoal".equals(tipoSelecionado);
                         boolean isTransporteCargaViva = "Transporte de Carga Viva".equals(tipoSelecionado);
                         boolean isTransporteInanimada = "Transporte de Carga Inanimada".equals(tipoSelecionado);
-
-
 
                 });
         }
@@ -130,9 +102,10 @@ public class CadastroTransporte {
                 descricaoTextField.clear();
                 latDestinoTextField.clear();
                 latOrigemTextField.clear();
-                latDestinoTextField.clear();
+                longDestinoTextField.clear();
                 longDestinoTextField.clear();
                 nomeClienteTextField.clear();
+                txtAreaMensagem.clear();
                 pesoTextField.clear();
                 comboBoxTransporteTipo.setValue(null);
         }
@@ -141,6 +114,21 @@ public class CadastroTransporte {
                 StringBuilder mensagem = new StringBuilder("Transportes cadastrados:\n\n");
                 for (Transporte transporte : transportes){
                         mensagem.append(transporte.getTi);
+                }
+        }
+        @FXML
+        private void voltarParaMenuPrincipal() {
+                Stage stage = (Stage) buttonVoltar.getScene().getWindow();
+                stage.close();
+                try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("telaPrincipal.fxml"));
+                        Parent root = loader.load();
+                        Stage newStage = new Stage();
+                        newStage.setTitle("ACMEAirDrones");
+                        newStage.setScene(new Scene(root));
+                        newStage.show();
+                } catch (Exception e) {
+                        e.printStackTrace();
                 }
         }
 }

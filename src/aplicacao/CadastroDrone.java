@@ -7,7 +7,11 @@ import dados.DroneCargaInanimada;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 public class CadastroDrone {
 
@@ -16,7 +20,7 @@ public class CadastroDrone {
     @FXML
     private TextArea txtAreaMensagem;
     @FXML
-    private Button cadastraButton, limparButton, sairButton, mostrarButton;
+    private Button cadastraButton, limparButton, sairButton, mostrarButton, buttonVoltar;
     @FXML
     private ComboBox<String> cbControl;
     @FXML
@@ -33,6 +37,7 @@ public class CadastroDrone {
         limparButton.setOnAction(event -> limparCampos());
         mostrarButton.setOnAction(event -> mostrarDrones());
         sairButton.setOnAction(event -> System.exit(0));
+        buttonVoltar.setOnAction(event -> {voltarParaMenuPrincipal();});
 
         cbControl.setItems(FXCollections.observableArrayList("Drone Pessoal", "Drone de Carga Viva", "Drone de Carga Inanimada"));
 
@@ -171,5 +176,21 @@ public class CadastroDrone {
             mensagem.append(drone.getTipoDrone()).append(drone).append("\n\n");
         }
         txtAreaMensagem.setText(mensagem.toString());
+    }
+
+    @FXML
+    private void voltarParaMenuPrincipal() {
+        Stage stage = (Stage) buttonVoltar.getScene().getWindow();
+        stage.close();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("telaPrincipal.fxml"));
+            Parent root = loader.load();
+            Stage newStage = new Stage();
+            newStage.setTitle("ACMEAirDrones");
+            newStage.setScene(new Scene(root));
+            newStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

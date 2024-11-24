@@ -35,11 +35,13 @@
         <Label layoutX="150.0" layoutY="30.0" text="Sistema de Gerenciamento" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
 
         <!-- Botões de Navegação -->
-        <Button fx:id="btnCadastroDrone" layoutX="200.0" layoutY="100.0" text="Cadastro de Drones" prefWidth="200.0" />
-        <Button fx:id="btnCadastroTransporte" layoutX="200.0" layoutY="150.0" text="Cadastro de Transporte" prefWidth="200.0" />
+        <Button fx:id="btnCadastroDrone" layoutX="200.0" layoutY="100.0" text="Cadastro de Drones" prefWidth="200.0"
+                onAction="#abrirTelaCadastroDrone" />
+        <Button fx:id="btnCadastroTransporte" layoutX="200.0" layoutY="150.0" text="Cadastro de Transporte" prefWidth="200.0"
+                onAction="#abrirTelaCadastroTransporte" />
 
         <!-- Botão Sair -->
-        <Button fx:id="btnSair" layoutX="200.0" layoutY="250.0" text="Sair" prefWidth="200.0" />
+        <Button fx:id="btnSair" onAction="#sairSistema" layoutX="200.0" layoutY="250.0" text="Sair" prefWidth="200.0" />
       </children>
     </AnchorPane>
   </children>
