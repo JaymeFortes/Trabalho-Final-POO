@@ -57,6 +57,8 @@ public class CadastroTransporte {
                         boolean isTransporteInanimada = "Transporte de Carga Inanimada".equals(tipoSelecionado);
 
                 });
+
+
         }
 
         public void cadastrarTransporte(){
