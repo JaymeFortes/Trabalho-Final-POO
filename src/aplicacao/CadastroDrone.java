@@ -168,7 +168,7 @@ public class CadastroDrone {
     public void mostrarDrones() {
         StringBuilder mensagem = new StringBuilder("Drones cadastrados:\n\n");
         for (Drone drone : drones) {
-            mensagem.append(drone.getTipoDrone()).append(": ").append(drone).append("\n\n");
+            mensagem.append(drone.getTipoDrone()).append(drone).append("\n\n");
         }
         txtAreaMensagem.setText(mensagem.toString());
     }

@@ -5,12 +5,15 @@ import dados.DronePessoal;
 import dados.DroneCargaViva;
 import dados.DroneCargaInanimada;
 import javafx.collections.ObservableList;
+import dados.Transporte;
 
 public class ACMEAirDrones {
 	private ObservableList<Drone> drones;
+	private ObservableList<Transporte> transportes;
 
-	public ACMEAirDrones(ObservableList<Drone> drones) {
+	public ACMEAirDrones(ObservableList<Drone> drones, ObservableList<Transporte> transportes) {
 		this.drones = drones;
+		this.transportes = transportes;
 	}
 
 	public void cadastrarDrone(int codigo, double autonomia, double custoFixo, String tipo, int quantidadePessoas, boolean climatizado, boolean protecao, double pesoMaximo) {
@@ -37,13 +40,13 @@ public class ACMEAirDrones {
 		drones.sort((d1, d2) -> Integer.compare(d1.getCodigo(), d2.getCodigo()));
 	}
 
-	public String mostrarDrones() {
+	/*public String mostrarDrones() {
 		StringBuilder mensagem = new StringBuilder("Drones cadastrados:\n\n");
 		for (Drone drone : drones) {
 			mensagem.append(drone.getTipoDrone()).append(": ").append(drone).append("\n\n");
 		}
 		return mensagem.toString();
-	}
+	}*/
 
 	public void limparDrones() {
 		drones.clear();

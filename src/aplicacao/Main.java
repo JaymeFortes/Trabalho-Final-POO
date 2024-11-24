@@ -11,8 +11,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("modelo.fxml"));
-            Parent root = loader.load();
+            FXMLLoader loader1 = new FXMLLoader(getClass().getResource("modeloDrone.fxml"));
+            FXMLLoader loader2 = new FXMLLoader(getClass().getResource("modeloDrone.fxml"));
+            FXMLLoader loader3 = new FXMLLoader(getClass().getResource("modeloDrone.fxml"));
+            Parent root = loader1.load();
             primaryStage.setTitle("ACMEAirDrones");
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
