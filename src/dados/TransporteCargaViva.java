@@ -47,6 +47,11 @@ public class TransporteCargaViva extends Transporte {
 	}
 
 	@Override
+	public String getTipoTransporte() {
+		return "Transporte de Carga Viva:";
+	}
+
+	@Override
 	public double calculaAcrescimos() {
 		double acrescimo = 0;
 		if (isTempaturaMaiorque10()){
