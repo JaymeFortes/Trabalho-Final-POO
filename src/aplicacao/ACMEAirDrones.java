@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ACMEAirDrones {
-    public void executar(){
+    public void executar() {
         abrirTelaCadastroDrone();
         abrirTelaCadastroTransporte();
         sairSistema();
