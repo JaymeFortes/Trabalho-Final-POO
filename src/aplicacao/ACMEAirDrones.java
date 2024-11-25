@@ -5,42 +5,51 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import servicos.DroneService;
+
+import java.io.IOException;
 
 public class ACMEAirDrones {
-    public void executar() {
-        abrirTelaCadastroDrone();
-        abrirTelaCadastroTransporte();
-        sairSistema();
-    }
+    private DroneService droneService = new DroneService();
 
     @FXML
     private void abrirTelaCadastroDrone() {
-        carregarNovaTela("modeloDrone.fxml", "Cadastro de Drones");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modeloDrone.fxml"));
+
+            Parent root = loader.load();
+            CadastroDrone controller = loader.getController();
+            controller.setDroneService(droneService);
+
+            Stage stage = new Stage();
+            stage.setTitle("Cadastro de Drones");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void abrirTelaCadastroTransporte() {
-        carregarNovaTela("modeloTransporte.fxml", "Cadastro de Transporte");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modeloTransporte.fxml"));
+
+            Parent root = loader.load();
+            CadastroTransporte controller = loader.getController();
+            controller.setDroneService(droneService);
+
+            Stage stage = new Stage();
+            stage.setTitle("Cadastro de Transporte");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void sairSistema() {
         System.exit(0);
-    }
-
-    private void carregarNovaTela(String fxmlPath, String titulo) {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle(titulo);
-            stage.setScene(new Scene(root));
-
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

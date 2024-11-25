@@ -7,13 +7,13 @@ import dados.DroneCargaInanimada;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import servicos.DroneService;
 
 public class CadastroDrone {
+
+    private DroneService droneService;
 
     @FXML
     private TextField codigoField, autonomiaField, custoFixoField, pessoasField, pesoMaxField;
@@ -28,7 +28,12 @@ public class CadastroDrone {
     @FXML
     private CheckBox climaBox, proteBox;
 
-    private ObservableList<Drone> drones = FXCollections.observableArrayList();
+    public CadastroDrone() {
+    }
+
+    public void setDroneService(DroneService droneService) {
+        this.droneService = droneService;
+    }
 
     public void initialize() {
         txtAreaMensagem.setEditable(false);
@@ -37,7 +42,7 @@ public class CadastroDrone {
         limparButton.setOnAction(event -> limparCampos());
         mostrarButton.setOnAction(event -> mostrarDrones());
         sairButton.setOnAction(event -> System.exit(0));
-        buttonVoltar.setOnAction(event -> {voltarParaMenuPrincipal();});
+        buttonVoltar.setOnAction(event -> voltarParaMenuPrincipal());
 
         cbControl.setItems(FXCollections.observableArrayList("Drone Pessoal", "Drone de Carga Viva", "Drone de Carga Inanimada"));
 
@@ -67,7 +72,6 @@ public class CadastroDrone {
 
     public void cadastrarDrone() {
         try {
-
             if (codigoField.getText().isEmpty() || autonomiaField.getText().isEmpty() || custoFixoField.getText().isEmpty()) {
                 txtAreaMensagem.setText("ERRO: Todos os campos obrigatórios devem ser preenchidos.");
                 return;
@@ -77,7 +81,7 @@ public class CadastroDrone {
             double autonomia = Double.parseDouble(autonomiaField.getText());
             double custoFixo = Double.parseDouble(custoFixoField.getText());
 
-            for (Drone drone : drones) {
+            for (Drone drone : droneService.getDrones()) {
                 if (drone.getCodigo() == codigo) {
                     txtAreaMensagem.setText("ERRO: Já existe um drone com este código.");
                     return;
@@ -103,8 +107,7 @@ public class CadastroDrone {
                 }
 
                 DronePessoal dronePessoal = new DronePessoal(codigo, autonomia, custoFixo, quantidadePessoas);
-                drones.add(dronePessoal);
-                drones.sort((d1, d2) -> Integer.compare(d1.getCodigo(), d2.getCodigo()));
+                droneService.adicionarDrone(dronePessoal);
                 txtAreaMensagem.setText("Drone Pessoal cadastrado com sucesso.");
 
             } else if ("Drone de Carga Viva".equals(tipo)) {
@@ -121,8 +124,7 @@ public class CadastroDrone {
                 }
 
                 DroneCargaViva droneCargaViva = new DroneCargaViva(codigo, autonomia, custoFixo, pesoMaximo, climatizado);
-                drones.add(droneCargaViva);
-                drones.sort((d1, d2) -> Integer.compare(d1.getCodigo(), d2.getCodigo()));
+                droneService.adicionarDrone(droneCargaViva);
                 txtAreaMensagem.setText("Drone de Carga Viva cadastrado com sucesso.");
 
             } else if ("Drone de Carga Inanimada".equals(tipo)) {
@@ -139,11 +141,9 @@ public class CadastroDrone {
                 }
 
                 DroneCargaInanimada droneCargaInanimada = new DroneCargaInanimada(codigo, autonomia, custoFixo, pesoMaximo, protecao);
-                drones.add(droneCargaInanimada);
-                drones.sort((d1, d2) -> Integer.compare(d1.getCodigo(), d2.getCodigo()));
+                droneService.adicionarDrone(droneCargaInanimada);
                 txtAreaMensagem.setText("Drone de Carga Inanimada cadastrado com sucesso.");
             }
-
         } catch (NumberFormatException e) {
             txtAreaMensagem.setText("ERRO: Valores inválidos");
         } catch (IllegalArgumentException e) {
@@ -152,7 +152,6 @@ public class CadastroDrone {
     }
 
     public void limparCampos() {
-        // Limpa todos os campos de entrada
         codigoField.clear();
         autonomiaField.clear();
         custoFixoField.clear();
@@ -172,7 +171,7 @@ public class CadastroDrone {
 
     public void mostrarDrones() {
         StringBuilder mensagem = new StringBuilder("Drones cadastrados:\n\n");
-        for (Drone drone : drones) {
+        for (Drone drone : droneService.getDrones()) {
             mensagem.append(drone.getTipoDrone()).append(drone).append("\n\n");
         }
         txtAreaMensagem.setText(mensagem.toString());

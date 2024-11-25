@@ -12,6 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import servicos.DroneService;
 
 public class CadastroTransporte {
 
@@ -196,5 +197,8 @@ public class CadastroTransporte {
         } catch (IllegalStateException e) {
             txtAreaMensagem.setText("ERRO ao alterar situação: " + e.getMessage());
         }
+    }
+
+    public void setDroneService(DroneService droneService) {
     }
 }
