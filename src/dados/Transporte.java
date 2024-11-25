@@ -127,6 +127,6 @@ public abstract class Transporte {
 				"\nOrigem: (" + latitudeOrigem + ", " + longitudeOrigem + ")" +
 				"\nDestino: (" + latitudeDestino + ", " + longitudeDestino + ")" +
 				"\nSituação: " + situacao +
-				"\nStatus: " + (drone == null ? "Nenhum" : drone);
+				"\nStatus: " + (drone == null ? "Nenhum" : drone) + "\n";
 	}
 }

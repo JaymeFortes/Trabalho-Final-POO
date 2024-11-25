@@ -77,6 +77,7 @@ public class CadastroTransporte {
         maxTempLabel.setVisible(false);
         numPessoasLabel.setVisible(false);
     }
+
     Transporte transporte = null;
 
     public void cadastrarTransporte() {
@@ -97,6 +98,7 @@ public class CadastroTransporte {
             double latDestino = Double.parseDouble(latDestinoTextField.getText());
             double longOrigem = Double.parseDouble(longOrigemTextField.getText());
             double longDestino = Double.parseDouble(longDestinoTextField.getText());
+
 
 
             for (Transporte transporte : transportes) {
@@ -129,17 +131,17 @@ public class CadastroTransporte {
                 txtAreaMensagem.setText("Transporte Pessoal Cadastrado com sucesso!");
 
             } else if (tipo.equals("Transporte de Carga Viva")) {
-                    if (txtFieldMaxTemp.getText().isEmpty() || txtFieldMinTemp.getText().isEmpty()) {
-                        txtAreaMensagem.setText("ERRO: Insira as temperaturas.");
-                        return;
-                    }
-                    double maxTemp = Double.parseDouble(txtFieldMaxTemp.getText());
-                    double minTemp = Double.parseDouble(txtFieldMinTemp.getText());
-                    transporte = new TransporteCargaViva(numero, nomeCliente, descricao, peso,
-                            latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, maxTemp, minTemp);
-                    transportes.add(transporte);
-                    transportes.sort((t1, t2) -> t1.getNumero() - t2.getNumero());
-                    txtAreaMensagem.setText("Transporte Carga Viva Cadastrado com sucesso!");
+                if (txtFieldMaxTemp.getText().isEmpty() || txtFieldMinTemp.getText().isEmpty()) {
+                    txtAreaMensagem.setText("ERRO: Insira as temperaturas.");
+                    return;
+                }
+                double maxTemp = Double.parseDouble(txtFieldMaxTemp.getText());
+                double minTemp = Double.parseDouble(txtFieldMinTemp.getText());
+                transporte = new TransporteCargaViva(numero, nomeCliente, descricao, peso,
+                        latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, maxTemp, minTemp);
+                transportes.add(transporte);
+                transportes.sort((t1, t2) -> t1.getNumero() - t2.getNumero());
+                txtAreaMensagem.setText("Transporte Carga Viva Cadastrado com sucesso!");
 
             } else if (tipo.equals("Transporte de Carga Inanimada")) {
                 boolean perigoso = cargaPerigosaCheckBox.isSelected();
@@ -159,7 +161,7 @@ public class CadastroTransporte {
         latDestinoTextField.clear();
         latOrigemTextField.clear();
         longDestinoTextField.clear();
-        longDestinoTextField.clear();
+        longOrigemTextField.clear();
         nomeClienteTextField.clear();
         txtAreaMensagem.clear();
         pesoTextField.clear();
@@ -167,25 +169,32 @@ public class CadastroTransporte {
     }
 
     public void mostrarTransporte() {
+        if (transportes.isEmpty()) {
+            txtAreaMensagem.setText("Nenhum transporte cadastrado.");
+            return;
+        }
+
         StringBuilder mensagem = new StringBuilder("Transportes cadastrados:\n\n");
         for (Transporte transporte : transportes) {
-            mensagem.append(transporte.getTi);
+            mensagem.append(transporte.toString()).append("\n");
         }
+        txtAreaMensagem.setText(mensagem.toString());
     }
 
     @FXML
     private void voltarParaMenuPrincipal() {
         Stage stage = (Stage) buttonVoltar.getScene().getWindow();
         stage.close();
+    }
+
+    private void alterarSituacaoAutomatica(Transporte transporte) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("telaPrincipal.fxml"));
-            Parent root = loader.load();
-            Stage newStage = new Stage();
-            newStage.setTitle("ACMEAirDrones");
-            newStage.setScene(new Scene(root));
-            newStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+            // Verifica e aplica transições de estado
+            if (transporte.getSituacao() == Estado.PENDENTE) {
+                Processar.alterarSituacao(transporte, Estado.ALOCADO);
+            }
+        } catch (IllegalStateException e) {
+            txtAreaMensagem.setText("ERRO ao alterar situação: " + e.getMessage());
         }
     }
 }

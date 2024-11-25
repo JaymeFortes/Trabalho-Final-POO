@@ -182,15 +182,5 @@ public class CadastroDrone {
     private void voltarParaMenuPrincipal() {
         Stage stage = (Stage) buttonVoltar.getScene().getWindow();
         stage.close();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("telaPrincipal.fxml"));
-            Parent root = loader.load();
-            Stage newStage = new Stage();
-            newStage.setTitle("ACMEAirDrones");
-            newStage.setScene(new Scene(root));
-            newStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

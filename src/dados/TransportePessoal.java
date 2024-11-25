@@ -30,7 +30,7 @@ public class TransportePessoal extends Transporte  {
 
     @Override
     public String toString() {
-        return super.toString() + "\n Quantidade de pessoas: " + qtdPessoas;
+        return super.toString() + "Quantidade de pessoas: " + qtdPessoas + "\n";
     }
 
     public void setDronePessoal(DronePessoal dronePessoal) {
