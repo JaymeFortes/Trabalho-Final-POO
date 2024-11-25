@@ -25,12 +25,12 @@ public class TransportePessoal extends Transporte  {
 
     @Override
     public String getTipo() {
-        return "Pessoal";
+        return "Drone pessoal";
     }
 
     @Override
     public String toString() {
-        return super.toString() + "Quantidade de pessoas: " + qtdPessoas + "\n";
+        return super.toString() + "\nQuantidade de pessoas: " + qtdPessoas + "\n";
     }
 
     @Override
