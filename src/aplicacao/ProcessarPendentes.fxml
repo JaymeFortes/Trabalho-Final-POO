@@ -10,9 +10,9 @@
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
         <TextArea fx:id="txtMensagem" layoutY="1.0" prefHeight="375.0" prefWidth="640.0" />
-        <Button fx:id="buttonVoltar" onAction="#voltarParaMenuPrincipal" layoutY="337.0" mnemonicParsing="false" text="Voltar" />
-        <Button fx:id="buttonSair" layoutX="580.0" layoutY="337.0" mnemonicParsing="false" text="Sair" />
-        <Button fx:id="buttonProcessarPendentes" onAction="#processarTransportesPendentes" layoutX="400.0" layoutY="337.0" mnemonicParsing="false" text="Processar Transportes Pendentes" />
+        <Button fx:id="buttonVoltar" layoutX="526.0" layoutY="337.0" mnemonicParsing="false" onAction="#voltarParaMenuPrincipal" text="Voltar" />
+        <Button fx:id="buttonSair" layoutX="590.0" layoutY="337.0" mnemonicParsing="false" text="Sair" />
+        <Button fx:id="buttonProcessarPendentes" layoutX="328.0" layoutY="337.0" mnemonicParsing="false" onAction="#processarTransportesPendentes" prefHeight="25.0" prefWidth="183.0" text="Processar Transportes Pendentes" />
       </children>
     </AnchorPane>
   </children>

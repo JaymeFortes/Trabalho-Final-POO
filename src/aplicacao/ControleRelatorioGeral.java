@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class ControleRelatorioGeral {
 
     @FXML
-    private TextArea textAreaRelatorio;
+    private TextArea textAreaRelatorio,txtMensagem;
     @FXML
     private Button buttonSair, buttonVoltar;
 
@@ -21,7 +21,13 @@ public class ControleRelatorioGeral {
 
     @FXML
     public void initialize() {
-        textAreaRelatorio.setEditable(false);
+        if (textAreaRelatorio != null) {
+            textAreaRelatorio.setEditable(false);
+        }
+        if (txtMensagem != null) {
+            txtMensagem.setEditable(false);
+        }
+
         buttonSair.setOnAction(event -> System.exit(0));
         buttonVoltar.setOnAction(event -> voltarParaMenuPrincipal());
     }
@@ -60,6 +66,39 @@ public class ControleRelatorioGeral {
         }
 
         textAreaRelatorio.setText(relatorio.toString());
+    }
+
+    public void exibirTodosTransportes() {
+        StringBuilder relatorioTransportes = new StringBuilder();
+
+        if (transporteService.getTransportes().isEmpty()) {
+            relatorioTransportes.append("Nenhum transporte cadastrado.\n");
+        } else {
+            relatorioTransportes.append("Transportes:\n");
+            for (Transporte transporte : transporteService.getTransportes()) {
+                // Exibir informações do transporte
+                relatorioTransportes.append(transporte.toString()).append("\n");
+
+                // Verificar se há drone alocado
+                if (transporte.getDroneAlocado() != null) {
+                    relatorioTransportes.append("Drone alocado:\n")
+                            .append(transporte.getDroneAlocado().toString()).append("\n");
+                } else {
+                    relatorioTransportes.append("Nenhum drone alocado.\n");
+                }
+
+                // Calcular e exibir o custo do transporte
+                try {
+                    relatorioTransportes.append("Custo do Transporte: R$ ")
+                            .append(transporte.calculaCusto()).append("\n\n");
+                } catch (IllegalStateException e) {
+                    relatorioTransportes.append("Erro no cálculo do custo: ")
+                            .append(e.getMessage()).append("\n\n");
+                }
+            }
+        }
+            txtMensagem.setText(relatorioTransportes.toString());
+
     }
 
     @FXML

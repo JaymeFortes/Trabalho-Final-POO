@@ -40,17 +40,15 @@ public abstract class Drone {
         return this.autonomia;
     }
 
-
     public abstract String getTipoDrone();
 
     public double calculaCustoKm() {
         return 0;
     }
 
-
     public String toString() {
         return "\nCódigo: " + codigo + "\nCusto Fixo: R$ " + String.format("%.2f", custoFixo) +
-                "\nAutonomia: " + String.format("%.2f", autonomia) + " KM\n" + "Custo por KM" + String.format("%.2f", calculaCustoKm()) + "KM\n";
+                "\nAutonomia: " + String.format("%.2f", autonomia) + " KM\n" + "Custo por KM" + String.format("%.2f", calculaCustoKm()) + " KM\n";
     }
 
     public void alocarParaTransporte(Transporte transporte) {

@@ -66,6 +66,24 @@ public class ACMEAirDrones {
             e.printStackTrace();
         }
     }
+@FXML
+    private void abrirTodosTransportes(){
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("mostrarTodosTransportes.fxml"));
+        Parent root = loader.load();
+
+        ControleRelatorioGeral controller = loader.getController();
+        controller.setServicos(transporteService, droneService); // Passa os serviços para o controlador
+        controller.exibirTodosTransportes();
+
+        Stage stage = new Stage();
+        stage.setTitle("Todos Transportes");
+        stage.setScene(new Scene(root));
+        stage.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 
 
     @FXML
