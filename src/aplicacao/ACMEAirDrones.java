@@ -53,9 +53,10 @@ public class ACMEAirDrones {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("relatorioGeral.fxml"));
             Parent root = loader.load();
+
             ControleRelatorioGeral controller = loader.getController();
-            controller.setTransporteService(transporteService);
-            controller.exibirRelatorio();
+            controller.setServicos(transporteService, droneService); // Passa os serviços para o controlador
+            controller.exibirRelatorio(); // Chama o método para exibir o relatório
 
             Stage stage = new Stage();
             stage.setTitle("Relatório Geral");
@@ -65,6 +66,7 @@ public class ACMEAirDrones {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     private void abrirTelaProcessarTransportes() {
