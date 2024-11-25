@@ -19,7 +19,7 @@ public class DroneCargaViva extends DroneCarga {
 
     @Override
     public String getTipoDrone() {
-        return "Drone Carga Viva";
+        return "Carga Viva";
     }
 
     @Override

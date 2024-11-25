@@ -19,7 +19,7 @@ public class DronePessoal extends Drone  {
 
     @Override
     public String getTipoDrone() {
-        return "Drone Pessoal";
+        return "Pessoal";
     }
 
     public double custoVariado(){

@@ -42,12 +42,25 @@ public class TransporteCargaInanimada extends Transporte  {
     @Override
     public double calculaCusto() {
         double distancia = calculaDistancia();
-        return (getDrone().calculaCustoKm() * distancia) + calculaAcrescimos();
+        Drone drone = getDroneAlocado();
+        if (drone == null) {
+            throw new IllegalStateException("Nenhum drone associado a este transporte.");
+        }
+        return (drone.calculaCustoKm() * distancia) + calculaAcrescimos();
     }
 
     @Override
-    public String getTipoTransporte() {
-        return "Transporte de Carga Inanimada:";
+    public String getTipo() {
+        return "Carga Inanimada";
+    }
+
+    @Override
+    public void setDrone(Drone drone) {
+        if (drone instanceof DroneCargaInanimada) {
+            super.setDrone(drone);
+        } else {
+            throw new IllegalArgumentException("Este transporte só aceita drones do tipo Carga.");
+        }
     }
 
     @Override

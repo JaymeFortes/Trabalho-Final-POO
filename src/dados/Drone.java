@@ -13,8 +13,9 @@ public abstract class Drone {
         this.codigo = codigo;
         this.custoFixo = custoFixo;
         this.autonomia = autonomia;
-        ArrayList<Transporte> transportes = new ArrayList<>();
+        this.transportes = new ArrayList<>(); // Inicialize o atributo da classe
     }
+
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
@@ -39,14 +40,20 @@ public abstract class Drone {
         return this.autonomia;
     }
 
+
     public abstract String getTipoDrone();
 
     public double calculaCustoKm() {
         return 0;
     }
 
+
     public String toString() {
         return "\nCódigo: " + codigo + "\nCusto Fixo: R$ " + String.format("%.2f", custoFixo) +
                 "\nAutonomia: " + String.format("%.2f", autonomia) + " KM\n";
+    }
+
+    public void alocarParaTransporte(Transporte transporte) {
+
     }
 }

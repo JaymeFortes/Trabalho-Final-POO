@@ -28,9 +28,6 @@ public class CadastroDrone {
     @FXML
     private CheckBox climaBox, proteBox;
 
-    public CadastroDrone() {
-    }
-
     public void setDroneService(DroneService droneService) {
         this.droneService = droneService;
     }
@@ -70,7 +67,9 @@ public class CadastroDrone {
         proteBox.setVisible(false);
     }
 
+    Drone drone = null;
     public void cadastrarDrone() {
+
         try {
             if (codigoField.getText().isEmpty() || autonomiaField.getText().isEmpty() || custoFixoField.getText().isEmpty()) {
                 txtAreaMensagem.setText("ERRO: Todos os campos obrigatórios devem ser preenchidos.");
@@ -106,8 +105,8 @@ public class CadastroDrone {
                     return;
                 }
 
-                DronePessoal dronePessoal = new DronePessoal(codigo, autonomia, custoFixo, quantidadePessoas);
-                droneService.adicionarDrone(dronePessoal);
+                drone  = new DronePessoal(codigo, autonomia, custoFixo, quantidadePessoas);
+                droneService.adicionarDrone(drone);
                 txtAreaMensagem.setText("Drone Pessoal cadastrado com sucesso.");
 
             } else if ("Drone de Carga Viva".equals(tipo)) {
@@ -123,8 +122,8 @@ public class CadastroDrone {
                     return;
                 }
 
-                DroneCargaViva droneCargaViva = new DroneCargaViva(codigo, autonomia, custoFixo, pesoMaximo, climatizado);
-                droneService.adicionarDrone(droneCargaViva);
+                drone = new DroneCargaViva(codigo, autonomia, custoFixo, pesoMaximo, climatizado);
+                droneService.adicionarDrone(drone);
                 txtAreaMensagem.setText("Drone de Carga Viva cadastrado com sucesso.");
 
             } else if ("Drone de Carga Inanimada".equals(tipo)) {
@@ -140,8 +139,8 @@ public class CadastroDrone {
                     return;
                 }
 
-                DroneCargaInanimada droneCargaInanimada = new DroneCargaInanimada(codigo, autonomia, custoFixo, pesoMaximo, protecao);
-                droneService.adicionarDrone(droneCargaInanimada);
+                drone = new DroneCargaInanimada(codigo, autonomia, custoFixo, pesoMaximo, protecao);
+                droneService.adicionarDrone(drone);
                 txtAreaMensagem.setText("Drone de Carga Inanimada cadastrado com sucesso.");
             }
         } catch (NumberFormatException e) {

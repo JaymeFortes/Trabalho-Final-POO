@@ -2,8 +2,6 @@ package dados;
 
 public class GeoCalculator {
 
-        private GeoCalculator() {}
-
         public double calculaDistancia(double latitude1, double longitude1, double latitude2, double longitude2) {
              int R = 6371;
 

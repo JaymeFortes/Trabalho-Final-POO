@@ -19,9 +19,8 @@ public class DroneCargaInanimada extends DroneCarga {
 
 	@Override
 	public String getTipoDrone() {
-		return "Drone Carga Inanimada";
+		return "Carga Inanimada";
 	}
-
 
 	@Override
 	public double custoVariado() {

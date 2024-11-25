@@ -20,12 +20,12 @@ public class TransportePessoal extends Transporte  {
     @Override
     public double calculaCusto() {
         double distancia = calculaDistancia();
-        return (getDrone().calculaCustoKm() * distancia) + calculaAcrescimos();
+        return (getDroneAlocado().calculaCustoKm() * distancia) + calculaAcrescimos();
     }
 
     @Override
-    public String getTipoTransporte() {
-        return "Transporte Pessoal:";
+    public String getTipo() {
+        return "Pessoal";
     }
 
     @Override
@@ -33,7 +33,13 @@ public class TransportePessoal extends Transporte  {
         return super.toString() + "Quantidade de pessoas: " + qtdPessoas + "\n";
     }
 
-    public void setDronePessoal(DronePessoal dronePessoal) {
+    @Override
+    public void setDrone(Drone drone) {
+        if (drone instanceof DronePessoal) {
+            super.setDrone(drone);
+        } else {
+            throw new IllegalArgumentException("Este transporte só aceita drones do tipo Pessoal.");
+        }
     }
 }
 

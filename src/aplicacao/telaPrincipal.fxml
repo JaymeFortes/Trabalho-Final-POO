@@ -1,47 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
 <VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacao.ACMEAirDrones">
   <children>
-    <MenuBar>
-      <menus>
-        <Menu mnemonicParsing="false" text="Arquivo">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Sair" fx:id="menuItemSair" onAction="#sairSistema"/>
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Ajuda">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Sobre" fx:id="menuItemSobre" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
 
     <!-- Área Principal -->
     <AnchorPane VBox.vgrow="ALWAYS">
       <children>
         <!-- Título da Tela -->
-        <Label layoutX="150.0" layoutY="30.0" text="Sistema de Gerenciamento" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+        <Label layoutX="150.0" layoutY="30.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Sistema de Gerenciamento" />
 
         <!-- Botões de Navegação -->
-        <Button fx:id="btnCadastroDrone" layoutX="200.0" layoutY="100.0" text="Cadastro de Drones" prefWidth="200.0"
-                onAction="#abrirTelaCadastroDrone" />
-        <Button fx:id="btnCadastroTransporte" layoutX="200.0" layoutY="150.0" text="Cadastro de Transporte" prefWidth="200.0"
-                onAction="#abrirTelaCadastroTransporte" />
+        <Button fx:id="btnCadastroDrone" layoutX="200.0" layoutY="72.0" onAction="#abrirTelaCadastroDrone" prefWidth="200.0" text="Cadastro de Drones" />
+        <Button fx:id="btnCadastroTransporte" layoutX="200.0" layoutY="106.0" onAction="#abrirTelaCadastroTransporte" prefWidth="200.0" text="Cadastro de Transporte" />
 
         <!-- Botão Sair -->
-        <Button fx:id="btnSair" onAction="#sairSistema" layoutX="200.0" layoutY="250.0" text="Sair" prefWidth="200.0" />
+        <Button fx:id="btnSair" layoutX="201.0" layoutY="310.0" onAction="#sairSistema" prefWidth="200.0" text="Sair" />
+            <Button layoutX="201.0" layoutY="175.0" mnemonicParsing="false" onAction="#abrirTelaRelatorioGeral" prefHeight="25.0" prefWidth="200.0" text="Mostrar relatório geral" />
+        <Button layoutX="201.0" layoutY="138.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Processar Transportes Pendentes" onAction="#processarTransportesPendentesAction" />
       </children>
     </AnchorPane>
   </children>

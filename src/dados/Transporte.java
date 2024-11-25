@@ -2,7 +2,6 @@ package dados;
 
 public abstract class Transporte {
 
-    public char[] getTi;
     private int numero;
 	private String nomeCliente;
 	private String descricao;
@@ -12,8 +11,8 @@ public abstract class Transporte {
 	private double latitudeDestino;
 	private double longitudeDestino;
 	private Estado situacao;
-	private Drone drone;
-	private GeoCalculator geoCalculator;
+	private GeoCalculator geoCalculator = new GeoCalculator();
+	private Drone droneAlocado;
 
 	public Transporte(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem, double longitudeOrigem,
 					  double latitudeDestino, double longitudeDestino, Estado situacao) {
@@ -26,6 +25,19 @@ public abstract class Transporte {
 		this.latitudeDestino = latitudeDestino;
 		this.longitudeDestino = longitudeDestino;
 		this.situacao = Estado.PENDENTE;
+	}
+
+	public Drone getDroneAlocado() {
+		return droneAlocado;
+	}
+
+	public void setDrone(Drone drone) {
+		if (drone != null) {
+			this.droneAlocado = drone;
+			System.out.println("Drone alocado com sucesso!");
+		} else {
+			throw new IllegalArgumentException("Drone não pode ser nulo.");
+		}
 	}
 
 	public int getNumero() {
@@ -100,15 +112,8 @@ public abstract class Transporte {
 		this.situacao = situacao;
 	}
 
-	public Drone getDrone() {
-		return drone;
-	}
+	public abstract String getTipo();
 
-	public void setDrone(Drone drone) {
-		this.drone = drone;
-	}
-
-	public abstract String getTipoTransporte();
 
 	public abstract double calculaCusto();
 	public abstract double calculaAcrescimos();
@@ -116,6 +121,13 @@ public abstract class Transporte {
 
 	public double calculaDistancia() {
 		return geoCalculator.calculaDistancia(latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino);
+	}
+
+	public void alterarSituacao(String novaSituacao) {
+		if (situacao == Estado.TERMINADO || situacao == Estado.CANCELADO) {
+			throw new IllegalArgumentException("Não é possível alterar a situação de um transporte já finalizado ou cancelado.");
+		}
+		this.situacao = Estado.valueOf(novaSituacao);
 	}
 
 	@Override
@@ -126,7 +138,6 @@ public abstract class Transporte {
 				"\nPeso: " + peso +
 				"\nOrigem: (" + latitudeOrigem + ", " + longitudeOrigem + ")" +
 				"\nDestino: (" + latitudeDestino + ", " + longitudeDestino + ")" +
-				"\nSituação: " + situacao +
-				"\nStatus: " + (drone == null ? "Nenhum" : drone) + "\n";
+				"\nSituação: " + situacao ;
 	}
 }

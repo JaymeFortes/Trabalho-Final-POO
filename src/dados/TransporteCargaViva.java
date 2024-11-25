@@ -46,10 +46,6 @@ public class TransporteCargaViva extends Transporte {
 		}
 	}
 
-	@Override
-	public String getTipoTransporte() {
-		return "Transporte de Carga Viva:";
-	}
 
 	@Override
 	public double calculaAcrescimos() {
@@ -65,8 +61,24 @@ public class TransporteCargaViva extends Transporte {
 	@Override
 	public double calculaCusto() {
 		double distancia = calculaDistancia();
-		return (getDrone().calculaCustoKm() * distancia) + calculaAcrescimos();
+		return (getDroneAlocado().calculaCustoKm() * distancia) + calculaAcrescimos();
 	}
+
+	@Override
+	public String getTipo() {
+		return "Carga Viva";
+	}
+
+	@Override
+	public void setDrone(Drone drone) {
+		if (drone instanceof DroneCargaViva) {
+			super.setDrone(drone);
+		} else {
+			throw new IllegalArgumentException("Este transporte só aceita drones do tipo Pessoal.");
+		}
+	}
+
+
 
 	@Override
 	public String toString() {

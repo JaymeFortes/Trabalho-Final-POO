@@ -11,6 +11,7 @@ public class CadastroTransporte {
 
     private TransporteService transporteService;
 
+
     @FXML
     private ComboBox<String> comboBoxTransporteTipo;
 
@@ -38,6 +39,8 @@ public class CadastroTransporte {
     public void setTransporteService(TransporteService transporteService) {
         this.transporteService = transporteService;
     }
+
+
 
     public void initialize() {
 
@@ -80,6 +83,7 @@ public class CadastroTransporte {
 
     Transporte transporte = null;
 
+
     public void cadastrarTransporte() {
         try {
 
@@ -98,8 +102,6 @@ public class CadastroTransporte {
             double latDestino = Double.parseDouble(latDestinoTextField.getText());
             double longOrigem = Double.parseDouble(longOrigemTextField.getText());
             double longDestino = Double.parseDouble(longDestinoTextField.getText());
-
-
 
             for (Transporte transporte : transporteService.getTransportes()) {
                 if (transporte.getNumero() == numero) {
@@ -139,6 +141,7 @@ public class CadastroTransporte {
                 transporte = new TransporteCargaViva(numero, nomeCliente, descricao, peso,
                         latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, maxTemp, minTemp);
                 transporteService.adicionarTransporte(transporte);
+
                 txtAreaMensagem.setText("Transporte Carga Viva cadastrado com sucesso!");
 
             } else if (tipo.equals("Transporte de Carga Inanimada")) {
@@ -146,10 +149,13 @@ public class CadastroTransporte {
                 transporte = new TransporteCargaInanimada(numero, nomeCliente, descricao, peso,
                         latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, perigoso);
                 transporteService.adicionarTransporte(transporte);
+
                 txtAreaMensagem.setText("Transporte de Carga Inanimada cadastrado com sucesso!");
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e ) {
             txtAreaMensagem.setText("ERRO: Valores inválidos");
+        } catch (Exception e ) {
+            txtAreaMensagem.setText("ERRO: " + e.getMessage());
         }
     }
 
@@ -179,20 +185,20 @@ public class CadastroTransporte {
         txtAreaMensagem.setText(mensagem.toString());
     }
 
+    public void alterarSituacaoTransporte(int numero, String novaSituacao) {
+        Transporte transporte = transporteService.getTransportes().stream()
+                .filter(t -> t.getNumero() == numero)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Transporte não encontrado."));
+
+        transporte.alterarSituacao(novaSituacao);
+    }
+
     @FXML
     private void voltarParaMenuPrincipal() {
         Stage stage = (Stage) buttonVoltar.getScene().getWindow();
         stage.close();
     }
 
-    private void alterarSituacaoAutomatica(Transporte transporte) {
-        try {
-            // Verifica e aplica transições de estado
-            if (transporte.getSituacao() == Estado.PENDENTE) {
-                Processar.alterarSituacao(transporte, Estado.ALOCADO);
-            }
-        } catch (IllegalStateException e) {
-            txtAreaMensagem.setText("ERRO ao alterar situação: " + e.getMessage());
-        }
     }
-}
+

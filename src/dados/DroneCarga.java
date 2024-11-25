@@ -17,19 +17,8 @@ public abstract class DroneCarga extends Drone {
         this.pesoMaximo = pesoMaximo;
     }
 
-    public abstract String getTipoDrone();
-
-    public double calculaCustoVariado() {
-        return 0;
-    }
-
     public abstract double custoVariado();
-
-    @Override
-    public double calculaCustoKm() {
-        return super.calculaCustoKm();
-    }
-
+    
     @Override
     public String toString() {
         return super.toString() + "Peso Máximo: " + String.format("%.2f", pesoMaximo) + " KG";
