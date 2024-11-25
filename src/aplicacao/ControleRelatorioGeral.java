@@ -1,5 +1,7 @@
 package aplicacao;
 
+import dados.Transporte;
+import servicos.TransporteService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -12,6 +14,8 @@ public class ControleRelatorioGeral {
     @FXML
     private Button buttonSair, buttonVoltar;
 
+    private TransporteService transporteService;
+
     // Inicialização da tela
     @FXML
     public void initialize() {
@@ -20,11 +24,21 @@ public class ControleRelatorioGeral {
 
         // Ação para o botão "Sair"
         buttonSair.setOnAction(event -> System.exit(0));
+        buttonVoltar.setOnAction(event -> voltarParaMenuPrincipal());
+    }
+
+    // Método para definir o TransporteService
+    public void setTransporteService(TransporteService transporteService) {
+        this.transporteService = transporteService;
     }
 
     // Método para exibir o relatório no TextArea
-    public void exibirRelatorio(String relatorio) {
-        textAreaRelatorio.setText(relatorio);
+    public void exibirRelatorio() {
+        StringBuilder relatorio = new StringBuilder("Relatório de Transportes:\n");
+        for (Transporte transporte : transporteService.getTransportes()) {
+            relatorio.append(transporte.toString()).append("\n");
+        }
+        textAreaRelatorio.setText(relatorio.toString());
     }
 
     // Método para voltar para o menu principal

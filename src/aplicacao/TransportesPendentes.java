@@ -1,12 +1,12 @@
 package aplicacao;
 
 import dados.*;
+import servicos.DroneService;
+import servicos.TransporteService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
-import servicos.DroneService;
-import servicos.TransporteService;
 
 public class TransportesPendentes {
 
@@ -16,15 +16,19 @@ public class TransportesPendentes {
     private TextArea txtMensagem;
 
     // Serviços
-    DroneService droneService = new DroneService();
-    TransporteService transporteService = new TransporteService();
+    private DroneService droneService;
+    private TransporteService transporteService;
 
     @FXML
     public void initialize() {
         txtMensagem.setEditable(false);
-
         buttonSair.setOnAction(e -> System.exit(0));
+    }
 
+    // Método para definir os serviços
+    public void setServicos(DroneService droneService, TransporteService transporteService) {
+        this.droneService = droneService;
+        this.transporteService = transporteService;
     }
 
     // Método para alocar drones aos transportes de acordo com o tipo
@@ -37,9 +41,9 @@ public class TransportesPendentes {
             txtMensagem.appendText("Drone carga viva alocado ao transporte.\n");
         } else if (transporte instanceof TransporteCargaInanimada && drone instanceof DroneCargaInanimada) {
             ((TransporteCargaInanimada) transporte).setDrone(drone);
-            txtMensagem.appendText("Drone carga alocado ao transporte.\n");
+            txtMensagem.appendText("Drone carga inanimada alocado ao transporte.\n");
         } else {
-            throw new IllegalArgumentException("Tipo de transporte e drone não compatíveis.");
+            txtMensagem.appendText("Erro: Tipo de transporte e drone não compatíveis.\n");
         }
     }
 
@@ -54,9 +58,10 @@ public class TransportesPendentes {
                 // Se houver drone compatível, alocar o drone ao transporte
                 if (drone != null) {
                     alocarDroneAoTransporte(transporte, drone);
-                    txtMensagem.appendText("Drone alocado ao transporte.\n");
+                    transporte.setSituacao(Estado.ALOCADO); // Atualizar a situação para ALOCADO
+                    txtMensagem.appendText("Drone alocado ao transporte " + transporte.getNumero() + ".\n");
                 } else {
-                    txtMensagem.appendText("Nenhum drone encontrado para o transporte: ");
+                    txtMensagem.appendText("Nenhum drone encontrado para o transporte " + transporte.getNumero() + ".\n");
                 }
             }
         }
@@ -66,9 +71,5 @@ public class TransportesPendentes {
     private void voltarParaMenuPrincipal() {
         Stage stage = (Stage) buttonVoltar.getScene().getWindow();
         stage.close();
-    }
-
-
-    public void setTransporteService(TransporteService transporteService) {
     }
 }
