@@ -6,9 +6,9 @@ public class TransportePessoal extends Transporte  {
 
     public TransportePessoal(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem,
                              double longitudeOrigem, double latitudeDestino, double longitudeDestino,
-                             Estado situacao, GeoCalculator geoCalculator, int qtdPessoas) {
+                             Estado situacao, int qtdPessoas) {
 
-        super(numero, nomeCliente, descricao, peso, latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino, situacao, geoCalculator);
+        super(numero, nomeCliente, descricao, peso, latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino, situacao);
         this.qtdPessoas = qtdPessoas;
     }
 

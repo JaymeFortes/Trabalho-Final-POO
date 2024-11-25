@@ -6,10 +6,10 @@ public class TransporteCargaViva extends Transporte {
 	private double temperaturaMaxima;
 
 	public TransporteCargaViva(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem, double longitudeOrigem,
-							   double latitudeDestino, double longitudeDestino, double temperaturaMinima,
-							   double temperaturaMaxima,Estado estado,GeoCalculator geoCalculator) {
+							   double latitudeDestino, double longitudeDestino, Estado estado,double temperaturaMinima,
+							   double temperaturaMaxima) {
 
-		super(numero, nomeCliente, descricao, peso, latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino,estado, geoCalculator);
+		super(numero, nomeCliente, descricao, peso, latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino,estado);
 		this.temperaturaMinima = temperaturaMinima;
 		this.temperaturaMaxima = temperaturaMaxima;
 	}
@@ -31,11 +31,11 @@ public class TransporteCargaViva extends Transporte {
 	}
 
 	public boolean isTempaturaMaiorque10(){
-		if	(temperaturaMinima > 10){
+		double somaTemperatura = temperaturaMaxima + temperaturaMinima;
+		if	(somaTemperatura > 10) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public String estadoTransporte(){

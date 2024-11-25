@@ -16,7 +16,7 @@ public abstract class Transporte {
 	private GeoCalculator geoCalculator;
 
 	public Transporte(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem, double longitudeOrigem,
-					  double latitudeDestino, double longitudeDestino, Estado situacao, GeoCalculator geoCalculator) {
+					  double latitudeDestino, double longitudeDestino, Estado situacao) {
 		this.numero = numero;
 		this.nomeCliente = nomeCliente;
 		this.descricao = descricao;
@@ -26,7 +26,6 @@ public abstract class Transporte {
 		this.latitudeDestino = latitudeDestino;
 		this.longitudeDestino = longitudeDestino;
 		this.situacao = Estado.PENDENTE;
-		this.geoCalculator = geoCalculator;
 	}
 
 	public int getNumero() {

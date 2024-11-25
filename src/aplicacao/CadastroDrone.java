@@ -145,7 +145,7 @@ public class CadastroDrone {
             }
 
         } catch (NumberFormatException e) {
-            txtAreaMensagem.setText("ERRO: Valores inválidos nos campos de autonomia, custo fixo, quantidade de pessoas ou peso máximo.");
+            txtAreaMensagem.setText("ERRO: Valores inválidos");
         } catch (IllegalArgumentException e) {
             txtAreaMensagem.setText("ERRO: " + e.getMessage());
         }
