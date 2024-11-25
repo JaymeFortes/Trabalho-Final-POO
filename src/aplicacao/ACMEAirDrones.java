@@ -6,11 +6,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import servicos.DroneService;
+import servicos.TransporteService;
 
 import java.io.IOException;
 
 public class ACMEAirDrones {
     private DroneService droneService = new DroneService();
+    private TransporteService transporteService = new TransporteService();
 
     @FXML
     private void abrirTelaCadastroDrone() {
@@ -37,7 +39,7 @@ public class ACMEAirDrones {
 
             Parent root = loader.load();
             CadastroTransporte controller = loader.getController();
-            controller.setDroneService(droneService);
+            controller.setTransporteService(transporteService);
 
             Stage stage = new Stage();
             stage.setTitle("Cadastro de Transporte");

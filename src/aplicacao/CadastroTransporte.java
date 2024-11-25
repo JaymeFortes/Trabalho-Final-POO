@@ -2,19 +2,14 @@ package aplicacao;
 
 import dados.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import servicos.DroneService;
+import servicos.TransporteService;
 
 public class CadastroTransporte {
+
+    private TransporteService transporteService;
 
     @FXML
     private ComboBox<String> comboBoxTransporteTipo;
@@ -37,8 +32,12 @@ public class CadastroTransporte {
     @FXML
     private CheckBox cargaPerigosaCheckBox;
 
+    public CadastroTransporte() {
+    }
 
-    private ObservableList<Transporte> transportes = FXCollections.observableArrayList();
+    public void setTransporteService(TransporteService transporteService) {
+        this.transporteService = transporteService;
+    }
 
     public void initialize() {
 
@@ -102,7 +101,7 @@ public class CadastroTransporte {
 
 
 
-            for (Transporte transporte : transportes) {
+            for (Transporte transporte : transporteService.getTransportes()) {
                 if (transporte.getNumero() == numero) {
                     txtAreaMensagem.setText("ERRO: Já existe um transporte com este número");
                     return;
@@ -127,9 +126,8 @@ public class CadastroTransporte {
 
                 transporte = new TransportePessoal(numero, nomeCliente, descricao, peso,
                         latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, qtdPessoas);
-                transportes.add(transporte);
-                transportes.sort((t1, t2) -> t1.getNumero() - t2.getNumero());
-                txtAreaMensagem.setText("Transporte Pessoal Cadastrado com sucesso!");
+                transporteService.adicionarTransporte(transporte);
+                txtAreaMensagem.setText("Transporte Pessoal cadastrado com sucesso!");
 
             } else if (tipo.equals("Transporte de Carga Viva")) {
                 if (txtFieldMaxTemp.getText().isEmpty() || txtFieldMinTemp.getText().isEmpty()) {
@@ -140,16 +138,15 @@ public class CadastroTransporte {
                 double minTemp = Double.parseDouble(txtFieldMinTemp.getText());
                 transporte = new TransporteCargaViva(numero, nomeCliente, descricao, peso,
                         latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, maxTemp, minTemp);
-                transportes.add(transporte);
-                transportes.sort((t1, t2) -> t1.getNumero() - t2.getNumero());
-                txtAreaMensagem.setText("Transporte Carga Viva Cadastrado com sucesso!");
+                transporteService.adicionarTransporte(transporte);
+                txtAreaMensagem.setText("Transporte Carga Viva cadastrado com sucesso!");
 
             } else if (tipo.equals("Transporte de Carga Inanimada")) {
                 boolean perigoso = cargaPerigosaCheckBox.isSelected();
                 transporte = new TransporteCargaInanimada(numero, nomeCliente, descricao, peso,
                         latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, perigoso);
-                transportes.add(transporte);
-                transportes.sort((t1, t2) -> t1.getNumero() - t2.getNumero());
+                transporteService.adicionarTransporte(transporte);
+                txtAreaMensagem.setText("Transporte de Carga Inanimada cadastrado com sucesso!");
             }
         } catch (Exception e) {
             txtAreaMensagem.setText("ERRO: Valores inválidos");
@@ -170,13 +167,13 @@ public class CadastroTransporte {
     }
 
     public void mostrarTransporte() {
-        if (transportes.isEmpty()) {
+        if (transporteService.getTransportes().isEmpty()) {
             txtAreaMensagem.setText("Nenhum transporte cadastrado.");
             return;
         }
 
         StringBuilder mensagem = new StringBuilder("Transportes cadastrados:\n\n");
-        for (Transporte transporte : transportes) {
+        for (Transporte transporte : transporteService.getTransportes()) {
             mensagem.append(transporte.toString()).append("\n");
         }
         txtAreaMensagem.setText(mensagem.toString());
@@ -197,8 +194,5 @@ public class CadastroTransporte {
         } catch (IllegalStateException e) {
             txtAreaMensagem.setText("ERRO ao alterar situação: " + e.getMessage());
         }
-    }
-
-    public void setDroneService(DroneService droneService) {
     }
 }
