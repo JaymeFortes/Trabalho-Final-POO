@@ -34,10 +34,26 @@ public class ControleRelatorioGeral {
 
     // Método para exibir o relatório no TextArea
     public void exibirRelatorio() {
-        StringBuilder relatorio = new StringBuilder("Relatório de Transportes:\n");
-        for (Transporte transporte : transporteService.getTransportes()) {
-            relatorio.append(transporte.toString()).append("\n");
+        if (transporteService.getTransportes().isEmpty()) {
+            textAreaRelatorio.setText("Nenhum transporte ou drone cadastrado no momento.\n");
+            return;
         }
+
+        StringBuilder relatorio = new StringBuilder("Relatório Geral de Transportes e Drones:\n");
+
+        for (Transporte transporte : transporteService.getTransportes()) {
+            relatorio.append("Transporte:\n");
+            relatorio.append(transporte.toString()).append("\n");
+            try {
+                // Calcula o custo e exibe
+                double custo = transporte.calculaCusto();
+                relatorio.append("Custo do transporte: R$ ").append(String.format("%.2f", custo)).append("\n");
+            } catch (IllegalArgumentException e) {
+                relatorio.append("Erro ao calcular o custo: ").append(e.getMessage()).append("\n");
+            }
+            relatorio.append("--------------------\n");
+        }
+
         textAreaRelatorio.setText(relatorio.toString());
     }
 
