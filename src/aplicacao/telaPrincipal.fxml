@@ -28,12 +28,6 @@
                         prefHeight="25.0" prefWidth="225.0" text="Mostrar Todos os Transportes"/>
                 <Button layoutX="199.0" layoutY="229.0" mnemonicParsing="false" onAction="#abrirAlterarSituacao"
                         prefHeight="25.0" prefWidth="225.0" text="Alterar Situação Transporte"/>
-                <Button layoutX="201.0" layoutY="263.0" mnemonicParsing="false" onAction="#abrirLeituraDados"
-                        prefHeight="25.0" prefWidth="225.0" text="Realizar Leitura de Dados de Simulação"/>
-                <Button layoutX="202.0" layoutY="296.0" mnemonicParsing="false" onAction="#abrirSalvarDados"
-                        prefHeight="25.0" prefWidth="225.0" text="Salvar Dados"/>
-                <Button layoutX="202.0" layoutY="329.0" mnemonicParsing="false" onAction="#abrirCarregarDados"
-                        prefHeight="25.0" prefWidth="225.0" text="Carregar Dados"/>
             </children>
         </AnchorPane>
     </children>
