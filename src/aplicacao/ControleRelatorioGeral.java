@@ -42,7 +42,7 @@ public class ControleRelatorioGeral {
 
         buttonSair.setOnAction(event -> System.exit(0));
         buttonVoltar.setOnAction(event -> voltarParaMenuPrincipal());
-        //CSVButtom.setOnAction(event -> salvarTransportesEmCsv());
+        CSVButtom.setOnAction(event -> salvarTransportesEmCsv());
     }
 
     public void setServicos(TransporteService transporteService, DroneService droneService) {
