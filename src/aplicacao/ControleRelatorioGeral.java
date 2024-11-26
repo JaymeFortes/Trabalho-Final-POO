@@ -1,20 +1,18 @@
 package aplicacao;
 
-import dados.Drone;
-import dados.Transporte;
+import dados.*;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TextInputDialog;
 import servicos.DroneService;
-
 import servicos.TransporteService;
-import servicos.DroneService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Optional;
 
 public class ControleRelatorioGeral {
 
@@ -22,14 +20,10 @@ public class ControleRelatorioGeral {
     private TextArea textAreaRelatorio, txtMensagem;
 
     @FXML
-    private Button buttonSair, buttonVoltar;
-
-    @FXML
-    private Button CSVButtom;
+    private Button buttonSair, buttonVoltar, CSVButton;
 
     private TransporteService transporteService;
     private DroneService droneService;
-
 
     @FXML
     public void initialize() {
@@ -40,9 +34,17 @@ public class ControleRelatorioGeral {
             txtMensagem.setEditable(false);
         }
 
-        buttonSair.setOnAction(event -> System.exit(0));
-        buttonVoltar.setOnAction(event -> voltarParaMenuPrincipal());
-        CSVButtom.setOnAction(event -> salvarTransportesEmCsv());
+        if (buttonSair != null) {
+            buttonSair.setOnAction(event -> System.exit(0));
+        }
+
+        if (buttonVoltar != null) {
+            buttonVoltar.setOnAction(event -> voltarParaMenuPrincipal());
+        }
+
+        if (CSVButton != null) {
+            CSVButton.setOnAction(event -> salvarTransportesEDronesEmCsv());
+        }
     }
 
     public void setServicos(TransporteService transporteService, DroneService droneService) {
@@ -50,20 +52,11 @@ public class ControleRelatorioGeral {
         this.droneService = droneService;
     }
 
-
-
-    // Método para definir o DroneService
-    public void setDroneService(DroneService droneService) {
-        this.droneService = droneService;
-    }
-
-
-    // Método para exibir o relatório no TextArea
-
     public void exibirRelatorio() {
         StringBuilder relatorio = new StringBuilder("Relatório de Transportes e Drones:\n\n");
 
-        if (droneService.getDrones().isEmpty()) {
+        // Relatório de drones
+        if (droneService == null || droneService.getDrones().isEmpty()) {
             relatorio.append("Nenhum drone cadastrado.\n");
         } else {
             relatorio.append("Drones:\n");
@@ -72,7 +65,8 @@ public class ControleRelatorioGeral {
             }
         }
 
-        if (transporteService.getTransportes().isEmpty()) {
+        // Relatório de transportes
+        if (transporteService == null || transporteService.getTransportes().isEmpty()) {
             relatorio.append("Nenhum transporte cadastrado.\n");
         } else {
             relatorio.append("Transportes:\n");
@@ -85,13 +79,14 @@ public class ControleRelatorioGeral {
                 }
             }
         }
+
         textAreaRelatorio.setText(relatorio.toString());
     }
 
     public void exibirTodosTransportes() {
         StringBuilder relatorioTransportes = new StringBuilder();
 
-        if (transporteService.getTransportes().isEmpty()) {
+        if (transporteService == null || transporteService.getTransportes().isEmpty()) {
             relatorioTransportes.append("Nenhum transporte cadastrado.\n");
         } else {
             relatorioTransportes.append("Transportes:\n");
@@ -113,6 +108,7 @@ public class ControleRelatorioGeral {
                 }
             }
         }
+
         txtMensagem.setText(relatorioTransportes.toString());
     }
 
@@ -122,50 +118,114 @@ public class ControleRelatorioGeral {
         stage.close();
     }
 
-    private void salvarTransportesEmCsv() {
-        File arquivoCsv = new File("transportes.csv");
-        try (FileWriter writer = new FileWriter(arquivoCsv)) {
-            // Cabeçalho
-            writer.write("Número,Nome Cliente,Descrição,Peso,Latitude Origem,Longitude Origem,Latitude Destino,Longitude Destino,Situação,Drone,Tipo,Acrescimos,Custo\n");
+    private void salvarTransportesEDronesEmCsv() {
+        if (transporteService == null || droneService == null) {
+            mostrarErro("Serviços de transporte ou drone não foram inicializados.");
+            return;
+        }
 
-            ObservableList<Transporte> listaTransportes = transporteService.getTransportes();
-            System.out.println("Total de transportes para salvar: " + listaTransportes.size());
+        ObservableList<Transporte> transportes = transporteService.getTransportes();
+        ObservableList<Drone> drones = droneService.getDrones();
 
-            for (Transporte transporte : listaTransportes) {
-                // Debug de cada transporte
-                System.out.println("Salvando transporte: " + transporte);
+        // Solicitar nome do arquivo ao usuário
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Salvar Dados");
+        dialog.setHeaderText("Digite o nome do arquivo (sem extensão):");
+        dialog.setContentText("Nome do arquivo:");
 
+        Optional<String> resultado = dialog.showAndWait();
 
-                // Salvando transporte no arquivo CSV
-                writer.write(escapeCsv(String.valueOf(transporte.getNumero())) + ",");
-                writer.write(escapeCsv(transporte.getNomeCliente()) + ",");
-                writer.write(escapeCsv(transporte.getDescricao()) + ",");
-                writer.write(escapeCsv(String.valueOf(transporte.getPeso())) + ",");
-                writer.write(escapeCsv(String.valueOf(transporte.getLatitudeOrigem())) + ",");
-                writer.write(escapeCsv(String.valueOf(transporte.getLongitudeOrigem())) + ",");
-                writer.write(escapeCsv(String.valueOf(transporte.getLatitudeDestino())) + ",");
-                writer.write(escapeCsv(String.valueOf(transporte.getLongitudeDestino())) + ",");
-                writer.write(escapeCsv(String.valueOf(transporte.getSituacao())) + ",");
-                writer.write(escapeCsv(String.valueOf(transporte.getDroneAlocado())) + ",");
-                writer.write(escapeCsv(transporte.getTipo()) + ",");
-                writer.write(escapeCsv(String.valueOf(transporte.calculaAcrescimos())) + ",");
-                writer.write(escapeCsv(String.valueOf(transporte.calculaCusto())) + "\n");
+        if (resultado.isPresent() && !resultado.get().trim().isEmpty()) {
+            String nomeArquivoBase = resultado.get().trim();
+
+            // Salvar transportes
+            if (!salvarTransportes(nomeArquivoBase + "_transportes.csv", transportes)) {
+                mostrarErro("Erro ao salvar os transportes!");
             }
 
-            textAreaRelatorio.setText("Transportes salvos em arquivo CSV com sucesso!");
-        } catch (IOException e) {
-            textAreaRelatorio.setText("ERRO ao salvar os transportes em CSV: " + e.getMessage());
+            // Salvar drones
+            if (!salvarDrones(nomeArquivoBase + "_drones.csv", drones)) {
+                mostrarErro("Erro ao salvar os drones!");
+            }
+
+            // Mensagem de sucesso
+            System.out.println("Dados salvos com sucesso!");
+        } else {
+            System.out.println("Operação cancelada ou nome inválido.");
         }
     }
 
+    private boolean salvarTransportes(String nomeArquivo, ObservableList<Transporte> transportes) {
+        try (FileWriter writer = new FileWriter(nomeArquivo)) {
+            writer.write("Número,Nome Cliente,Descrição,Peso,Latitude Origem,Longitude Origem,Latitude Destino,Longitude Destino,Situação,Drone Alocado,Acrescimos,Custo\n");
+            for (Transporte transporte : transportes) {
+                writer.write(transporte.getNumero() + "," +
+                        transporte.getNomeCliente() + "," +
+                        transporte.getDescricao() + "," +
+                        transporte.getPeso() + "," +
+                        transporte.getLatitudeOrigem() + "," +
+                        transporte.getLongitudeOrigem() + "," +
+                        transporte.getLatitudeDestino() + "," +
+                        transporte.getLongitudeDestino() + "," +
+                        transporte.getSituacao() + "," +
+                        (transporte.getDroneAlocado() != null ? transporte.getDroneAlocado().getCodigo() : "Nenhum") + "," +
+                        transporte.calculaAcrescimos() + "," +
+                        transporte.calculaCusto() + "\n");
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-    private String escapeCsv(String value) {
-        if (value == null) {
-            return "";
+    private boolean salvarDrones(String nomeArquivo, ObservableList<Drone> drones) {
+        try (FileWriter writer = new FileWriter(nomeArquivo)) {
+            writer.write("Código,Tipo,Custo Fixo,Autonomia,Informação Específica\n");
+
+            for (Drone drone : drones) {
+                String informacaoEspecifica = "";
+
+                if (drone instanceof DronePessoal) {
+                    DronePessoal dronePessoal = (DronePessoal) drone;
+                    informacaoEspecifica = "Qtd Pessoas: " + dronePessoal.getQtdPessoas();
+                } else if (drone instanceof DroneCarga) {
+                    DroneCarga droneCarga = (DroneCarga) drone;
+                    informacaoEspecifica = "Peso Máximo: " + droneCarga.getPesoMaximo() + " kg";
+
+                    if (drone instanceof DroneCargaViva) {
+                        DroneCargaViva droneCargaViva = (DroneCargaViva) drone;
+                        informacaoEspecifica += ", Climatizado: " + (droneCargaViva.isClimatizado() ? "Sim" : "Não");
+                    }
+                }
+
+                writer.write(drone.getCodigo() + "," +
+                        drone.getTipoDrone() + "," +
+                        String.format("%.2f", drone.getCustoFixo()) + "," +
+                        String.format("%.2f", drone.getAutonomia()) + "," +
+                        informacaoEspecifica + "\n");
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
-        if (value.contains(",") || value.contains("\"")) {
-            return "\"" + value.replace("\"", "\"\"") + "\"";
+    }
+
+    private void mostrarErro(String mensagem) {
+        System.err.println(mensagem);
+    }
+
+    // Método para alocar o drone ao transporte
+    private boolean alocarDroneParaTransporte(Drone drone, Transporte transporte) {
+        // Verifique se o drone já está alocado em algum transporte
+        for (Transporte t : transporteService.getTransportes()) {
+            if (t.getDroneAlocado() != null && t.getDroneAlocado().equals(drone)) {
+                System.out.println("O drone " + drone.getCodigo() + " já está alocado a outro transporte.");
+                return false;  // O drone já está alocado, não faz a alocação
+
+            }
         }
-        return value;
+        return true;
     }
 }

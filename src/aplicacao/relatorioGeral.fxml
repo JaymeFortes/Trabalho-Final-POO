@@ -37,7 +37,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacao.ControleRelatorioGeral">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
@@ -45,7 +44,7 @@
            <TextArea fx:id="textAreaRelatorio" editable="false" layoutY="-3.0" prefHeight="406.0" prefWidth="600" wrapText="true" />
             <Button fx:id="buttonSair" layoutX="550.0" layoutY="364.0" mnemonicParsing="false" text="Sair" />
             <Button fx:id="buttonVoltar" layoutX="493.0" layoutY="364.0" mnemonicParsing="false" onAction="#voltarParaMenuPrincipal" text="Voltar" />
-            <Button fx:id="CSVButtom" layoutX="446.0" layoutY="364.0" mnemonicParsing="false" text="CSV" />
+            <Button fx:id="CSVButton" layoutX="446.0" layoutY="364.0" mnemonicParsing="false" text="CSV" />
          </children>
     </AnchorPane>
   </children>
