@@ -181,36 +181,47 @@ public class ControleRelatorioGeral {
 
     private boolean salvarDrones(String nomeArquivo, ObservableList<Drone> drones) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
-            writer.write("Código,Tipo,Custo Fixo,Autonomia,Informação Específica\n");
+            // Escrevendo o cabeçalho organizado
+            writer.write("Código,Tipo,Custo Fixo,Autonomia,Custo por Km,Adicional\n");
 
             for (Drone drone : drones) {
                 String informacaoEspecifica = "";
 
+                // Verificando o tipo de drone e ajustando informações específicas
                 if (drone instanceof DronePessoal) {
                     DronePessoal dronePessoal = (DronePessoal) drone;
                     informacaoEspecifica = "Qtd Pessoas: " + dronePessoal.getQtdPessoas();
-                } else if (drone instanceof DroneCarga) {
-                    DroneCarga droneCarga = (DroneCarga) drone;
-                    informacaoEspecifica = "Peso Máximo: " + droneCarga.getPesoMaximo() + " kg";
 
-                    if (drone instanceof DroneCargaViva) {
-                        DroneCargaViva droneCargaViva = (DroneCargaViva) drone;
-                        informacaoEspecifica += ", Climatizado: " + (droneCargaViva.isClimatizado() ? "Sim" : "Não");
-                    }
+                } else if (drone instanceof DroneCargaInanimada) {
+                    DroneCargaInanimada droneCargaInanimada = (DroneCargaInanimada) drone;
+                    informacaoEspecifica = "Peso Máximo: " + droneCargaInanimada.getPesoMaximo() + " kg";
+                    informacaoEspecifica += "; Protegido: " + (droneCargaInanimada.isProtecao() ? "Sim" : "Não");
+
+                } else if (drone instanceof DroneCargaViva) {
+                    DroneCargaViva droneCargaViva = (DroneCargaViva) drone;
+                    informacaoEspecifica = "Peso Máximo: " + droneCargaViva.getPesoMaximo() + " kg";
+                    informacaoEspecifica += "; Climatizado: " + (droneCargaViva.isClimatizado() ? "Sim" : "Não");
                 }
 
+                // Escrevendo os dados do drone no arquivo CSV
                 writer.write(drone.getCodigo() + "," +
                         drone.getTipoDrone() + "," +
                         String.format("%.2f", drone.getCustoFixo()) + "," +
-                        String.format("%.2f", drone.getAutonomia()) + "," +
-                        informacaoEspecifica + "\n");
+                        String.format("%.2f", drone.getAutonomia()) + "," + // Preservando a autonomia
+                        String.format("%.2f", drone.calculaCustoKm()) + "," + // Custo por Km na coluna correta
+                        informacaoEspecifica.replace(", ", "; ") + "\n");
             }
-            return true;
+
+            return true; // Indica sucesso
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return false; // Indica falha
         }
     }
+
+
+
+
 
     private void mostrarErro(String mensagem) {
         System.err.println(mensagem);
