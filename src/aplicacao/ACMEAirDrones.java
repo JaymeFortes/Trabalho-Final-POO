@@ -55,8 +55,8 @@ public class ACMEAirDrones {
             Parent root = loader.load();
 
             ControleRelatorioGeral controller = loader.getController();
-            controller.setServicos(transporteService, droneService); // Passa os serviços para o controlador
-            controller.exibirRelatorio(); // Chama o método para exibir o relatório
+            controller.setServicos(transporteService, droneService);
+            controller.exibirRelatorio();
 
             Stage stage = new Stage();
             stage.setTitle("Relatório Geral");
@@ -66,24 +66,25 @@ public class ACMEAirDrones {
             e.printStackTrace();
         }
     }
-@FXML
-    private void abrirTodosTransportes(){
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("mostrarTodosTransportes.fxml"));
-        Parent root = loader.load();
 
-        ControleRelatorioGeral controller = loader.getController();
-        controller.setServicos(transporteService, droneService); // Passa os serviços para o controlador
-        controller.exibirTodosTransportes();
+    @FXML
+    private void abrirTodosTransportes() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("mostrarTodosTransportes.fxml"));
+            Parent root = loader.load();
 
-        Stage stage = new Stage();
-        stage.setTitle("Todos Transportes");
-        stage.setScene(new Scene(root));
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace();
+            ControleRelatorioGeral controller = loader.getController();
+            controller.setServicos(transporteService, droneService);
+            controller.exibirTodosTransportes();
+
+            Stage stage = new Stage();
+            stage.setTitle("Todos Transportes");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
 
     @FXML
     private void abrirTelaProcessarTransportes() {
@@ -105,7 +106,6 @@ public class ACMEAirDrones {
     @FXML
     private void abrirAlterarSituacao() {
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modeloAlterarSituacao.fxml"));
             Parent root = loader.load();
 
@@ -120,7 +120,6 @@ public class ACMEAirDrones {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     private void processarTransportesPendentesAction() {

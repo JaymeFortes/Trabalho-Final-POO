@@ -19,7 +19,7 @@ public class AlterarSituacao {
     private TextArea txtMensagem;
 
     @FXML
-    private Button buttonVoltar,buttonSair,buttonAlterarSituacao;
+    private Button buttonVoltar, buttonSair, buttonAlterarSituacao;
 
     @FXML
     private ComboBox<Estado> comboBoxAlterarSituacao;
@@ -63,7 +63,7 @@ public class AlterarSituacao {
 
             Estado novaSituacao = comboBoxAlterarSituacao.getValue();
             if (novaSituacao == null) {
-                txtMensagem.setText("Erro: Por favor, selecione a nova situação no ComboBox.");
+                txtMensagem.setText("Erro: Por favor, selecione a nova situação.");
                 return;
             }
 
@@ -81,5 +81,4 @@ public class AlterarSituacao {
         Stage stage = (Stage) buttonVoltar.getScene().getWindow();
         stage.close();
     }
-
 }

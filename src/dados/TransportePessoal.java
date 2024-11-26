@@ -1,6 +1,6 @@
 package dados;
 
-public class TransportePessoal extends Transporte  {
+public class TransportePessoal extends Transporte {
     private int qtdPessoas;
 
 

@@ -15,10 +15,6 @@ public class TransporteService {
         transportes.add(transporte);
     }
 
-    public void limparTransportes() {
-        transportes.clear();
-    }
-
     public Transporte buscarTransportePelo(int numero) {
         for (Transporte transporte : transportes) {
             if (transporte.getNumero() == numero) {
@@ -31,7 +27,7 @@ public class TransporteService {
     public void atualizarTransporte(Transporte transporte) {
         for (int i = 0; i < transportes.size(); i++) {
             if (transportes.get(i).getNumero() == transporte.getNumero()) {
-                transportes.set(i, transporte); // Atualiza o transporte na lista
+                transportes.set(i, transporte);
                 return;
             }
         }

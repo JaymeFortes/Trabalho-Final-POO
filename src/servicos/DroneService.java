@@ -15,10 +15,6 @@ public class DroneService {
         drones.add(drone);
     }
 
-    public void limparDrones() {
-        drones.clear();
-    }
-
     public Drone buscarDroneParaTransporte(Transporte transporte) {
         for (Drone drone : drones) {
             if (transporte instanceof TransportePessoal && drone instanceof DronePessoal) {
@@ -29,6 +25,6 @@ public class DroneService {
                 return drone;
             }
         }
-        return null;  // Retorna null caso não encontre um drone compatível
+        return null;
     }
 }

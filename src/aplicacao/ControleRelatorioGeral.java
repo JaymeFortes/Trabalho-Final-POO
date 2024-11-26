@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class ControleRelatorioGeral {
 
     @FXML
-    private TextArea textAreaRelatorio,txtMensagem;
+    private TextArea textAreaRelatorio, txtMensagem;
     @FXML
     private Button buttonSair, buttonVoltar;
 
@@ -40,7 +40,6 @@ public class ControleRelatorioGeral {
     public void exibirRelatorio() {
         StringBuilder relatorio = new StringBuilder("Relatório de Transportes e Drones:\n\n");
 
-        // Exibir dados dos drones
         if (droneService.getDrones().isEmpty()) {
             relatorio.append("Nenhum drone cadastrado.\n");
         } else {
@@ -50,7 +49,6 @@ public class ControleRelatorioGeral {
             }
         }
 
-        // Exibir dados dos transportes
         if (transporteService.getTransportes().isEmpty()) {
             relatorio.append("Nenhum transporte cadastrado.\n");
         } else {
@@ -64,7 +62,6 @@ public class ControleRelatorioGeral {
                 }
             }
         }
-
         textAreaRelatorio.setText(relatorio.toString());
     }
 
@@ -76,10 +73,7 @@ public class ControleRelatorioGeral {
         } else {
             relatorioTransportes.append("Transportes:\n");
             for (Transporte transporte : transporteService.getTransportes()) {
-                // Exibir informações do transporte
                 relatorioTransportes.append(transporte.toString()).append("\n");
-
-                // Verificar se há drone alocado
                 if (transporte.getDroneAlocado() != null) {
                     relatorioTransportes.append("Drone alocado:\n")
                             .append(transporte.getDroneAlocado().toString()).append("\n");
@@ -87,7 +81,6 @@ public class ControleRelatorioGeral {
                     relatorioTransportes.append("Nenhum drone alocado.\n");
                 }
 
-                // Calcular e exibir o custo do transporte
                 try {
                     relatorioTransportes.append("Custo do Transporte: R$ ")
                             .append(transporte.calculaCusto()).append("\n\n");
@@ -97,8 +90,7 @@ public class ControleRelatorioGeral {
                 }
             }
         }
-            txtMensagem.setText(relatorioTransportes.toString());
-
+        txtMensagem.setText(relatorioTransportes.toString());
     }
 
     @FXML

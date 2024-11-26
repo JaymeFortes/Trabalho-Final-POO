@@ -1,9 +1,9 @@
 package dados;
 
-public class DronePessoal extends Drone  {
+public class DronePessoal extends Drone {
     private int qtdPessoas;
 
-    public DronePessoal(int codigo, double custoFixo, double autonomia,  int qtdPessoas) {
+    public DronePessoal(int codigo, double custoFixo, double autonomia, int qtdPessoas) {
         super(codigo, custoFixo, autonomia);
         this.qtdPessoas = qtdPessoas;
     }
@@ -16,13 +16,12 @@ public class DronePessoal extends Drone  {
         this.qtdPessoas = QTDPessoas;
     }
 
-
     @Override
     public String getTipoDrone() {
         return "Drone pessoal";
     }
 
-    public double custoVariado(){
+    public double custoVariado() {
         return qtdPessoas * 2;
     }
 

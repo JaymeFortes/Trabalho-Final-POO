@@ -14,10 +14,9 @@ public class TransportesPendentes {
     private Button buttonVoltar, buttonSair;
     @FXML
     private TextArea txtMensagem;
-
-
     private DroneService droneService;
     private TransporteService transporteService;
+    private boolean mensagemEnviada = false;
 
     @FXML
     public void initialize() {
@@ -46,13 +45,18 @@ public class TransportesPendentes {
     }
 
     public void processarTransportesPendentes() {
+        if (!mensagemEnviada && transporteService.getTransportes().isEmpty()) {
+            txtMensagem.appendText("Não existem transportes criados.\n");
+            mensagemEnviada = true;
+            return;
+        }
 
         for (Transporte transporte : transporteService.getTransportes()) {
             if (transporte.getSituacao() == Estado.PENDENTE) {
                 Drone drone = droneService.buscarDroneParaTransporte(transporte);
                 if (drone != null) {
                     alocarDroneAoTransporte(transporte, drone);
-                    transporte.setSituacao(Estado.ALOCADO); // Atualizar a situação para ALOCADO
+                    transporte.setSituacao(Estado.ALOCADO);
                     txtMensagem.appendText("Drone alocado ao transporte " + transporte.getNumero() + ".\n");
                 } else {
                     txtMensagem.appendText("Nenhum drone encontrado para o transporte " + transporte.getNumero() + ".\n");
