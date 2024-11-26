@@ -44,6 +44,7 @@
            <TextArea fx:id="textAreaRelatorio" editable="false" layoutY="-3.0" prefHeight="406.0" prefWidth="600" wrapText="true" />
             <Button fx:id="buttonSair" layoutX="550.0" layoutY="364.0" mnemonicParsing="false" text="Sair" />
             <Button fx:id="buttonVoltar" layoutX="493.0" layoutY="364.0" mnemonicParsing="false" onAction="#voltarParaMenuPrincipal" text="Voltar" />
+            <Button fx:id="CSVButtom" layoutX="446.0" layoutY="364.0" mnemonicParsing="false" text="CSV" />
          </children>
     </AnchorPane>
   </children>

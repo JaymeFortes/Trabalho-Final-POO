@@ -128,6 +128,8 @@
             <TextField fx:id="txtFieldNumPessoas" layoutX="418.0" layoutY="48.0" visible="false" />
             <Label fx:id="numPessoasLabel" layoutX="306.0" layoutY="52.0" text="Número de pessoas:" visible="false" />
             <CheckBox fx:id="cargaPerigosaCheckBox" layoutX="443.0" layoutY="44.0" mnemonicParsing="false" text="Carga Perigosa" />
+            <Button fx:id="JSONButtom" layoutX="575.0" layoutY="336.0" mnemonicParsing="false" text="JSON" />
+            <Button fx:id="CSVButtom" layoutX="525.0" layoutY="336.0" mnemonicParsing="false" text="CSV" />
          </children>
     </AnchorPane>
   </children>
