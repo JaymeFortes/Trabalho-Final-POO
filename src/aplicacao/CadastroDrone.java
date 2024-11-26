@@ -5,7 +5,6 @@ import dados.DronePessoal;
 import dados.DroneCargaViva;
 import dados.DroneCargaInanimada;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -68,6 +67,7 @@ public class CadastroDrone {
     }
 
     Drone drone = null;
+
     public void cadastrarDrone() {
 
         try {
@@ -105,7 +105,7 @@ public class CadastroDrone {
                     return;
                 }
 
-                drone  = new DronePessoal(codigo, autonomia, custoFixo, quantidadePessoas);
+                drone = new DronePessoal(codigo, autonomia, custoFixo, quantidadePessoas);
                 droneService.adicionarDrone(drone);
                 txtAreaMensagem.setText("Drone Pessoal cadastrado com sucesso.");
 

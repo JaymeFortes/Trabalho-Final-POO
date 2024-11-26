@@ -1,6 +1,6 @@
 package dados;
 
-public class TransporteCargaInanimada extends Transporte  {
+public class TransporteCargaInanimada extends Transporte {
 
     private boolean cargaPerigosa;
 
@@ -8,7 +8,7 @@ public class TransporteCargaInanimada extends Transporte  {
                                     double latitudeDestino, double longitudeDestino, Estado estado,
                                     boolean cargaPerigosa) {
 
-        super(numero, nomeCliente, descricao, peso, latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino,estado);
+        super(numero, nomeCliente, descricao, peso, latitudeOrigem, longitudeOrigem, latitudeDestino, longitudeDestino, estado);
         this.cargaPerigosa = cargaPerigosa;
     }
 
@@ -20,8 +20,8 @@ public class TransporteCargaInanimada extends Transporte  {
         this.cargaPerigosa = cargaPerigosa;
     }
 
-    public String estadoTransporte(){
-        if (isCargaPerigosa()){
+    public String estadoTransporte() {
+        if (isCargaPerigosa()) {
             return "Sim";
         } else {
             return "Não";

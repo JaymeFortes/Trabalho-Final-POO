@@ -11,18 +11,14 @@ public class CadastroTransporte {
 
     private TransporteService transporteService;
 
-
     @FXML
     private ComboBox<String> comboBoxTransporteTipo;
 
     @FXML
-    private Label descricaoLabel, latDestinoLabel, latOrigemLabel, longDestinoLabel, longOrigemLabel, nomeClienteLabel,
-            numeroLabel, pesoLabel, minTempLabel, maxTempLabel, numPessoasLabel;
+    private Label descricaoLabel, latDestinoLabel, latOrigemLabel, longDestinoLabel, longOrigemLabel, nomeClienteLabel, numeroLabel, pesoLabel, minTempLabel, maxTempLabel, numPessoasLabel;
 
     @FXML
-    private TextField descricaoTextField, latDestinoTextField, latOrigemTextField, longDestinoTextField,
-            longOrigemTextField, nomeClienteTextField, numTextField, pesoTextField,
-            txtFieldMinTemp, txtFieldMaxTemp, txtFieldNumPessoas;
+    private TextField descricaoTextField, latDestinoTextField, latOrigemTextField, longDestinoTextField, longOrigemTextField, nomeClienteTextField, numTextField, pesoTextField, txtFieldMinTemp, txtFieldMaxTemp, txtFieldNumPessoas;
 
     @FXML
     private TextArea txtAreaMensagem;
@@ -39,8 +35,6 @@ public class CadastroTransporte {
     public void setTransporteService(TransporteService transporteService) {
         this.transporteService = transporteService;
     }
-
-
 
     public void initialize() {
 
@@ -83,14 +77,9 @@ public class CadastroTransporte {
 
     Transporte transporte = null;
 
-
     public void cadastrarTransporte() {
         try {
-
-            if (numTextField.getText().isEmpty() || descricaoTextField.getText().isEmpty()
-                    || latDestinoTextField.getText().isEmpty() || latOrigemTextField.getText().isEmpty()
-                    || latOrigemTextField.getText().isEmpty() || longDestinoTextField.getText().isEmpty()
-                    || nomeClienteTextField.getText().isEmpty() || pesoTextField.getText().isEmpty()) {
+            if (numTextField.getText().isEmpty() || descricaoTextField.getText().isEmpty() || latDestinoTextField.getText().isEmpty() || latOrigemTextField.getText().isEmpty() || latOrigemTextField.getText().isEmpty() || longDestinoTextField.getText().isEmpty() || nomeClienteTextField.getText().isEmpty() || pesoTextField.getText().isEmpty()) {
                 txtAreaMensagem.setText("ERRO: Todos os campos obrigatórios devem ser preenchidos.");
                 return;
             }
@@ -126,8 +115,7 @@ public class CadastroTransporte {
                     return;
                 }
 
-                transporte = new TransportePessoal(numero, nomeCliente, descricao, peso,
-                        latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, qtdPessoas);
+                transporte = new TransportePessoal(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, qtdPessoas);
                 transporteService.adicionarTransporte(transporte);
                 txtAreaMensagem.setText("Transporte Pessoal cadastrado com sucesso!");
 
@@ -138,23 +126,21 @@ public class CadastroTransporte {
                 }
                 double maxTemp = Double.parseDouble(txtFieldMaxTemp.getText());
                 double minTemp = Double.parseDouble(txtFieldMinTemp.getText());
-                transporte = new TransporteCargaViva(numero, nomeCliente, descricao, peso,
-                        latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, maxTemp, minTemp);
+                transporte = new TransporteCargaViva(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, maxTemp, minTemp);
                 transporteService.adicionarTransporte(transporte);
 
                 txtAreaMensagem.setText("Transporte Carga Viva cadastrado com sucesso!");
 
             } else if (tipo.equals("Transporte de Carga Inanimada")) {
                 boolean perigoso = cargaPerigosaCheckBox.isSelected();
-                transporte = new TransporteCargaInanimada(numero, nomeCliente, descricao, peso,
-                        latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, perigoso);
+                transporte = new TransporteCargaInanimada(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, perigoso);
                 transporteService.adicionarTransporte(transporte);
 
                 txtAreaMensagem.setText("Transporte de Carga Inanimada cadastrado com sucesso!");
             }
-        } catch (NumberFormatException e ) {
+        } catch (NumberFormatException e) {
             txtAreaMensagem.setText("ERRO: Valores inválidos");
-        } catch (Exception e ) {
+        } catch (Exception e) {
             txtAreaMensagem.setText("ERRO: " + e.getMessage());
         }
     }
@@ -185,20 +171,10 @@ public class CadastroTransporte {
         txtAreaMensagem.setText(mensagem.toString());
     }
 
-    public void alterarSituacaoTransporte(int numero, String novaSituacao) {
-        Transporte transporte = transporteService.getTransportes().stream()
-                .filter(t -> t.getNumero() == numero)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Transporte não encontrado."));
-
-        transporte.alterarSituacao(novaSituacao);
-    }
-
     @FXML
     private void voltarParaMenuPrincipal() {
         Stage stage = (Stage) buttonVoltar.getScene().getWindow();
         stage.close();
     }
-
-    }
+}
 
