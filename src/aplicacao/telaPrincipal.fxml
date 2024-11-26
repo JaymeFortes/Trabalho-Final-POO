@@ -10,23 +10,30 @@
     <children>
         <AnchorPane VBox.vgrow="ALWAYS">
             <children>
-                <Label layoutX="198.0" layoutY="14.0" prefHeight="37.0" prefWidth="207.0"
+                <Label layoutX="219.0" layoutY="14.0" prefHeight="37.0" prefWidth="207.0"
                        style="-fx-font-size: 20px; -fx-font-weight: bold;" text="ACME AirDrones"/>
-                <Button fx:id="btnCadastroDrone" layoutX="200.0" layoutY="72.0" onAction="#abrirTelaCadastroDrone"
-                        prefWidth="200.0" text="Cadastro de Drones"/>
-                <Button fx:id="btnCadastroTransporte" layoutX="200.0" layoutY="106.0"
-                        onAction="#abrirTelaCadastroTransporte" prefWidth="200.0" text="Cadastro de Transporte"/>
-                <Button fx:id="btnSair" layoutX="201.0" layoutY="310.0" onAction="#sairSistema" prefWidth="200.0"
-                        text="Sair"/>
-                <Button layoutX="201.0" layoutY="169.0" mnemonicParsing="false" onAction="#abrirTelaRelatorioGeral"
-                        prefHeight="25.0" prefWidth="200.0" text="Mostrar relatório geral"/>
-                <Button layoutX="201.0" layoutY="138.0" mnemonicParsing="false"
-                        onAction="#processarTransportesPendentesAction" prefHeight="25.0" prefWidth="200.0"
+                <Button fx:id="btnCadastroDrone" layoutX="201.0" layoutY="62.0" onAction="#abrirTelaCadastroDrone"
+                        prefHeight="25.0" prefWidth="225.0" text="Cadastro de Drones"/>
+                <Button fx:id="btnCadastroTransporte" layoutX="201.0" layoutY="95.0"
+                        onAction="#abrirTelaCadastroTransporte" prefHeight="25.0" prefWidth="225.0"
+                        text="Cadastro de Transporte"/>
+                <Button fx:id="btnSair" layoutX="200.0" layoutY="361.0" onAction="#sairSistema" prefHeight="25.0"
+                        prefWidth="225.0" text="Sair"/>
+                <Button layoutX="199.0" layoutY="160.0" mnemonicParsing="false" onAction="#abrirTelaRelatorioGeral"
+                        prefHeight="25.0" prefWidth="225.0" text="Mostrar relatório geral"/>
+                <Button layoutX="201.0" layoutY="127.0" mnemonicParsing="false"
+                        onAction="#processarTransportesPendentesAction" prefHeight="25.0" prefWidth="225.0"
                         text="Processar Transportes Pendentes"/>
-                <Button layoutX="200.0" layoutY="200.0" mnemonicParsing="false" onAction="#abrirTodosTransportes"
-                        prefHeight="25.0" prefWidth="200.0" text="Mostrar Todos os Transportes"/>
-                <Button layoutX="199.0" layoutY="235.0" mnemonicParsing="false" onAction="#abrirAlterarSituacao"
-                        prefHeight="25.0" prefWidth="200.0" text="Alterar Situação Transporte"/>
+                <Button layoutX="199.0" layoutY="194.0" mnemonicParsing="false" onAction="#abrirTodosTransportes"
+                        prefHeight="25.0" prefWidth="225.0" text="Mostrar Todos os Transportes"/>
+                <Button layoutX="199.0" layoutY="229.0" mnemonicParsing="false" onAction="#abrirAlterarSituacao"
+                        prefHeight="25.0" prefWidth="225.0" text="Alterar Situação Transporte"/>
+                <Button layoutX="201.0" layoutY="263.0" mnemonicParsing="false" onAction="#abrirLeituraDados"
+                        prefHeight="25.0" prefWidth="225.0" text="Realizar Leitura de Dados de Simulação"/>
+                <Button layoutX="202.0" layoutY="296.0" mnemonicParsing="false" onAction="#abrirSalvarDados"
+                        prefHeight="25.0" prefWidth="225.0" text="Salvar Dados"/>
+                <Button layoutX="202.0" layoutY="329.0" mnemonicParsing="false" onAction="#abrirCarregarDados"
+                        prefHeight="25.0" prefWidth="225.0" text="Carregar Dados"/>
             </children>
         </AnchorPane>
     </children>

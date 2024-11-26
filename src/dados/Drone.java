@@ -47,7 +47,7 @@ public abstract class Drone {
     }
 
     public String toString() {
-        return "\nCódigo: " + codigo + "\nCusto Fixo: R$ " + String.format("%.2f", custoFixo) +
-                "\nAutonomia: " + String.format("%.2f", autonomia) + " KM\n" + "Custo por KM" + String.format("%.2f", calculaCustoKm()) + " KM\n";
+        return "Código: " + codigo + "\nCusto Fixo: R$ " + String.format("%.2f", custoFixo) +
+                "\nAutonomia: " + String.format("%.2f", autonomia) + " KM\n" + "Custo por KM " + String.format("%.2f", calculaCustoKm()) + " KM\n";
     }
 }

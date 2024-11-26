@@ -17,12 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CadastroTransporte {
-
-   
-
+    private TransporteService transporteService;
     private ObservableList<Transporte> transportes;
- 
-
     @FXML
     private ComboBox<String> comboBoxTransporteTipo;
 
@@ -104,7 +100,7 @@ public class CadastroTransporte {
 
 
 
-            JSONButtom.setOnAction(event -> salvarTransportesEmJson());
+            //JSONButtom.setOnAction(event -> salvarTransportesEmJson());
             //CSVButtom.setOnAction(event -> salvarTransportesEmCsv());
 
             if (numTextField.getText().isEmpty() || descricaoTextField.getText().isEmpty()
@@ -228,7 +224,5 @@ public class CadastroTransporte {
             txtAreaMensagem.setText("ERRO ao salvar os transportes em JSON: " + e.getMessage());
         }
     }
-
-
 }
 
