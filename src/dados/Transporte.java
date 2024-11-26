@@ -114,7 +114,6 @@ public abstract class Transporte {
 
 	public abstract String getTipo();
 
-
 	public abstract double calculaCusto();
 	public abstract double calculaAcrescimos();
 

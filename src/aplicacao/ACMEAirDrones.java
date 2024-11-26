@@ -85,7 +85,6 @@ public class ACMEAirDrones {
     }
 }
 
-
     @FXML
     private void abrirTelaProcessarTransportes() {
         try {
@@ -102,6 +101,26 @@ public class ACMEAirDrones {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void abrirAlterarSituacao() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modeloAlterarSituacao.fxml"));
+            Parent root = loader.load();
+
+            AlterarSituacao controller = loader.getController();
+            controller.setTransporteService(transporteService);
+
+            Stage stage = new Stage();
+            stage.setTitle("Alterar Situação de Transporte");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     private void processarTransportesPendentesAction() {
