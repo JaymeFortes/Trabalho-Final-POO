@@ -122,6 +122,14 @@ public class ACMEAirDrones {
     }
 
     @FXML
+    private void abrirSalvarCsv(){
+        ControleRelatorioGeral controller = new ControleRelatorioGeral();
+        controller.setServicos(transporteService, droneService);
+
+        controller.salvarTransportesEDronesEmCsv();
+    }
+
+    @FXML
     private void processarTransportesPendentesAction() {
         abrirTelaProcessarTransportes();
     }

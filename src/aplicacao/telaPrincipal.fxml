@@ -5,29 +5,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="aplicacao.ACMEAirDrones">
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacao.ACMEAirDrones">
     <children>
         <AnchorPane VBox.vgrow="ALWAYS">
             <children>
-                <Label layoutX="219.0" layoutY="14.0" prefHeight="37.0" prefWidth="207.0"
-                       style="-fx-font-size: 20px; -fx-font-weight: bold;" text="ACME AirDrones"/>
-                <Button fx:id="btnCadastroDrone" layoutX="201.0" layoutY="62.0" onAction="#abrirTelaCadastroDrone"
-                        prefHeight="25.0" prefWidth="225.0" text="Cadastro de Drones"/>
-                <Button fx:id="btnCadastroTransporte" layoutX="201.0" layoutY="95.0"
-                        onAction="#abrirTelaCadastroTransporte" prefHeight="25.0" prefWidth="225.0"
-                        text="Cadastro de Transporte"/>
-                <Button fx:id="btnSair" layoutX="200.0" layoutY="361.0" onAction="#sairSistema" prefHeight="25.0"
-                        prefWidth="225.0" text="Sair"/>
-                <Button layoutX="199.0" layoutY="160.0" mnemonicParsing="false" onAction="#abrirTelaRelatorioGeral"
-                        prefHeight="25.0" prefWidth="225.0" text="Mostrar relatório geral"/>
-                <Button layoutX="201.0" layoutY="127.0" mnemonicParsing="false"
-                        onAction="#processarTransportesPendentesAction" prefHeight="25.0" prefWidth="225.0"
-                        text="Processar Transportes Pendentes"/>
-                <Button layoutX="199.0" layoutY="194.0" mnemonicParsing="false" onAction="#abrirTodosTransportes"
-                        prefHeight="25.0" prefWidth="225.0" text="Mostrar Todos os Transportes"/>
-                <Button layoutX="199.0" layoutY="229.0" mnemonicParsing="false" onAction="#abrirAlterarSituacao"
-                        prefHeight="25.0" prefWidth="225.0" text="Alterar Situação Transporte"/>
+                <Label layoutX="219.0" layoutY="14.0" prefHeight="37.0" prefWidth="207.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="ACME AirDrones" />
+                <Button fx:id="btnCadastroDrone" layoutX="201.0" layoutY="62.0" onAction="#abrirTelaCadastroDrone" prefHeight="25.0" prefWidth="225.0" text="Cadastro de Drones" />
+                <Button fx:id="btnCadastroTransporte" layoutX="201.0" layoutY="95.0" onAction="#abrirTelaCadastroTransporte" prefHeight="25.0" prefWidth="225.0" text="Cadastro de Transporte" />
+                <Button fx:id="btnSair" layoutX="200.0" layoutY="361.0" onAction="#sairSistema" prefHeight="25.0" prefWidth="225.0" text="Sair" />
+                <Button layoutX="199.0" layoutY="160.0" mnemonicParsing="false" onAction="#abrirTelaRelatorioGeral" prefHeight="25.0" prefWidth="225.0" text="Mostrar relatório geral" />
+                <Button layoutX="201.0" layoutY="127.0" mnemonicParsing="false" onAction="#processarTransportesPendentesAction" prefHeight="25.0" prefWidth="225.0" text="Processar Transportes Pendentes" />
+                <Button layoutX="199.0" layoutY="194.0" mnemonicParsing="false" onAction="#abrirTodosTransportes" prefHeight="25.0" prefWidth="225.0" text="Mostrar Todos os Transportes" />
+                <Button layoutX="199.0" layoutY="229.0" mnemonicParsing="false" onAction="#abrirAlterarSituacao" prefHeight="25.0" prefWidth="225.0" text="Alterar Situação Transporte" />
+            <Button layoutX="198.0" layoutY="265.0" mnemonicParsing="false"        prefHeight="25.0" prefWidth="225.0" text="Realizar Leitura de Dados de Simulação" />
+            <Button layoutX="201.0" layoutY="299.0" mnemonicParsing="false"      onAction="#abrirSalvarCsv"   prefHeight="25.0" prefWidth="225.0" text="Salvar Dados" />
+            <Button layoutX="203.0" layoutY="330.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="225.0" text="Carregar Dados" />
             </children>
         </AnchorPane>
     </children>

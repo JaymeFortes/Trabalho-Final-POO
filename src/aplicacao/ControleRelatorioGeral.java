@@ -41,10 +41,6 @@ public class ControleRelatorioGeral {
         if (buttonVoltar != null) {
             buttonVoltar.setOnAction(event -> voltarParaMenuPrincipal());
         }
-
-        if (CSVButton != null) {
-            CSVButton.setOnAction(event -> salvarTransportesEDronesEmCsv());
-        }
     }
 
     public void setServicos(TransporteService transporteService, DroneService droneService) {
@@ -127,7 +123,7 @@ public class ControleRelatorioGeral {
         stage.close();
     }
 
-    private void salvarTransportesEDronesEmCsv() {
+    public void salvarTransportesEDronesEmCsv() {
         if (transporteService == null || droneService == null) {
             mostrarErro("Serviços de transporte ou drone não foram inicializados.");
             return;
@@ -136,7 +132,6 @@ public class ControleRelatorioGeral {
         ObservableList<Transporte> transportes = transporteService.getTransportes();
         ObservableList<Drone> drones = droneService.getDrones();
 
-        // Solicitar nome do arquivo ao usuário
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Salvar Dados");
         dialog.setHeaderText("Digite o nome do arquivo (sem extensão):");
@@ -147,17 +142,15 @@ public class ControleRelatorioGeral {
         if (resultado.isPresent() && !resultado.get().trim().isEmpty()) {
             String nomeArquivoBase = resultado.get().trim();
 
-            // Salvar transportes
+
             if (!salvarTransportes(nomeArquivoBase + "_transportes.csv", transportes)) {
                 mostrarErro("Erro ao salvar os transportes!");
             }
 
-            // Salvar drones
             if (!salvarDrones(nomeArquivoBase + "_drones.csv", drones)) {
                 mostrarErro("Erro ao salvar os drones!");
             }
 
-            // Mensagem de sucesso
             System.out.println("Dados salvos com sucesso!");
         } else {
             System.out.println("Operação cancelada ou nome inválido.");
@@ -211,7 +204,7 @@ public class ControleRelatorioGeral {
                     informacaoEspecifica += "; Climatizado: " + (droneCargaViva.isClimatizado() ? "Sim" : "Não");
                 }
 
-               writer.write(drone.getCodigo() + "," +
+                writer.write(drone.getCodigo() + "," +
                         drone.getTipoDrone() + "," +
                         (drone.getCustoFixo()) + "," +
                         (drone.getAutonomia()) + "," + // Preservando a autonomia
@@ -225,9 +218,6 @@ public class ControleRelatorioGeral {
             return false; // Indica falha
         }
     }
-
-
-
 
 
     private void mostrarErro(String mensagem) {
