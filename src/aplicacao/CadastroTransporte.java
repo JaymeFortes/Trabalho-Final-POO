@@ -1,15 +1,27 @@
 package aplicacao;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dados.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import servicos.TransporteService;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class CadastroTransporte {
 
-    private TransporteService transporteService;
+   
+
+    private ObservableList<Transporte> transportes;
+ 
 
     @FXML
     private ComboBox<String> comboBoxTransporteTipo;
@@ -29,12 +41,21 @@ public class CadastroTransporte {
     @FXML
     private CheckBox cargaPerigosaCheckBox;
 
+    @FXML
+    private Button JSONButtom;
+
+    @FXML
+    private Button CSVButtom;
+
     public CadastroTransporte() {
+        this.transporteService = new TransporteService();
+        this.transportes = FXCollections.observableArrayList();
     }
 
     public void setTransporteService(TransporteService transporteService) {
         this.transporteService = transporteService;
     }
+
 
     public void initialize() {
 
@@ -45,6 +66,7 @@ public class CadastroTransporte {
         buttonSair.setOnAction(event -> System.exit(0));
         buttonMostrar.setOnAction(event -> mostrarTransporte());
         buttonVoltar.setOnAction(event -> voltarParaMenuPrincipal());
+
 
         comboBoxTransporteTipo.setItems(FXCollections.observableArrayList("Transporte Pessoal", "Transporte de Carga Viva", "Transporte de Carga Inanimada"));
 
@@ -79,7 +101,17 @@ public class CadastroTransporte {
 
     public void cadastrarTransporte() {
         try {
-            if (numTextField.getText().isEmpty() || descricaoTextField.getText().isEmpty() || latDestinoTextField.getText().isEmpty() || latOrigemTextField.getText().isEmpty() || latOrigemTextField.getText().isEmpty() || longDestinoTextField.getText().isEmpty() || nomeClienteTextField.getText().isEmpty() || pesoTextField.getText().isEmpty()) {
+
+
+
+            JSONButtom.setOnAction(event -> salvarTransportesEmJson());
+            //CSVButtom.setOnAction(event -> salvarTransportesEmCsv());
+
+            if (numTextField.getText().isEmpty() || descricaoTextField.getText().isEmpty()
+                    || latDestinoTextField.getText().isEmpty() || latOrigemTextField.getText().isEmpty()
+                    || latOrigemTextField.getText().isEmpty() || longDestinoTextField.getText().isEmpty()
+                    || nomeClienteTextField.getText().isEmpty() || pesoTextField.getText().isEmpty()) {
+
                 txtAreaMensagem.setText("ERRO: Todos os campos obrigatórios devem ser preenchidos.");
                 return;
             }
@@ -176,5 +208,27 @@ public class CadastroTransporte {
         Stage stage = (Stage) buttonVoltar.getScene().getWindow();
         stage.close();
     }
+
+
+    private void salvarTransportesEmJson() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY); // Configuração de visibilidade
+
+        File arquivo = new File("transportes.json");
+
+        try {
+            // Converte a ObservableList para ArrayList
+            ArrayList<Transporte> transportesList = new ArrayList<>(transportes);
+
+            // Serializa a lista
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(arquivo, transportesList);
+
+            txtAreaMensagem.setText("Transportes salvos em arquivo JSON com sucesso!");
+        } catch (IOException e) {
+            txtAreaMensagem.setText("ERRO ao salvar os transportes em JSON: " + e.getMessage());
+        }
+    }
+
+
 }
 

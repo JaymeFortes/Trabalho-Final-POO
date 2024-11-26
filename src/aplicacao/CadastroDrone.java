@@ -1,14 +1,18 @@
 package aplicacao;
 
-import dados.Drone;
-import dados.DronePessoal;
-import dados.DroneCargaViva;
-import dados.DroneCargaInanimada;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dados.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import servicos.DroneService;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class CadastroDrone {
 
@@ -181,4 +185,6 @@ public class CadastroDrone {
         Stage stage = (Stage) buttonVoltar.getScene().getWindow();
         stage.close();
     }
+
+
 }
