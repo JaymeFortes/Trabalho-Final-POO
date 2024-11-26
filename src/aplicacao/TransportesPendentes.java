@@ -11,13 +11,12 @@ import javafx.stage.Stage;
 public class TransportesPendentes {
 
     @FXML
-    private Button buttonVoltar, buttonSair, buttonProcessarPendentes;
+    private Button buttonVoltar, buttonSair;
     @FXML
     private TextArea txtMensagem;
-
-    // Serviços
     private DroneService droneService;
     private TransporteService transporteService;
+    private boolean mensagemEnviada = false;
 
     @FXML
     public void initialize() {
@@ -25,13 +24,11 @@ public class TransportesPendentes {
         buttonSair.setOnAction(e -> System.exit(0));
     }
 
-    // Método para definir os serviços
     public void setServicos(DroneService droneService, TransporteService transporteService) {
         this.droneService = droneService;
         this.transporteService = transporteService;
     }
 
-    // Método para alocar drones aos transportes de acordo com o tipo
     public void alocarDroneAoTransporte(Transporte transporte, Drone drone) {
         if (transporte instanceof TransportePessoal && drone instanceof DronePessoal) {
             ((TransportePessoal) transporte).setDrone(drone);
@@ -47,18 +44,19 @@ public class TransportesPendentes {
         }
     }
 
-    // Método para processar todos os transportes pendentes e alocar drones a eles
     public void processarTransportesPendentes() {
-        // Recuperar todos os transportes pendentes
+        if (!mensagemEnviada && transporteService.getTransportes().isEmpty()) {
+            txtMensagem.appendText("Não existem transportes criados.\n");
+            mensagemEnviada = true;
+            return;
+        }
+
         for (Transporte transporte : transporteService.getTransportes()) {
             if (transporte.getSituacao() == Estado.PENDENTE) {
-                // Para cada transporte pendente, encontrar um drone compatível
                 Drone drone = droneService.buscarDroneParaTransporte(transporte);
-
-                // Se houver drone compatível, alocar o drone ao transporte
                 if (drone != null) {
                     alocarDroneAoTransporte(transporte, drone);
-                    transporte.setSituacao(Estado.ALOCADO); // Atualizar a situação para ALOCADO
+                    transporte.setSituacao(Estado.ALOCADO);
                     txtMensagem.appendText("Drone alocado ao transporte " + transporte.getNumero() + ".\n");
                 } else {
                     txtMensagem.appendText("Nenhum drone encontrado para o transporte " + transporte.getNumero() + ".\n");

@@ -47,90 +47,98 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacao.CadastroTransporte">
-  <children>
-    <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-         <children>
-            <Label fx:id="numeroLabel" layoutX="70.0" layoutY="9.0" text="Número:" />
-            <Label fx:id="nomeClienteLabel" layoutX="47.0" layoutY="43.0" text="Nome Cliente:" />
-            <Label fx:id="descricaoLabel" layoutX="61.0" layoutY="77.0" text="Descrição:" />
-            <Label fx:id="longOrigemLabel" layoutX="14.0" layoutY="182.0" text="Longitude Origem:" />
-            <Label fx:id="pesoLabel" layoutX="86.0" layoutY="112.0" text="Peso:" />
-            <Label fx:id="longDestinoLabel" layoutX="310.0" layoutY="182.0" text="Longitude destino:" />
-            <Label fx:id="latOrigemLabel" layoutX="14.0" layoutY="148.0" text="Latitude Origem:" />
-            <Label fx:id="latDestinoLabel" layoutX="320.0" layoutY="148.0" text="Latitude Destino:" />
-            <TextField fx:id="numTextField" layoutX="121.0" layoutY="5.0" />
-            <TextField fx:id="nomeClienteTextField" layoutX="121.0" layoutY="39.0" />
-            <TextField fx:id="descricaoTextField" layoutX="121.0" layoutY="73.0" />
-            <TextField fx:id="pesoTextField" layoutX="121.0" layoutY="108.0" />
-            <TextField fx:id="latOrigemTextField" layoutX="126.0" layoutY="144.0" />
-            <TextField fx:id="longOrigemTextField" layoutX="126.0" layoutY="178.0" />
-            <TextField fx:id="latDestinoTextField" layoutX="419.0" layoutY="144.0" />
-            <TextField fx:id="longDestinoTextField" layoutX="418.0" layoutY="178.0" />
-            <TextArea fx:id="txtAreaMensagem" layoutX="20.0" layoutY="209.0" prefHeight="117.0" prefWidth="600.0" />
-             <ComboBox fx:id="comboBoxTransporteTipo" layoutX="418.0" layoutY="9.0" prefWidth="150.0" promptText="Tipo">
-                 <items>
-                     <FXCollections fx:factory="observableArrayList">
-                         <String fx:value="Transporte Pessoal" />
-                         <String fx:value="Transporte de Carga Viva" />
-                         <String fx:value="Transporte de Carga Inanimada" />
-                     </FXCollections>
-                 </items>
-             </ComboBox>
-            <Button fx:id="buttonCadastrar" layoutX="14.0" layoutY="336.0" mnemonicParsing="false" text="Cadastrar Transporte" />
-            <Button fx:id="buttonLimpar" layoutX="156.0" layoutY="336.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="61.0" text="Limpar" />
-            <Button fx:id="buttonSair" layoutX="383.0" layoutY="336.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Sair" />
-            <Button fx:id="buttonMostrar" layoutX="228.0" layoutY="336.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Mostrar" />
-            <Button fx:id="buttonVoltar" layoutX="307.0" layoutY="336.0" mnemonicParsing="false" onAction="#voltarParaMenuPrincipal" prefHeight="25.0" prefWidth="70.0" text="Voltar" />
-            <Label fx:id="minTempLabel" layoutX="300.0" layoutY="52.0" text="Temperatura Mínima:" visible="false" />
-            <Label fx:id="maxTempLabel" layoutX="298.0" layoutY="86.0" text="Temperatura Máxima:" visible="false" />
-            <TextField fx:id="txtFieldMinTemp" layoutX="418.0" layoutY="48.0" visible="false" />
-            <TextField fx:id="txtFieldMaxTemp" layoutX="418.0" layoutY="82.0" visible="false" />
-            <TextField fx:id="txtFieldNumPessoas" layoutX="418.0" layoutY="48.0" visible="false" />
-            <Label fx:id="numPessoasLabel" layoutX="306.0" layoutY="52.0" text="Número de pessoas:" visible="false" />
-            <CheckBox fx:id="cargaPerigosaCheckBox" layoutX="443.0" layoutY="44.0" mnemonicParsing="false" text="Carga Perigosa" />
-            <Button fx:id="JSONButtom" layoutX="575.0" layoutY="336.0" mnemonicParsing="false" text="JSON" />
-            <Button fx:id="CSVButtom" layoutX="525.0" layoutY="336.0" mnemonicParsing="false" text="CSV" />
-         </children>
-    </AnchorPane>
-  </children>
-</VBox>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="aplicacao.CadastroTransporte">
+    <children>
+        <MenuBar VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="New"/>
+                        <MenuItem mnemonicParsing="false" text="Open…"/>
+                        <Menu mnemonicParsing="false" text="Open Recent"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Close"/>
+                        <MenuItem mnemonicParsing="false" text="Save"/>
+                        <MenuItem mnemonicParsing="false" text="Save As…"/>
+                        <MenuItem mnemonicParsing="false" text="Revert"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Preferences…"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Quit"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Undo"/>
+                        <MenuItem mnemonicParsing="false" text="Redo"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Cut"/>
+                        <MenuItem mnemonicParsing="false" text="Copy"/>
+                        <MenuItem mnemonicParsing="false" text="Paste"/>
+                        <MenuItem mnemonicParsing="false" text="Delete"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Select All"/>
+                        <MenuItem mnemonicParsing="false" text="Unselect All"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About MyHelloApp"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <children>
+                <Label fx:id="numeroLabel" layoutX="70.0" layoutY="9.0" text="Número:"/>
+                <Label fx:id="nomeClienteLabel" layoutX="47.0" layoutY="43.0" text="Nome Cliente:"/>
+                <Label fx:id="descricaoLabel" layoutX="61.0" layoutY="77.0" text="Descrição:"/>
+                <Label fx:id="longOrigemLabel" layoutX="14.0" layoutY="182.0" text="Longitude Origem:"/>
+                <Label fx:id="pesoLabel" layoutX="86.0" layoutY="112.0" text="Peso:"/>
+                <Label fx:id="longDestinoLabel" layoutX="310.0" layoutY="182.0" text="Longitude destino:"/>
+                <Label fx:id="latOrigemLabel" layoutX="14.0" layoutY="148.0" text="Latitude Origem:"/>
+                <Label fx:id="latDestinoLabel" layoutX="320.0" layoutY="148.0" text="Latitude Destino:"/>
+                <TextField fx:id="numTextField" layoutX="121.0" layoutY="5.0"/>
+                <TextField fx:id="nomeClienteTextField" layoutX="121.0" layoutY="39.0"/>
+                <TextField fx:id="descricaoTextField" layoutX="121.0" layoutY="73.0"/>
+                <TextField fx:id="pesoTextField" layoutX="121.0" layoutY="108.0"/>
+                <TextField fx:id="latOrigemTextField" layoutX="126.0" layoutY="144.0"/>
+                <TextField fx:id="longOrigemTextField" layoutX="126.0" layoutY="178.0"/>
+                <TextField fx:id="latDestinoTextField" layoutX="419.0" layoutY="144.0"/>
+                <TextField fx:id="longDestinoTextField" layoutX="418.0" layoutY="178.0"/>
+                <TextArea fx:id="txtAreaMensagem" layoutX="20.0" layoutY="209.0" prefHeight="117.0" prefWidth="600.0"/>
+                <ComboBox fx:id="comboBoxTransporteTipo" layoutX="418.0" layoutY="9.0" prefWidth="150.0"
+                          promptText="Tipo">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Transporte Pessoal"/>
+                            <String fx:value="Transporte de Carga Viva"/>
+                            <String fx:value="Transporte de Carga Inanimada"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <Button fx:id="buttonCadastrar" layoutX="14.0" layoutY="336.0" mnemonicParsing="false"
+                        text="Cadastrar Transporte"/>
+                <Button fx:id="buttonLimpar" layoutX="156.0" layoutY="336.0" mnemonicParsing="false" prefHeight="25.0"
+                        prefWidth="61.0" text="Limpar"/>
+                <Button fx:id="buttonSair" layoutX="383.0" layoutY="336.0" mnemonicParsing="false" prefHeight="25.0"
+                        prefWidth="70.0" text="Sair"/>
+                <Button fx:id="buttonMostrar" layoutX="228.0" layoutY="336.0" mnemonicParsing="false" prefHeight="25.0"
+                        prefWidth="70.0" text="Mostrar"/>
+                <Button fx:id="buttonVoltar" layoutX="307.0" layoutY="336.0" mnemonicParsing="false"
+                        onAction="#voltarParaMenuPrincipal" prefHeight="25.0" prefWidth="70.0" text="Voltar"/>
+                <Label fx:id="minTempLabel" layoutX="300.0" layoutY="52.0" text="Temperatura Mínima:" visible="false"/>
+                <Label fx:id="maxTempLabel" layoutX="298.0" layoutY="86.0" text="Temperatura Máxima:" visible="false"/>
+                <TextField fx:id="txtFieldMinTemp" layoutX="418.0" layoutY="48.0" visible="false"/>
+                <TextField fx:id="txtFieldMaxTemp" layoutX="418.0" layoutY="82.0" visible="false"/>
+                <TextField fx:id="txtFieldNumPessoas" layoutX="418.0" layoutY="48.0" visible="false"/>
+                <Label fx:id="numPessoasLabel" layoutX="306.0" layoutY="52.0" text="Número de pessoas:"
+                       visible="false"/>
+                <CheckBox fx:id="cargaPerigosaCheckBox" layoutX="443.0" layoutY="44.0" mnemonicParsing="false"
+                          text="Carga Perigosa"/>
+            </children>
+        </AnchorPane>
+    </children>
+

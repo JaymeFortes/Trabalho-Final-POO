@@ -4,7 +4,7 @@ package dados;
 public abstract class DroneCarga extends Drone {
     private double pesoMaximo;
 
-    public DroneCarga(int codigo, double autonomia, double custoFixo,double pesoMaximo) {
+    public DroneCarga(int codigo, double autonomia, double custoFixo, double pesoMaximo) {
         super(codigo, autonomia, custoFixo);
         this.pesoMaximo = pesoMaximo;
     }
@@ -18,9 +18,9 @@ public abstract class DroneCarga extends Drone {
     }
 
     public abstract double custoVariado();
-    
+
     @Override
     public String toString() {
-        return super.toString() + "Peso Máximo: " + String.format("%.2f", pesoMaximo) + " KG";
+        return super.toString() + "Peso Máximo: " + String.format("%.2f", pesoMaximo) + " KG\n";
     }
 }

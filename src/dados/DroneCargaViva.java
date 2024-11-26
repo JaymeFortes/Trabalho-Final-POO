@@ -24,14 +24,14 @@ public class DroneCargaViva extends DroneCarga {
 
     @Override
     public double custoVariado() {
-            double custo = 0;
-            if (climatizado) {
-                custo = getCustoFixo() + 20.00;
-            } else {
-                custo = getCustoFixo() + 10.00;
-            }
-            return custo;
+        double custo = 0;
+        if (climatizado) {
+            custo = getCustoFixo() + 20.00;
+        } else {
+            custo = getCustoFixo() + 10.00;
         }
+        return custo;
+    }
 
     @Override
     public double calculaCustoKm() {
