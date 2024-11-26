@@ -55,7 +55,6 @@ public class ControleRelatorioGeral {
     public void exibirRelatorio() {
         StringBuilder relatorio = new StringBuilder("Relatório de Transportes e Drones:\n\n");
 
-        // Relatório de drones
         if (droneService == null || droneService.getDrones().isEmpty()) {
             relatorio.append("Nenhum drone cadastrado.\n");
         } else {
@@ -65,17 +64,27 @@ public class ControleRelatorioGeral {
             }
         }
 
-        // Relatório de transportes
         if (transporteService == null || transporteService.getTransportes().isEmpty()) {
             relatorio.append("Nenhum transporte cadastrado.\n");
         } else {
             relatorio.append("Transportes:\n");
             for (Transporte transporte : transporteService.getTransportes()) {
                 relatorio.append(transporte.toString()).append("\n");
+
+                Drone droneAlocado = transporte.getDroneAlocado();
+                if (droneAlocado != null) {
+                    relatorio.append("Drone alocado: ").append(droneAlocado.toString()).append("\n");
+                } else {
+                    relatorio.append("Nenhum drone alocado.\n");
+                }
+
                 try {
-                    relatorio.append("Custo do Transporte: R$ ").append(transporte.calculaCusto()).append("\n\n");
+                    relatorio.append("Custo do Transporte: R$ ")
+                            .append(transporte.calculaCusto()).append("\n\n");
                 } catch (IllegalStateException e) {
                     relatorio.append("Erro: ").append(e.getMessage()).append("\n\n");
+                } catch (NullPointerException e) {
+                    relatorio.append("Erro: Drone não está alocado corretamente para este transporte.\n\n");
                 }
             }
         }
@@ -181,8 +190,7 @@ public class ControleRelatorioGeral {
 
     private boolean salvarDrones(String nomeArquivo, ObservableList<Drone> drones) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
-            // Escrevendo o cabeçalho organizado
-            writer.write("Código,Tipo,Custo Fixo,Autonomia,Custo por Km,Adicional\n");
+            writer.write("Código,Tipo,Custo Fixo,Autonomia,Custo por Km,Adicionais\n");
 
             for (Drone drone : drones) {
                 String informacaoEspecifica = "";
@@ -203,12 +211,11 @@ public class ControleRelatorioGeral {
                     informacaoEspecifica += "; Climatizado: " + (droneCargaViva.isClimatizado() ? "Sim" : "Não");
                 }
 
-                // Escrevendo os dados do drone no arquivo CSV
-                writer.write(drone.getCodigo() + "," +
+               writer.write(drone.getCodigo() + "," +
                         drone.getTipoDrone() + "," +
-                        String.format("%.2f", drone.getCustoFixo()) + "," +
-                        String.format("%.2f", drone.getAutonomia()) + "," + // Preservando a autonomia
-                        String.format("%.2f", drone.calculaCustoKm()) + "," + // Custo por Km na coluna correta
+                        (drone.getCustoFixo()) + "," +
+                        (drone.getAutonomia()) + "," + // Preservando a autonomia
+                        (drone.calculaCustoKm()) + "," + // Custo por Km na coluna correta
                         informacaoEspecifica.replace(", ", "; ") + "\n");
             }
 
