@@ -1,6 +1,9 @@
 package aplicacao;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dados.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -49,6 +52,7 @@ public class ControleRelatorioGeral {
             buttonVoltar.setOnAction(event -> voltarParaMenuPrincipal());
         }
     }
+
     @JsonProperty
     public void setServicos(TransporteService transporteService, DroneService droneService) {
         this.transporteService = transporteService;
@@ -94,6 +98,7 @@ public class ControleRelatorioGeral {
 
         textAreaRelatorio.setText(relatorio.toString());
     }
+
     @JsonProperty
     public void exibirTodosTransportes() {
         StringBuilder relatorioTransportes = new StringBuilder();
@@ -133,6 +138,7 @@ public class ControleRelatorioGeral {
         stage.close();
     }
 
+    @FXML
     public void salvarTransportesEDronesEmCsv() {
         if (transporteService == null || droneService == null) {
             mostrarErro("Serviços de transporte ou drone não foram inicializados.");
@@ -142,6 +148,13 @@ public class ControleRelatorioGeral {
         ObservableList<Transporte> transportes = transporteService.getTransportes();
         ObservableList<Drone> drones = droneService.getDrones();
 
+        // Verificar se há dados para salvar
+        if (transportes.isEmpty() && drones.isEmpty()) {
+            mostrarErro("Não há transportes ou drones cadastrados para salvar.");
+            return;
+        }
+
+        // Solicitar o nome do arquivo ao usuário
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Salvar Dados");
         dialog.setHeaderText("Digite o nome do arquivo (sem extensão):");
@@ -152,19 +165,27 @@ public class ControleRelatorioGeral {
         if (resultado.isPresent() && !resultado.get().trim().isEmpty()) {
             String nomeArquivoBase = resultado.get().trim();
 
+            // Salvar transportes e drones em arquivos CSV
             boolean sucessoTransportes = salvarTransportes(nomeArquivoBase + "_transportes.csv", transportes);
             boolean sucessoDrones = salvarDrones(nomeArquivoBase + "_drones.csv", drones);
 
+            // Verificar o resultado da operação
             if (sucessoTransportes && sucessoDrones) {
-                exibirMensagem("Sucesso", "Dados salvos com sucesso!");
+                exibirMensagem("Sucesso", "Dados salvos com sucesso!\n" +
+                        "Arquivos gerados:\n" +
+                        "- " + nomeArquivoBase + "_transportes.csv\n" +
+                        "- " + nomeArquivoBase + "_drones.csv");
             } else {
-                mostrarErro("Erro ao salvar os dados.");
-                exibirMensagem("Erro", "Erro ao salvar os transportes ou drones.");
+                mostrarErro("Erro ao salvar os dados.\n" +
+                        "Verifique os arquivos:\n" +
+                        "- " + nomeArquivoBase + "_transportes.csv\n" +
+                        "- " + nomeArquivoBase + "_drones.csv");
             }
         } else {
             exibirMensagem("Erro", "Operação cancelada ou nome inválido.");
         }
     }
+
     @JsonProperty
     private boolean salvarTransportes(String nomeArquivo, ObservableList<Transporte> transportes) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
@@ -189,6 +210,7 @@ public class ControleRelatorioGeral {
             return false;
         }
     }
+
     @JsonProperty
     private boolean salvarDrones(String nomeArquivo, ObservableList<Drone> drones) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
@@ -215,8 +237,8 @@ public class ControleRelatorioGeral {
                 writer.write(drone.getCodigo() + "," +
                         drone.getTipoDrone() + "," +
                         (drone.getCustoFixo()) + "," +
-                        (drone.getAutonomia()) + "," + // Preservando a autonomia
-                        (drone.calculaCustoKm()) + "," + // Custo por Km na coluna correta
+                        (drone.getAutonomia()) + "," +
+                        (drone.calculaCustoKm()) + "," +
                         informacaoEspecifica.replace(", ", "; ") + "\n");
             }
 
@@ -227,8 +249,7 @@ public class ControleRelatorioGeral {
         }
     }
 
-
-
+    // Método auxiliar para exibir mensagens de erro
     private void mostrarErro(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");
@@ -236,6 +257,8 @@ public class ControleRelatorioGeral {
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
+
+
 
     @JsonProperty
     @FXML
@@ -263,6 +286,7 @@ public class ControleRelatorioGeral {
             exibirMensagem("Erro", "Nome do arquivo não fornecido.");
         }
     }
+
     @JsonProperty
 
     private void exibirMensagem(String tipo, String mensagem) {
@@ -316,6 +340,7 @@ public class ControleRelatorioGeral {
             return false;
         }
     }
+
     @JsonProperty
     private boolean carregarTransportes(String nomeArquivo) {
         InputStream inputStream = getClass().getResourceAsStream("/resources/" + nomeArquivo);
@@ -367,7 +392,6 @@ public class ControleRelatorioGeral {
     }
 
 
-
     @FXML
     public void realizarLeituraDadosSimulacao() {
         TextInputDialog dialog = new TextInputDialog();
@@ -404,6 +428,69 @@ public class ControleRelatorioGeral {
             System.out.println("Leitura de dados de simulação concluída.");
         } else {
             mostrarErro("Nome do arquivo não fornecido.");
+        }
+    }
+
+    @FXML
+    public void salvarDadosEmJson() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+
+        // Verificar se há drones ou transportes cadastrados
+        if (transporteService.getTransportes().isEmpty() && droneService.getDrones().isEmpty()) {
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setTitle("Nenhum dado para salvar");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Não há drones ou transportes cadastrados para salvar.");
+            alerta.showAndWait();
+            return; // Interromper o método
+        }
+
+        // Perguntar o nome do arquivo ao usuário
+        TextInputDialog dialog = new TextInputDialog("dados.json");
+        dialog.setTitle("Salvar Dados em JSON");
+        dialog.setHeaderText("Digite o nome do arquivo para salvar os dados:");
+        dialog.setContentText("Nome do arquivo:");
+
+        Optional<String> resultado = dialog.showAndWait();
+
+        // Se o usuário forneceu um nome, tentar salvar
+        if (resultado.isPresent()) {
+            String nomeArquivo = resultado.get();
+
+            try {
+                // Salvar transportes em JSON
+                File arquivoTransportes = new File(nomeArquivo + "_transportes.json");
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(arquivoTransportes, transporteService.getTransportes());
+
+                // Salvar drones em JSON
+                File arquivoDrones = new File(nomeArquivo + "_drones.json");
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(arquivoDrones, droneService.getDrones());
+
+                // Exibir alerta de sucesso
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Dados Salvos");
+                alert.setHeaderText(null);
+                alert.setContentText("Os dados foram salvos com sucesso!\n" +
+                        "Arquivos:\n" +
+                        "- " + nomeArquivo + "_transportes.json\n" +
+                        "- " + nomeArquivo + "_drones.json");
+                alert.showAndWait();
+            } catch (IOException e) {
+                // Exibir alerta de erro
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erro ao Salvar Dados");
+                alert.setHeaderText(null);
+                alert.setContentText("Erro ao salvar dados em JSON: " + e.getMessage());
+                alert.showAndWait();
+            }
+        } else {
+            // Caso o usuário cancele o diálogo
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Operação Cancelada");
+            alert.setHeaderText(null);
+            alert.setContentText("A operação de salvar dados foi cancelada.");
+            alert.showAndWait();
         }
     }
 }

@@ -179,22 +179,9 @@ public class ACMEAirDrones {
 
     @FXML
     private void salvarDadosEmJson() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-
-        try {
-            // Salvar transportes em um arquivo JSON
-            File arquivoTransportes = new File("transportes.json");
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(arquivoTransportes, transporteService.getTransportes());
-
-            // Salvar drones em um arquivo JSON
-            File arquivoDrones = new File("drones.json");
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(arquivoDrones, droneService.getDrones());
-
-            System.out.println("Dados salvos em JSON com sucesso!");
-        } catch (IOException e) {
-            System.err.println("Erro ao salvar dados em JSON: " + e.getMessage());
-        }
+        ControleRelatorioGeral controller = new ControleRelatorioGeral();
+        controller.setServicos(transporteService, droneService);
+        controller.salvarDadosEmJson();
     }
 
     @FXML
