@@ -200,9 +200,8 @@ public class ControleRelatorioGeral {
                         transporte.getLatitudeDestino() + "," +
                         transporte.getLongitudeDestino() + "," +
                         transporte.getSituacao() + "," +
-                        (transporte.getDroneAlocado() != null ? transporte.getDroneAlocado().getCodigo() : "Nenhum") + "," +
-                        transporte.calculaAcrescimos() + "," +
-                        transporte.calculaCusto() + "\n");
+                        (transporte.getDroneAlocado() != null ? transporte.getDroneAlocado().getCodigo() : "Nenhum\n"));
+
             }
             return true;
         } catch (IOException e) {
