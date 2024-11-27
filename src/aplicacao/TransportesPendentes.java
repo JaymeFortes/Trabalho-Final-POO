@@ -22,11 +22,38 @@ public class TransportesPendentes {
     public void initialize() {
         txtMensagem.setEditable(false);
         buttonSair.setOnAction(e -> System.exit(0));
+
     }
 
     public void setServicos(DroneService droneService, TransporteService transporteService) {
         this.droneService = droneService;
         this.transporteService = transporteService;
+    }
+
+    public void exibirTransportesPendentes() {
+
+        if (!mensagemEnviada && transporteService.getTransportes().isEmpty()) {
+            txtMensagem.appendText("Não existem transportes criados.\n");
+            mensagemEnviada = true;
+            return;
+        } else {
+            for (Transporte transporte : transporteService.getTransportes()) {
+
+                txtMensagem.appendText("Número: " + transporte.getNumero() + " - Nome do cliente: " + transporte.getNomeCliente() + "\n");
+
+                // Lógica para determinar o tipo de drone associado ao transporte
+                String tipoDrone = "Desconhecido"; // Valor default
+                if (transporte instanceof TransportePessoal) {
+                    tipoDrone = "Drone Pessoal";
+                } else if (transporte instanceof TransporteCargaViva) {
+                    tipoDrone = "Drone Carga Viva";
+                } else if (transporte instanceof TransporteCargaInanimada) {
+                    tipoDrone = "Drone Carga Inanimada";
+                }
+
+                txtMensagem.appendText("Tipo do drone: " + tipoDrone + "\n" + "Situação: " + transporte.getSituacao() + "\n");
+            }
+        }
     }
 
     public void alocarDroneAoTransporte(Transporte transporte, Drone drone) {

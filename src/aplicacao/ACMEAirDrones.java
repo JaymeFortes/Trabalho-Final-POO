@@ -103,6 +103,7 @@ public class ACMEAirDrones {
             Parent root = loader.load();
             TransportesPendentes controller = loader.getController();
             controller.setServicos(droneService, transporteService);
+            controller.exibirTransportesPendentes();
 
             Stage stage = new Stage();
             stage.setTitle("Processar Transportes Pendentes");
