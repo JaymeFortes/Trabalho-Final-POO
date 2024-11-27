@@ -223,66 +223,125 @@ public class ControleRelatorioGeral {
         System.err.println(mensagem);
     }
 
-    // Método para alocar o drone ao transporte
-    private boolean alocarDroneParaTransporte(Drone drone, Transporte transporte) {
-        // Verifique se o drone já está alocado em algum transporte
-        for (Transporte t : transporteService.getTransportes()) {
-            if (t.getDroneAlocado() != null && t.getDroneAlocado().equals(drone)) {
-                System.out.println("O drone " + drone.getCodigo() + " já está alocado a outro transporte.");
-                return false;  // O drone já está alocado, não faz a alocação
-
-            }
-        }
-        return true;
-    }
 
     @FXML
     public void CarregarDados() {
-        // Cria um dialogo para o usuário digitar o nome do arquivo
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Salvar Dados");
+        dialog.setTitle("Carregar Dados de Simulação");
         dialog.setHeaderText("Digite o nome do arquivo (sem extensão):");
         dialog.setContentText("Nome do arquivo:");
 
-        // Obtém a resposta do usuário
         Optional<String> nomeArquivoOptional = dialog.showAndWait();
 
-        // Verifica se o usuário forneceu um nome
-        if (nomeArquivoOptional.isPresent()) {
-            String nomeArquivo = nomeArquivoOptional.get();  // Extrai o valor do Optional
+        if (nomeArquivoOptional.isPresent() && !nomeArquivoOptional.get().trim().isEmpty()) {
+            String nomeArquivoBase = nomeArquivoOptional.get().trim();
 
-            // Cria o diretório atual para procurar os arquivos
-            File diretorio = new File(".");
-            // Filtra arquivos que começam com o nome fornecido pelo usuário
-            File[] arquivos = diretorio.listFiles((dir, name) -> name.startsWith(nomeArquivo));
+            boolean sucessoDrones = carregarDrones("/resources/" + nomeArquivoBase + "_drones.csv");
+            boolean sucessoTransportes = carregarTransportes("/resources/" + nomeArquivoBase + "_transportes.csv");
 
-            // Verifica se encontrou arquivos
-            if (arquivos == null || arquivos.length == 0) {
-                System.out.println("Nenhum arquivo encontrado com o nome: " + nomeArquivo);
+            if (!sucessoDrones && !sucessoTransportes) {
+                System.err.println("Erro: Nenhum dos arquivos foi carregado com sucesso.");
+                mostrarErro("Erro ao carregar os arquivos de drones e transportes.");
             } else {
-                System.out.println("Arquivos encontrados:");
-                // Para cada arquivo encontrado, imprime o nome e lê o conteúdo
-                for (File arquivo : arquivos) {
-                    System.out.println("Lendo arquivo: " + arquivo.getName());
-                    lerArquivo(arquivo);
-                }
+                System.out.println("Dados carregados com sucesso.");
             }
         } else {
             System.out.println("Nome do arquivo não fornecido.");
         }
     }
 
-    @FXML
-    private static void lerArquivo(File arquivo) {
-        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
-            String linha;
-            // Lê o arquivo linha por linha e imprime no console
-            while ((linha = br.readLine()) != null) {
-                System.out.println(linha);
+    private boolean carregarDrones(String nomeArquivo) {
+        System.out.println("Carregando drones do arquivo: " + nomeArquivo);
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(nomeArquivo)))) {
+            if (br == null) {
+                System.err.println("Erro: Arquivo não encontrado - " + nomeArquivo);
+                return false;
             }
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                try {
+                    String[] dados = linha.split(",");
+                    int tipo = Integer.parseInt(dados[0]);
+                    int codigo = Integer.parseInt(dados[1]);
+                    double custoFixo = Double.parseDouble(dados[2]);
+                    double autonomia = Double.parseDouble(dados[3]);
+
+                    Drone drone;
+                    if (tipo == 1) {
+                        int qtdPessoas = Integer.parseInt(dados[4]);
+                        drone = new DronePessoal(codigo, custoFixo, autonomia, qtdPessoas);
+                    } else if (tipo == 2) {
+                        double pesoMaximo = Double.parseDouble(dados[4]);
+                        boolean protegido = Boolean.parseBoolean(dados[5]);
+                        drone = new DroneCargaInanimada(codigo, custoFixo, autonomia, pesoMaximo, protegido);
+                    } else if (tipo == 3) {
+                        double pesoMaximo = Double.parseDouble(dados[4]);
+                        boolean climatizado = Boolean.parseBoolean(dados[5]);
+                        drone = new DroneCargaViva(codigo, custoFixo, autonomia, pesoMaximo, climatizado);
+                    } else {
+                        throw new IllegalArgumentException("Tipo de drone desconhecido: " + tipo);
+                    }
+
+                    droneService.adicionarDrone(drone);
+                } catch (Exception e) {
+                    System.err.println("Erro ao carregar drone: " + linha);
+                    e.printStackTrace();
+                }
+            }
+            return true;
         } catch (IOException e) {
-            System.out.println("Erro ao ler o arquivo: " + arquivo.getName());
-            e.printStackTrace();
+            System.err.println("Erro ao ler o arquivo de drones: " + e.getMessage());
+            return false;
+        }
+    }
+
+    private boolean carregarTransportes(String nomeArquivo) {
+        System.out.println("Carregando transportes do arquivo: " + nomeArquivo);
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(nomeArquivo)))) {
+            if (br == null) {
+                System.err.println("Erro: Arquivo não encontrado - " + nomeArquivo);
+                return false;
+            }
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                try {
+                    String[] dados = linha.split(",");
+                    int tipo = Integer.parseInt(dados[0]);
+                    int numero = Integer.parseInt(dados[1]);
+                    String nomeCliente = dados[2];
+                    String descricao = dados[3];
+                    double peso = Double.parseDouble(dados[4]);
+                    double latOrigem = Double.parseDouble(dados[5]);
+                    double longOrigem = Double.parseDouble(dados[6]);
+                    double latDestino = Double.parseDouble(dados[7]);
+                    double longDestino = Double.parseDouble(dados[8]);
+                    Estado situacao = Estado.valueOf(dados[9]);
+
+                    Transporte transporte;
+                    if (tipo == 1) {
+                        double tempMinima = Double.parseDouble(dados[10]);
+                        double tempMaxima = Double.parseDouble(dados[11]);
+                        transporte = new TransporteCargaViva(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, situacao, tempMinima, tempMaxima);
+                    } else if (tipo == 2) {
+                        boolean cargaPerigosa = Boolean.parseBoolean(dados[10]);
+                        transporte = new TransporteCargaInanimada(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, situacao, cargaPerigosa);
+                    } else if (tipo == 3) {
+                        int qtdPessoas = Integer.parseInt(dados[10]);
+                        transporte = new TransportePessoal(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, situacao, qtdPessoas);
+                    } else {
+                        throw new IllegalArgumentException("Tipo de transporte desconhecido: " + tipo);
+                    }
+
+                    transporteService.adicionarTransporte(transporte);
+                } catch (Exception e) {
+                    System.err.println("Erro ao carregar transporte: " + linha);
+                    e.printStackTrace();
+                }
+            }
+            return true;
+        } catch (IOException e) {
+            System.err.println("Erro ao ler o arquivo de transportes: " + e.getMessage());
+            return false;
         }
     }
 }
