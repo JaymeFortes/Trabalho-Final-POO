@@ -22,9 +22,9 @@ public class TransporteCargaInanimada extends Transporte {
 
     public String estadoTransporte() {
         if (isCargaPerigosa()) {
-            return "Sim";
+            return " Sim";
         } else {
-            return "Não";
+            return " Não";
         }
     }
 
@@ -65,6 +65,6 @@ public class TransporteCargaInanimada extends Transporte {
 
     @Override
     public String toString() {
-        return super.toString() + "\n Carga Perigosa: " + estadoTransporte();
+        return super.toString() + "\n Carga Perigosa: " + estadoTransporte() + "\n";
     }
 }

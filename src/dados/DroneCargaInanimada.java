@@ -48,6 +48,6 @@ public class DroneCargaInanimada extends DroneCarga {
 
     @Override
     public String toString() {
-        return super.toString() + "\nProteção: " + EstadoProtecao();
+        return super.toString() + "Proteção: " + EstadoProtecao() + "\n";
     }
 }

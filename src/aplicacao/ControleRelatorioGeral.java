@@ -1,7 +1,9 @@
 package aplicacao;
 
 import dados.*;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import servicos.DroneService;
 import servicos.TransporteService;
@@ -16,7 +18,7 @@ import java.util.Optional;
 public class ControleRelatorioGeral {
 
     @FXML
-    private TextArea textAreaRelatorio, txtMensagem;
+    private TextArea textAreaRelatorio, txtMensagem, txtMensagemSimular;
 
     @FXML
     private Button buttonSair, buttonVoltar, CSVButton;
@@ -31,6 +33,10 @@ public class ControleRelatorioGeral {
         }
         if (txtMensagem != null) {
             txtMensagem.setEditable(false);
+        }
+
+        if (txtMensagemSimular != null) {
+            txtMensagemSimular.setEditable(false);
         }
 
         if (buttonSair != null) {
@@ -96,6 +102,7 @@ public class ControleRelatorioGeral {
             relatorioTransportes.append("Transportes:\n");
             for (Transporte transporte : transporteService.getTransportes()) {
                 relatorioTransportes.append(transporte.toString()).append("\n");
+
                 if (transporte.getDroneAlocado() != null) {
                     relatorioTransportes.append("Drone alocado:\n")
                             .append(transporte.getDroneAlocado().toString()).append("\n");
@@ -104,17 +111,21 @@ public class ControleRelatorioGeral {
                 }
 
                 try {
-                    relatorioTransportes.append("Custo do Transporte: R$ ")
-                            .append(transporte.calculaCusto()).append("\n\n");
-                } catch (IllegalStateException e) {
-                    relatorioTransportes.append("Erro no cálculo do custo: ")
-                            .append(e.getMessage()).append("\n\n");
+                    if (transporte.getDroneAlocado() != null) {
+                        double custo = transporte.calculaCusto();
+                        relatorioTransportes.append("Custo do Transporte: R$ ").append(custo).append("\n\n");
+                    } else {
+                        relatorioTransportes.append("Custo não calculado devido à falta de drone alocado.\n\n");
+                    }
+                } catch (Exception e) {
+                    relatorioTransportes.append("Erro no cálculo do custo: ").append(e.getMessage()).append("\n\n");
                 }
             }
         }
 
         txtMensagem.setText(relatorioTransportes.toString());
     }
+
 
     @FXML
     private void voltarParaMenuPrincipal() {
@@ -141,18 +152,17 @@ public class ControleRelatorioGeral {
         if (resultado.isPresent() && !resultado.get().trim().isEmpty()) {
             String nomeArquivoBase = resultado.get().trim();
 
+            boolean sucessoTransportes = salvarTransportes(nomeArquivoBase + "_transportes.csv", transportes);
+            boolean sucessoDrones = salvarDrones(nomeArquivoBase + "_drones.csv", drones);
 
-            if (!salvarTransportes(nomeArquivoBase + "_transportes.csv", transportes)) {
-                mostrarErro("Erro ao salvar os transportes!");
+            if (sucessoTransportes && sucessoDrones) {
+                exibirMensagem("Sucesso", "Dados salvos com sucesso!");
+            } else {
+                mostrarErro("Erro ao salvar os dados.");
+                exibirMensagem("Erro", "Erro ao salvar os transportes ou drones.");
             }
-
-            if (!salvarDrones(nomeArquivoBase + "_drones.csv", drones)) {
-                mostrarErro("Erro ao salvar os drones!");
-            }
-
-            System.out.println("Dados salvos com sucesso!");
         } else {
-            System.out.println("Operação cancelada ou nome inválido.");
+            exibirMensagem("Erro", "Operação cancelada ou nome inválido.");
         }
     }
 
@@ -217,9 +227,20 @@ public class ControleRelatorioGeral {
         }
     }
 
+
+
+
+
+
+
     private void mostrarErro(String mensagem) {
-        System.err.println(mensagem);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro");
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
+
 
 
     @FXML
@@ -238,21 +259,27 @@ public class ControleRelatorioGeral {
             boolean sucessoTransportes = carregarTransportes(nomeArquivoBase + "-TRANSPORTES.csv");
 
             if (!sucessoDrones && !sucessoTransportes) {
-                System.err.println("Erro: Nenhum dos arquivos foi carregado com sucesso.");
                 mostrarErro("Erro ao carregar os arquivos de drones e transportes.");
+                exibirMensagem("Erro", "Erro ao carregar os arquivos de drones e transportes.");
             } else {
-                System.out.println("Dados carregados com sucesso.");
+                exibirMensagem("Sucesso", "Dados carregados com sucesso.");
             }
         } else {
-            System.out.println("Nome do arquivo não fornecido.");
+            exibirMensagem("Erro", "Nome do arquivo não fornecido.");
         }
     }
 
+    private void exibirMensagem(String tipo, String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(tipo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
+
     private boolean carregarDrones(String nomeArquivo) {
-        System.out.println("Carregando drones do arquivo: " + nomeArquivo);
         InputStream inputStream = getClass().getResourceAsStream("/resources/" + nomeArquivo);
         if (inputStream == null) {
-            System.err.println("Arquivo de drones não encontrado: " + nomeArquivo);
             return false;
         }
 
@@ -289,16 +316,14 @@ public class ControleRelatorioGeral {
             }
             return true;
         } catch (IOException e) {
-            System.err.println("Erro ao ler o arquivo de drones: " + e.getMessage());
+            txtMensagemSimular.setText("Erro ao ler o arquivo de drones: " + e.getMessage());
             return false;
         }
     }
 
     private boolean carregarTransportes(String nomeArquivo) {
-        System.out.println("Carregando transportes do arquivo: " + nomeArquivo);
         InputStream inputStream = getClass().getResourceAsStream("/resources/" + nomeArquivo);
         if (inputStream == null) {
-            System.err.println("Arquivo de transportes não encontrado: " + nomeArquivo);
             return false;
         }
 
@@ -316,7 +341,6 @@ public class ControleRelatorioGeral {
                     double longOrigem = Double.parseDouble(dados[6]);
                     double latDestino = Double.parseDouble(dados[7]);
                     double longDestino = Double.parseDouble(dados[8]);
-
 
                     Transporte transporte;
                     if (tipo == 3) {
@@ -342,6 +366,47 @@ public class ControleRelatorioGeral {
         } catch (IOException e) {
             System.err.println("Erro ao ler o arquivo de transportes: " + e.getMessage());
             return false;
+        }
+    }
+
+
+
+    @FXML
+    public void realizarLeituraDadosSimulacao() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Leitura de Dados de Simulação");
+        dialog.setHeaderText("Digite o nome do arquivo de simulação (sem extensão):");
+        dialog.setContentText("Nome do arquivo:");
+
+        Optional<String> nomeArquivoOptional = dialog.showAndWait();
+
+        if (nomeArquivoOptional.isPresent() && !nomeArquivoOptional.get().trim().isEmpty()) {
+            String nomeArquivoBase = nomeArquivoOptional.get().trim();
+
+            boolean sucessoDrones = carregarDrones(nomeArquivoBase + "-DRONES.csv");
+            boolean sucessoTransportes = carregarTransportes(nomeArquivoBase + "-TRANSPORTES.csv");
+
+            if (!sucessoDrones && !sucessoTransportes) {
+                txtMensagemSimular.setText("Erro ao carregar os arquivos de drones e transportes.");
+                return;
+            }
+
+
+            StringBuilder mensagem = new StringBuilder("Drones carregados:\n");
+            for (Drone drone : droneService.getDrones()) {
+                mensagem.append(drone.toString()).append("\n");
+            }
+
+            mensagem.append("\nTransportes carregados:\n");
+            for (Transporte transporte : transporteService.getTransportes()) {
+                mensagem.append(transporte.toString()).append("\n");
+            }
+
+
+            txtMensagemSimular.setText(mensagem.toString());
+            System.out.println("Leitura de dados de simulação concluída.");
+        } else {
+            mostrarErro("Nome do arquivo não fornecido.");
         }
     }
 }

@@ -136,6 +136,28 @@ public class ACMEAirDrones {
     }
 
     @FXML
+    private void abrirDadosSimulacao(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modeloSimularDados.fxml"));
+            Parent root = loader.load();
+
+            ControleRelatorioGeral controller = loader.getController();
+            controller.setServicos(transporteService, droneService);
+            controller.realizarLeituraDadosSimulacao();
+
+
+            Stage stage = new Stage();
+            stage.setTitle("Leitura de Dados de Simulação");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void lerArquivoSemExtensao() {
 
         ControleRelatorioGeral controller = new ControleRelatorioGeral();
