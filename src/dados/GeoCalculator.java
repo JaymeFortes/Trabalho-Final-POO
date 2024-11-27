@@ -17,8 +17,5 @@ public class GeoCalculator {
         return R * c;
     }
 
-    public double calculaArea(double raio) {
-        return Math.PI * raio * raio;
-    }
 }
 

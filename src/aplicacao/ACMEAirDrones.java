@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import servicos.DroneService;
 import servicos.TransporteService;
@@ -25,7 +26,9 @@ public class ACMEAirDrones {
             Stage stage = new Stage();
             stage.setTitle("Cadastro de Drones");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,7 +45,9 @@ public class ACMEAirDrones {
             Stage stage = new Stage();
             stage.setTitle("Cadastro de Transporte");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,7 +66,9 @@ public class ACMEAirDrones {
             Stage stage = new Stage();
             stage.setTitle("Relatório Geral");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,14 +87,16 @@ public class ACMEAirDrones {
             Stage stage = new Stage();
             stage.setTitle("Todos Transportes");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void abrirTelaProcessarTransportes() {
+    private void processarTransportesPendentesAction() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ProcessarPendentes.fxml"));
             Parent root = loader.load();
@@ -97,7 +106,9 @@ public class ACMEAirDrones {
             Stage stage = new Stage();
             stage.setTitle("Processar Transportes Pendentes");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,7 +126,9 @@ public class ACMEAirDrones {
             Stage stage = new Stage();
             stage.setTitle("Alterar Situação de Transporte");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,17 +138,7 @@ public class ACMEAirDrones {
     private void abrirSalvarCsv(){
         ControleRelatorioGeral controller = new ControleRelatorioGeral();
         controller.setServicos(transporteService, droneService);
-
         controller.salvarTransportesEDronesEmCsv();
-    }
-
-    @FXML
-    private void processarTransportesPendentesAction() {
-        abrirTelaProcessarTransportes();
-    }
-
-    private void salvarDadosNomeEscolhido(){
-
     }
 
     @FXML
