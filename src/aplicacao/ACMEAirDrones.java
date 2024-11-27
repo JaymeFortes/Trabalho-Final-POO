@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import servicos.DroneService;
 import servicos.TransporteService;
 
-import java.awt.event.ActionEvent;
+
 import java.io.IOException;
 
 public class ACMEAirDrones {
@@ -19,7 +19,7 @@ public class ACMEAirDrones {
     @FXML
     private void abrirTelaCadastroDrone() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("modeloDrone.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/janelas/modeloDrone.fxml"));
             Parent root = loader.load();
             CadastroDrone controller = loader.getController();
             controller.setDroneService(droneService);
@@ -38,7 +38,7 @@ public class ACMEAirDrones {
     @FXML
     private void abrirTelaCadastroTransporte() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("modeloTransporte.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/janelas/modeloTransporte.fxml"));
             Parent root = loader.load();
             CadastroTransporte controller = loader.getController();
             controller.setTransporteService(transporteService);
@@ -57,7 +57,7 @@ public class ACMEAirDrones {
     @FXML
     private void abrirTelaRelatorioGeral() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("relatorioGeral.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/janelas/relatorioGeral.fxml"));
             Parent root = loader.load();
 
             ControleRelatorioGeral controller = loader.getController();
@@ -78,7 +78,7 @@ public class ACMEAirDrones {
     @FXML
     private void abrirTodosTransportes() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("mostrarTodosTransportes.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/janelas/mostrarTodosTransportes.fxml"));
             Parent root = loader.load();
 
             ControleRelatorioGeral controller = loader.getController();
@@ -99,7 +99,7 @@ public class ACMEAirDrones {
     @FXML
     private void processarTransportesPendentesAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ProcessarPendentes.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/janelas/ProcessarPendentes.fxml"));
             Parent root = loader.load();
             TransportesPendentes controller = loader.getController();
             controller.setServicos(droneService, transporteService);
@@ -118,7 +118,7 @@ public class ACMEAirDrones {
     @FXML
     private void abrirAlterarSituacao() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("modeloAlterarSituacao.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/janelas/modeloAlterarSituacao.fxml"));
             Parent root = loader.load();
 
             AlterarSituacao controller = loader.getController();
@@ -138,7 +138,7 @@ public class ACMEAirDrones {
     @FXML
     private void abrirDadosSimulacao(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("modeloSimularDados.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/janelas/modeloSimularDados.fxml"));
             Parent root = loader.load();
 
             ControleRelatorioGeral controller = loader.getController();
