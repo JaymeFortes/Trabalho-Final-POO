@@ -10,8 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Optional;
 
 public class ControleRelatorioGeral {
@@ -235,5 +234,55 @@ public class ControleRelatorioGeral {
             }
         }
         return true;
+    }
+
+    @FXML
+    public void CarregarDados() {
+        // Cria um dialogo para o usuário digitar o nome do arquivo
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Salvar Dados");
+        dialog.setHeaderText("Digite o nome do arquivo (sem extensão):");
+        dialog.setContentText("Nome do arquivo:");
+
+        // Obtém a resposta do usuário
+        Optional<String> nomeArquivoOptional = dialog.showAndWait();
+
+        // Verifica se o usuário forneceu um nome
+        if (nomeArquivoOptional.isPresent()) {
+            String nomeArquivo = nomeArquivoOptional.get();  // Extrai o valor do Optional
+
+            // Cria o diretório atual para procurar os arquivos
+            File diretorio = new File(".");
+            // Filtra arquivos que começam com o nome fornecido pelo usuário
+            File[] arquivos = diretorio.listFiles((dir, name) -> name.startsWith(nomeArquivo));
+
+            // Verifica se encontrou arquivos
+            if (arquivos == null || arquivos.length == 0) {
+                System.out.println("Nenhum arquivo encontrado com o nome: " + nomeArquivo);
+            } else {
+                System.out.println("Arquivos encontrados:");
+                // Para cada arquivo encontrado, imprime o nome e lê o conteúdo
+                for (File arquivo : arquivos) {
+                    System.out.println("Lendo arquivo: " + arquivo.getName());
+                    lerArquivo(arquivo);
+                }
+            }
+        } else {
+            System.out.println("Nome do arquivo não fornecido.");
+        }
+    }
+
+    @FXML
+    private static void lerArquivo(File arquivo) {
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+            // Lê o arquivo linha por linha e imprime no console
+            while ((linha = br.readLine()) != null) {
+                System.out.println(linha);
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo: " + arquivo.getName());
+            e.printStackTrace();
+        }
     }
 }

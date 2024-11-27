@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import servicos.DroneService;
 import servicos.TransporteService;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class ACMEAirDrones {
@@ -132,6 +133,14 @@ public class ACMEAirDrones {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void lerArquivoSemExtensao() {
+
+        ControleRelatorioGeral controller = new ControleRelatorioGeral();
+        controller.setServicos(transporteService, droneService);
+        controller.CarregarDados();
     }
 
     @FXML

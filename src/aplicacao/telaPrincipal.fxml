@@ -19,7 +19,7 @@
                 <Button layoutX="199.0" layoutY="229.0" mnemonicParsing="false" onAction="#abrirAlterarSituacao" prefHeight="25.0" prefWidth="225.0" text="Alterar Situação Transporte" />
             <Button layoutX="198.0" layoutY="265.0" mnemonicParsing="false"      prefHeight="25.0" prefWidth="225.0" text="Realizar Leitura de Dados de Simulação" />
             <Button layoutX="201.0" layoutY="299.0" mnemonicParsing="false"      onAction="#abrirSalvarCsv"   prefHeight="25.0" prefWidth="225.0" text="Salvar Dados" />
-            <Button layoutX="203.0" layoutY="330.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="225.0" text="Carregar Dados" />
+            <Button layoutX="203.0" layoutY="330.0" mnemonicParsing="false" onAction="#lerArquivoSemExtensao" prefHeight="25.0" prefWidth="225.0" text="Carregar Dados" />
             </children>
         </AnchorPane>
     </children>
