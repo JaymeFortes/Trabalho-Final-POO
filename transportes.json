@@ -1,12 +1,71 @@
 [ {
-  "numero" : 12,
-  "nomeCliente" : "12",
-  "descricao" : "12",
-  "peso" : 12.0,
-  "latitudeOrigem" : 12.0,
-  "longitudeOrigem" : 12.0,
-  "latitudeDestino" : 12.0,
-  "longitudeDestino" : 12.0,
-  "situacao" : "PENDENTE",
-  "drone" : null,
-  "qtdPessoas" : 12
+  "numero" : 9,
+  "nomeCliente" : "9",
+  "descricao" : "9",
+  "peso" : 9.0,
+  "latitudeOrigem" : 9.0,
+  "longitudeOrigem" : 9.0,
+  "latitudeDestino" : 9.0,
+  "longitudeDestino" : 9.0,
+  "situacao" : "ALOCADO",
+  "droneAlocado" : {
+    "codigo" : 1,
+    "custoFixo" : 1.0,
+    "autonomia" : 1.0,
+    "transportes" : [ ],
+    "qtdPessoas" : 1,
+    "custoVariado" : 2.0,
+    "tipoDrone" : "Drone pessoal",
+    "calculaCustoKm" : 3.0,
+    "toString" : "Código: 1\nCusto Fixo: R$ 1,00\nAutonomia: 1,00 KM\nCusto por KM 3,00 KM\nQuantidade de pessoas: 1"
+  },
+  "qtdPessoas" : 9,
+  "tipo" : "Drone pessoal"
+}, {
+
+  "numero" : 98,
+  "nomeCliente" : "98",
+  "descricao" : "98",
+  "peso" : 98.0,
+  "latitudeOrigem" : 98.0,
+  "longitudeOrigem" : 98.0,
+  "latitudeDestino" : 98.0,
+  "longitudeDestino" : 98.0,
+  "situacao" : "ALOCADO",
+  "droneAlocado" : {
+    "codigo" : 1,
+    "custoFixo" : 1.0,
+    "autonomia" : 1.0,
+    "transportes" : [ ],
+    "qtdPessoas" : 1,
+    "custoVariado" : 2.0,
+    "tipoDrone" : "Drone pessoal",
+    "calculaCustoKm" : 3.0,
+    "toString" : "Código: 1\nCusto Fixo: R$ 1,00\nAutonomia: 1,00 KM\nCusto por KM 3,00 KM\nQuantidade de pessoas: 1"
+  },
+  "qtdPessoas" : 98,
+  "tipo" : "Drone pessoal"
+}, {
+  "numero" : 987,
+  "nomeCliente" : "987",
+  "descricao" : "987",
+  "peso" : 987.0,
+  "latitudeOrigem" : 987.0,
+  "longitudeOrigem" : 987.0,
+  "latitudeDestino" : 987.0,
+  "longitudeDestino" : 987.0,
+  "situacao" : "ALOCADO",
+  "droneAlocado" : {
+    "codigo" : 1,
+    "custoFixo" : 1.0,
+    "autonomia" : 1.0,
+    "transportes" : [ ],
+    "qtdPessoas" : 1,
+    "custoVariado" : 2.0,
+    "tipoDrone" : "Drone pessoal",
+    "calculaCustoKm" : 3.0,
+    "toString" : "Código: 1\nCusto Fixo: R$ 1,00\nAutonomia: 1,00 KM\nCusto por KM 3,00 KM\nQuantidade de pessoas: 1"
+  },
+  "qtdPessoas" : 987,
+  "tipo" : "Drone pessoal"
+} ]
