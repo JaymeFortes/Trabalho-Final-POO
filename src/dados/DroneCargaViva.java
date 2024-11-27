@@ -1,7 +1,10 @@
 package dados;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DroneCargaViva extends DroneCarga {
 
+    @JsonProperty
     private boolean climatizado;
 
     public DroneCargaViva(int codigo, double custoFixo, double autonomia, double pesoMaximo, boolean climatizado) {

@@ -1,5 +1,8 @@
 package aplicacao;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,7 +12,8 @@ import javafx.stage.Stage;
 import servicos.DroneService;
 import servicos.TransporteService;
 
-
+import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 
 public class ACMEAirDrones {
@@ -171,6 +175,26 @@ public class ACMEAirDrones {
         ControleRelatorioGeral controller = new ControleRelatorioGeral();
         controller.setServicos(transporteService, droneService);
         controller.salvarTransportesEDronesEmCsv();
+    }
+
+    @FXML
+    private void salvarDadosEmJson() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+
+        try {
+            // Salvar transportes em um arquivo JSON
+            File arquivoTransportes = new File("transportes.json");
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(arquivoTransportes, transporteService.getTransportes());
+
+            // Salvar drones em um arquivo JSON
+            File arquivoDrones = new File("drones.json");
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(arquivoDrones, droneService.getDrones());
+
+            System.out.println("Dados salvos em JSON com sucesso!");
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar dados em JSON: " + e.getMessage());
+        }
     }
 
     @FXML

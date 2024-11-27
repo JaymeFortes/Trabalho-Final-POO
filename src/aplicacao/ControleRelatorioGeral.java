@@ -1,5 +1,6 @@
 package aplicacao;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import dados.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -26,6 +27,7 @@ public class ControleRelatorioGeral {
     private TransporteService transporteService;
     private DroneService droneService;
 
+    @JsonProperty
     @FXML
     public void initialize() {
         if (textAreaRelatorio != null) {
@@ -47,7 +49,7 @@ public class ControleRelatorioGeral {
             buttonVoltar.setOnAction(event -> voltarParaMenuPrincipal());
         }
     }
-
+    @JsonProperty
     public void setServicos(TransporteService transporteService, DroneService droneService) {
         this.transporteService = transporteService;
         this.droneService = droneService;
@@ -92,7 +94,7 @@ public class ControleRelatorioGeral {
 
         textAreaRelatorio.setText(relatorio.toString());
     }
-
+    @JsonProperty
     public void exibirTodosTransportes() {
         StringBuilder relatorioTransportes = new StringBuilder();
 
@@ -102,7 +104,6 @@ public class ControleRelatorioGeral {
             relatorioTransportes.append("Transportes:\n");
             for (Transporte transporte : transporteService.getTransportes()) {
                 relatorioTransportes.append(transporte.toString()).append("\n");
-
                 if (transporte.getDroneAlocado() != null) {
                     relatorioTransportes.append("Drone alocado:\n")
                             .append(transporte.getDroneAlocado().toString()).append("\n");
@@ -125,7 +126,6 @@ public class ControleRelatorioGeral {
 
         txtMensagem.setText(relatorioTransportes.toString());
     }
-
 
     @FXML
     private void voltarParaMenuPrincipal() {
@@ -165,7 +165,7 @@ public class ControleRelatorioGeral {
             exibirMensagem("Erro", "Operação cancelada ou nome inválido.");
         }
     }
-
+    @JsonProperty
     private boolean salvarTransportes(String nomeArquivo, ObservableList<Transporte> transportes) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
             writer.write("Número,Nome Cliente,Descrição,Peso,Latitude Origem,Longitude Origem,Latitude Destino,Longitude Destino,Situação,Drone Alocado,Acrescimos,Custo\n");
@@ -189,7 +189,7 @@ public class ControleRelatorioGeral {
             return false;
         }
     }
-
+    @JsonProperty
     private boolean salvarDrones(String nomeArquivo, ObservableList<Drone> drones) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
             writer.write("Código,Tipo,Custo Fixo,Autonomia,Custo por Km,Adicionais\n");
@@ -229,10 +229,6 @@ public class ControleRelatorioGeral {
 
 
 
-
-
-
-
     private void mostrarErro(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");
@@ -241,8 +237,7 @@ public class ControleRelatorioGeral {
         alert.showAndWait();
     }
 
-
-
+    @JsonProperty
     @FXML
     public void CarregarDados() {
         TextInputDialog dialog = new TextInputDialog();
@@ -268,6 +263,7 @@ public class ControleRelatorioGeral {
             exibirMensagem("Erro", "Nome do arquivo não fornecido.");
         }
     }
+    @JsonProperty
 
     private void exibirMensagem(String tipo, String mensagem) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -320,7 +316,7 @@ public class ControleRelatorioGeral {
             return false;
         }
     }
-
+    @JsonProperty
     private boolean carregarTransportes(String nomeArquivo) {
         InputStream inputStream = getClass().getResourceAsStream("/resources/" + nomeArquivo);
         if (inputStream == null) {
@@ -341,6 +337,7 @@ public class ControleRelatorioGeral {
                     double longOrigem = Double.parseDouble(dados[6]);
                     double latDestino = Double.parseDouble(dados[7]);
                     double longDestino = Double.parseDouble(dados[8]);
+
 
                     Transporte transporte;
                     if (tipo == 3) {

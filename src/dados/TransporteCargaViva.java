@@ -1,8 +1,11 @@
 package dados;
 
-public class TransporteCargaViva extends Transporte {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class TransporteCargaViva extends Transporte {
+    @JsonProperty
     private double temperaturaMinima;
+    @JsonProperty
     private double temperaturaMaxima;
 
     public TransporteCargaViva(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem, double longitudeOrigem,
