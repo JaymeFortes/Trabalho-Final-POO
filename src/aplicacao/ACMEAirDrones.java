@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import servicos.DroneService;
 import servicos.TransporteService;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class ACMEAirDrones {
@@ -132,6 +133,36 @@ public class ACMEAirDrones {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void abrirDadosSimulacao(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modeloSimularDados.fxml"));
+            Parent root = loader.load();
+
+            ControleRelatorioGeral controller = loader.getController();
+            controller.setServicos(transporteService, droneService);
+            controller.realizarLeituraDadosSimulacao();
+
+
+            Stage stage = new Stage();
+            stage.setTitle("Leitura de Dados de Simulação");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void lerArquivoSemExtensao() {
+
+        ControleRelatorioGeral controller = new ControleRelatorioGeral();
+        controller.setServicos(transporteService, droneService);
+        controller.CarregarDados();
     }
 
     @FXML

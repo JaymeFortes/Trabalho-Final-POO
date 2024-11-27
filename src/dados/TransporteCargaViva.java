@@ -40,9 +40,9 @@ public class TransporteCargaViva extends Transporte {
 
     public String estadoTransporte() {
         if (isTempaturaMaiorque10()) {
-            return "Sim";
+            return " Sim";
         } else {
-            return "Nao";
+            return " Não";
         }
     }
 
@@ -79,6 +79,6 @@ public class TransporteCargaViva extends Transporte {
 
     @Override
     public String toString() {
-        return super.toString() + "\n Temperatura maior que 10: " + estadoTransporte();
+        return super.toString() + "\n Temperatura maior que 10: " + estadoTransporte() + "\n";
     }
 }

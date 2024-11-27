@@ -32,6 +32,6 @@ public class DronePessoal extends Drone {
 
     @Override
     public String toString() {
-        return super.toString() + "Quantidade de pessoas: " + qtdPessoas;
+        return super.toString() + "Quantidade de pessoas: " + qtdPessoas + "\n";
     }
 }

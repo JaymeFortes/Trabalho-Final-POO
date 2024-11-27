@@ -48,6 +48,6 @@ public class DroneCargaViva extends DroneCarga {
 
     @Override
     public String toString() {
-        return super.toString() + "\nClimatizado: " + estadoClimatizado();
+        return super.toString() + "Climatizado: " + estadoClimatizado() + "\n";
     }
 }
