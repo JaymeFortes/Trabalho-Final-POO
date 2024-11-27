@@ -187,7 +187,6 @@ public class ControleRelatorioGeral {
             for (Drone drone : drones) {
                 String informacaoEspecifica = "";
 
-                // Verificando o tipo de drone e ajustando informações específicas
                 if (drone instanceof DronePessoal) {
                     DronePessoal dronePessoal = (DronePessoal) drone;
                     informacaoEspecifica = "Qtd Pessoas: " + dronePessoal.getQtdPessoas();
@@ -211,13 +210,12 @@ public class ControleRelatorioGeral {
                         informacaoEspecifica.replace(", ", "; ") + "\n");
             }
 
-            return true; // Indica sucesso
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
-            return false; // Indica falha
+            return false;
         }
     }
-
 
     private void mostrarErro(String mensagem) {
         System.err.println(mensagem);
@@ -236,8 +234,8 @@ public class ControleRelatorioGeral {
         if (nomeArquivoOptional.isPresent() && !nomeArquivoOptional.get().trim().isEmpty()) {
             String nomeArquivoBase = nomeArquivoOptional.get().trim();
 
-            boolean sucessoDrones = carregarDrones("/resources/" + nomeArquivoBase + "_drones.csv");
-            boolean sucessoTransportes = carregarTransportes("/resources/" + nomeArquivoBase + "_transportes.csv");
+            boolean sucessoDrones = carregarDrones(nomeArquivoBase + "-DRONES.csv");
+            boolean sucessoTransportes = carregarTransportes(nomeArquivoBase + "-TRANSPORTES.csv");
 
             if (!sucessoDrones && !sucessoTransportes) {
                 System.err.println("Erro: Nenhum dos arquivos foi carregado com sucesso.");
@@ -252,15 +250,17 @@ public class ControleRelatorioGeral {
 
     private boolean carregarDrones(String nomeArquivo) {
         System.out.println("Carregando drones do arquivo: " + nomeArquivo);
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(nomeArquivo)))) {
-            if (br == null) {
-                System.err.println("Erro: Arquivo não encontrado - " + nomeArquivo);
-                return false;
-            }
-            String linha;
+        InputStream inputStream = getClass().getResourceAsStream("/resources/" + nomeArquivo);
+        if (inputStream == null) {
+            System.err.println("Arquivo de drones não encontrado: " + nomeArquivo);
+            return false;
+        }
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+            String linha = br.readLine();
             while ((linha = br.readLine()) != null) {
                 try {
-                    String[] dados = linha.split(",");
+                    String[] dados = linha.split(";");
                     int tipo = Integer.parseInt(dados[0]);
                     int codigo = Integer.parseInt(dados[1]);
                     double custoFixo = Double.parseDouble(dados[2]);
@@ -282,10 +282,9 @@ public class ControleRelatorioGeral {
                         throw new IllegalArgumentException("Tipo de drone desconhecido: " + tipo);
                     }
 
-                    droneService.adicionarDrone(drone);
+                    droneService.getDrones().add(drone);
                 } catch (Exception e) {
                     System.err.println("Erro ao carregar drone: " + linha);
-                    e.printStackTrace();
                 }
             }
             return true;
@@ -297,15 +296,17 @@ public class ControleRelatorioGeral {
 
     private boolean carregarTransportes(String nomeArquivo) {
         System.out.println("Carregando transportes do arquivo: " + nomeArquivo);
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(nomeArquivo)))) {
-            if (br == null) {
-                System.err.println("Erro: Arquivo não encontrado - " + nomeArquivo);
-                return false;
-            }
-            String linha;
+        InputStream inputStream = getClass().getResourceAsStream("/resources/" + nomeArquivo);
+        if (inputStream == null) {
+            System.err.println("Arquivo de transportes não encontrado: " + nomeArquivo);
+            return false;
+        }
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+            String linha = br.readLine();
             while ((linha = br.readLine()) != null) {
                 try {
-                    String[] dados = linha.split(",");
+                    String[] dados = linha.split(";");
                     int tipo = Integer.parseInt(dados[0]);
                     int numero = Integer.parseInt(dados[1]);
                     String nomeCliente = dados[2];
@@ -315,27 +316,26 @@ public class ControleRelatorioGeral {
                     double longOrigem = Double.parseDouble(dados[6]);
                     double latDestino = Double.parseDouble(dados[7]);
                     double longDestino = Double.parseDouble(dados[8]);
-                    Estado situacao = Estado.valueOf(dados[9]);
+
 
                     Transporte transporte;
-                    if (tipo == 1) {
-                        double tempMinima = Double.parseDouble(dados[10]);
-                        double tempMaxima = Double.parseDouble(dados[11]);
-                        transporte = new TransporteCargaViva(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, situacao, tempMinima, tempMaxima);
+                    if (tipo == 3) {
+                        double tempMinima = Double.parseDouble(dados[9]);
+                        double tempMaxima = Double.parseDouble(dados[10]);
+                        transporte = new TransporteCargaViva(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, tempMinima, tempMaxima);
                     } else if (tipo == 2) {
-                        boolean cargaPerigosa = Boolean.parseBoolean(dados[10]);
-                        transporte = new TransporteCargaInanimada(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, situacao, cargaPerigosa);
-                    } else if (tipo == 3) {
-                        int qtdPessoas = Integer.parseInt(dados[10]);
-                        transporte = new TransportePessoal(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, situacao, qtdPessoas);
+                        boolean cargaPerigosa = Boolean.parseBoolean(dados[9]);
+                        transporte = new TransporteCargaInanimada(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, cargaPerigosa);
+                    } else if (tipo == 1) {
+                        int qtdPessoas = Integer.parseInt(dados[9]);
+                        transporte = new TransportePessoal(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, qtdPessoas);
                     } else {
                         throw new IllegalArgumentException("Tipo de transporte desconhecido: " + tipo);
                     }
 
-                    transporteService.adicionarTransporte(transporte);
+                    transporteService.getTransportes().add(transporte);
                 } catch (Exception e) {
                     System.err.println("Erro ao carregar transporte: " + linha);
-                    e.printStackTrace();
                 }
             }
             return true;
