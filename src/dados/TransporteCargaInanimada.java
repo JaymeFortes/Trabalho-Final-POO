@@ -1,7 +1,10 @@
 package dados;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TransporteCargaInanimada extends Transporte {
 
+    @JsonProperty
     private boolean cargaPerigosa;
 
     public TransporteCargaInanimada(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem, double longitudeOrigem,

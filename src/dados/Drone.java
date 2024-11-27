@@ -1,12 +1,17 @@
 package dados;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 
 public abstract class Drone {
-
+    @JsonProperty
     private int codigo;
+    @JsonProperty
     private double custoFixo;
+    @JsonProperty
     private double autonomia;
+    @JsonProperty
     private ArrayList<Transporte> transportes;
 
     public Drone(int codigo, double custoFixo, double autonomia) {

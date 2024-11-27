@@ -1,5 +1,6 @@
 package aplicacao;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import dados.*;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextInputDialog;
@@ -24,6 +25,7 @@ public class ControleRelatorioGeral {
     private TransporteService transporteService;
     private DroneService droneService;
 
+    @JsonProperty
     @FXML
     public void initialize() {
         if (textAreaRelatorio != null) {
@@ -41,7 +43,7 @@ public class ControleRelatorioGeral {
             buttonVoltar.setOnAction(event -> voltarParaMenuPrincipal());
         }
     }
-
+    @JsonProperty
     public void setServicos(TransporteService transporteService, DroneService droneService) {
         this.transporteService = transporteService;
         this.droneService = droneService;
@@ -86,7 +88,7 @@ public class ControleRelatorioGeral {
 
         textAreaRelatorio.setText(relatorio.toString());
     }
-
+    @JsonProperty
     public void exibirTodosTransportes() {
         StringBuilder relatorioTransportes = new StringBuilder();
 
@@ -155,7 +157,7 @@ public class ControleRelatorioGeral {
             System.out.println("Operação cancelada ou nome inválido.");
         }
     }
-
+    @JsonProperty
     private boolean salvarTransportes(String nomeArquivo, ObservableList<Transporte> transportes) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
             writer.write("Número,Nome Cliente,Descrição,Peso,Latitude Origem,Longitude Origem,Latitude Destino,Longitude Destino,Situação,Drone Alocado,Acrescimos,Custo\n");
@@ -179,7 +181,7 @@ public class ControleRelatorioGeral {
             return false;
         }
     }
-
+    @JsonProperty
     private boolean salvarDrones(String nomeArquivo, ObservableList<Drone> drones) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
             writer.write("Código,Tipo,Custo Fixo,Autonomia,Custo por Km,Adicionais\n");
@@ -187,6 +189,7 @@ public class ControleRelatorioGeral {
             for (Drone drone : drones) {
                 String informacaoEspecifica = "";
 
+                // Verificando o tipo de drone e ajustando informações específicas
                 if (drone instanceof DronePessoal) {
                     DronePessoal dronePessoal = (DronePessoal) drone;
                     informacaoEspecifica = "Qtd Pessoas: " + dronePessoal.getQtdPessoas();
@@ -210,18 +213,19 @@ public class ControleRelatorioGeral {
                         informacaoEspecifica.replace(", ", "; ") + "\n");
             }
 
-            return true;
+            return true; // Indica sucesso
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return false; // Indica falha
         }
     }
+
 
     private void mostrarErro(String mensagem) {
         System.err.println(mensagem);
     }
 
-
+    @JsonProperty
     @FXML
     public void CarregarDados() {
         TextInputDialog dialog = new TextInputDialog();
@@ -234,8 +238,8 @@ public class ControleRelatorioGeral {
         if (nomeArquivoOptional.isPresent() && !nomeArquivoOptional.get().trim().isEmpty()) {
             String nomeArquivoBase = nomeArquivoOptional.get().trim();
 
-            boolean sucessoDrones = carregarDrones(nomeArquivoBase + "-DRONES.csv");
-            boolean sucessoTransportes = carregarTransportes(nomeArquivoBase + "-TRANSPORTES.csv");
+            boolean sucessoDrones = carregarDrones("/resources/" + nomeArquivoBase + "_drones.csv");
+            boolean sucessoTransportes = carregarTransportes("/resources/" + nomeArquivoBase + "_transportes.csv");
 
             if (!sucessoDrones && !sucessoTransportes) {
                 System.err.println("Erro: Nenhum dos arquivos foi carregado com sucesso.");
@@ -247,20 +251,18 @@ public class ControleRelatorioGeral {
             System.out.println("Nome do arquivo não fornecido.");
         }
     }
-
+    @JsonProperty
     private boolean carregarDrones(String nomeArquivo) {
         System.out.println("Carregando drones do arquivo: " + nomeArquivo);
-        InputStream inputStream = getClass().getResourceAsStream("/resources/" + nomeArquivo);
-        if (inputStream == null) {
-            System.err.println("Arquivo de drones não encontrado: " + nomeArquivo);
-            return false;
-        }
-
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
-            String linha = br.readLine();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(nomeArquivo)))) {
+            if (br == null) {
+                System.err.println("Erro: Arquivo não encontrado - " + nomeArquivo);
+                return false;
+            }
+            String linha;
             while ((linha = br.readLine()) != null) {
                 try {
-                    String[] dados = linha.split(";");
+                    String[] dados = linha.split(",");
                     int tipo = Integer.parseInt(dados[0]);
                     int codigo = Integer.parseInt(dados[1]);
                     double custoFixo = Double.parseDouble(dados[2]);
@@ -282,9 +284,10 @@ public class ControleRelatorioGeral {
                         throw new IllegalArgumentException("Tipo de drone desconhecido: " + tipo);
                     }
 
-                    droneService.getDrones().add(drone);
+                    droneService.adicionarDrone(drone);
                 } catch (Exception e) {
                     System.err.println("Erro ao carregar drone: " + linha);
+                    e.printStackTrace();
                 }
             }
             return true;
@@ -293,20 +296,18 @@ public class ControleRelatorioGeral {
             return false;
         }
     }
-
+    @JsonProperty
     private boolean carregarTransportes(String nomeArquivo) {
         System.out.println("Carregando transportes do arquivo: " + nomeArquivo);
-        InputStream inputStream = getClass().getResourceAsStream("/resources/" + nomeArquivo);
-        if (inputStream == null) {
-            System.err.println("Arquivo de transportes não encontrado: " + nomeArquivo);
-            return false;
-        }
-
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
-            String linha = br.readLine();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(nomeArquivo)))) {
+            if (br == null) {
+                System.err.println("Erro: Arquivo não encontrado - " + nomeArquivo);
+                return false;
+            }
+            String linha;
             while ((linha = br.readLine()) != null) {
                 try {
-                    String[] dados = linha.split(";");
+                    String[] dados = linha.split(",");
                     int tipo = Integer.parseInt(dados[0]);
                     int numero = Integer.parseInt(dados[1]);
                     String nomeCliente = dados[2];
@@ -316,26 +317,27 @@ public class ControleRelatorioGeral {
                     double longOrigem = Double.parseDouble(dados[6]);
                     double latDestino = Double.parseDouble(dados[7]);
                     double longDestino = Double.parseDouble(dados[8]);
-
+                    Estado situacao = Estado.valueOf(dados[9]);
 
                     Transporte transporte;
-                    if (tipo == 3) {
-                        double tempMinima = Double.parseDouble(dados[9]);
-                        double tempMaxima = Double.parseDouble(dados[10]);
-                        transporte = new TransporteCargaViva(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, tempMinima, tempMaxima);
+                    if (tipo == 1) {
+                        double tempMinima = Double.parseDouble(dados[10]);
+                        double tempMaxima = Double.parseDouble(dados[11]);
+                        transporte = new TransporteCargaViva(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, situacao, tempMinima, tempMaxima);
                     } else if (tipo == 2) {
-                        boolean cargaPerigosa = Boolean.parseBoolean(dados[9]);
-                        transporte = new TransporteCargaInanimada(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, cargaPerigosa);
-                    } else if (tipo == 1) {
-                        int qtdPessoas = Integer.parseInt(dados[9]);
-                        transporte = new TransportePessoal(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, Estado.PENDENTE, qtdPessoas);
+                        boolean cargaPerigosa = Boolean.parseBoolean(dados[10]);
+                        transporte = new TransporteCargaInanimada(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, situacao, cargaPerigosa);
+                    } else if (tipo == 3) {
+                        int qtdPessoas = Integer.parseInt(dados[10]);
+                        transporte = new TransportePessoal(numero, nomeCliente, descricao, peso, latOrigem, longOrigem, latDestino, longDestino, situacao, qtdPessoas);
                     } else {
                         throw new IllegalArgumentException("Tipo de transporte desconhecido: " + tipo);
                     }
 
-                    transporteService.getTransportes().add(transporte);
+                    transporteService.adicionarTransporte(transporte);
                 } catch (Exception e) {
                     System.err.println("Erro ao carregar transporte: " + linha);
+                    e.printStackTrace();
                 }
             }
             return true;
