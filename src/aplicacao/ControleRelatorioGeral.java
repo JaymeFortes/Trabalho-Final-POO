@@ -200,7 +200,7 @@ public class ControleRelatorioGeral {
                         transporte.getLatitudeDestino() + "," +
                         transporte.getLongitudeDestino() + "," +
                         transporte.getSituacao() + "," +
-                        (transporte.getDroneAlocado() != null ? transporte.getDroneAlocado().getCodigo() : "Nenhum\n"));
+                        (transporte.getDroneAlocado() != null ? transporte.getDroneAlocado().getCodigo() + "\n" : "Nenhum\n"));
 
             }
             return true;
