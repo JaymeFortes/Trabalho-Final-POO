@@ -1,8 +1,11 @@
 package dados;
 
-public class TransporteCargaViva extends Transporte {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class TransporteCargaViva extends Transporte {
+    @JsonProperty
     private double temperaturaMinima;
+    @JsonProperty
     private double temperaturaMaxima;
 
     public TransporteCargaViva(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem, double longitudeOrigem,
@@ -31,8 +34,8 @@ public class TransporteCargaViva extends Transporte {
     }
 
     public boolean isTempaturaMaiorque10() {
-        double somaTemperatura = temperaturaMaxima + temperaturaMinima;
-        if (somaTemperatura > 10) {
+        double intervaloTemperatura = Math.abs(temperaturaMaxima - temperaturaMinima);
+        if (intervaloTemperatura > 10) {
             return true;
         }
         return false;

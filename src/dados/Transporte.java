@@ -1,21 +1,35 @@
 package dados;
 
-public abstract class Transporte {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public abstract class Transporte {
+    @JsonProperty
     private int numero;
+    @JsonProperty
     private String nomeCliente;
+    @JsonProperty
     private String descricao;
+    @JsonProperty
     private double peso;
+    @JsonProperty
     private double latitudeOrigem;
+    @JsonProperty
     private double longitudeOrigem;
+    @JsonProperty
     private double latitudeDestino;
+    @JsonProperty
     private double longitudeDestino;
+    @JsonProperty
     private Estado situacao;
-    private GeoCalculator geoCalculator = new GeoCalculator();
+    @JsonIgnore
+    private Distancia geoCalculator = new Distancia();
+    @JsonProperty
     private Drone droneAlocado;
 
     public Transporte(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem, double longitudeOrigem,
                       double latitudeDestino, double longitudeDestino, Estado situacao) {
+
         this.numero = numero;
         this.nomeCliente = nomeCliente;
         this.descricao = descricao;

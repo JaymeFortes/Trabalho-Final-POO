@@ -1,5 +1,9 @@
 package aplicacao;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dados.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -26,6 +30,7 @@ public class ControleRelatorioGeral {
     private TransporteService transporteService;
     private DroneService droneService;
 
+    @JsonProperty
     @FXML
     public void initialize() {
         if (textAreaRelatorio != null) {
@@ -48,6 +53,7 @@ public class ControleRelatorioGeral {
         }
     }
 
+    @JsonProperty
     public void setServicos(TransporteService transporteService, DroneService droneService) {
         this.transporteService = transporteService;
         this.droneService = droneService;
@@ -81,7 +87,8 @@ public class ControleRelatorioGeral {
 
                 try {
                     relatorio.append("Custo do Transporte: R$ ")
-                            .append(transporte.calculaCusto()).append("\n\n");
+                            .append(String.format("%.2f", transporte.calculaCusto())) // Formata para 2 casas decimais
+                            .append("\n\n");
                 } catch (IllegalStateException e) {
                     relatorio.append("Erro: ").append(e.getMessage()).append("\n\n");
                 } catch (NullPointerException e) {
@@ -93,6 +100,7 @@ public class ControleRelatorioGeral {
         textAreaRelatorio.setText(relatorio.toString());
     }
 
+    @JsonProperty
     public void exibirTodosTransportes() {
         StringBuilder relatorioTransportes = new StringBuilder();
 
@@ -102,7 +110,6 @@ public class ControleRelatorioGeral {
             relatorioTransportes.append("Transportes:\n");
             for (Transporte transporte : transporteService.getTransportes()) {
                 relatorioTransportes.append(transporte.toString()).append("\n");
-
                 if (transporte.getDroneAlocado() != null) {
                     relatorioTransportes.append("Drone alocado:\n")
                             .append(transporte.getDroneAlocado().toString()).append("\n");
@@ -113,7 +120,9 @@ public class ControleRelatorioGeral {
                 try {
                     if (transporte.getDroneAlocado() != null) {
                         double custo = transporte.calculaCusto();
-                        relatorioTransportes.append("Custo do Transporte: R$ ").append(custo).append("\n\n");
+                        relatorioTransportes.append("Custo do Transporte: R$ ")
+                                .append(String.format("%.2f", custo))
+                                .append("\n\n");
                     } else {
                         relatorioTransportes.append("Custo não calculado devido à falta de drone alocado.\n\n");
                     }
@@ -126,13 +135,13 @@ public class ControleRelatorioGeral {
         txtMensagem.setText(relatorioTransportes.toString());
     }
 
-
     @FXML
     private void voltarParaMenuPrincipal() {
         Stage stage = (Stage) buttonVoltar.getScene().getWindow();
         stage.close();
     }
 
+    @FXML
     public void salvarTransportesEDronesEmCsv() {
         if (transporteService == null || droneService == null) {
             mostrarErro("Serviços de transporte ou drone não foram inicializados.");
@@ -142,6 +151,13 @@ public class ControleRelatorioGeral {
         ObservableList<Transporte> transportes = transporteService.getTransportes();
         ObservableList<Drone> drones = droneService.getDrones();
 
+        // Verificar se há dados para salvar
+        if (transportes.isEmpty() && drones.isEmpty()) {
+            mostrarErro("Não há transportes ou drones cadastrados para salvar.");
+            return;
+        }
+
+        // Solicitar o nome do arquivo ao usuário
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Salvar Dados");
         dialog.setHeaderText("Digite o nome do arquivo (sem extensão):");
@@ -152,23 +168,31 @@ public class ControleRelatorioGeral {
         if (resultado.isPresent() && !resultado.get().trim().isEmpty()) {
             String nomeArquivoBase = resultado.get().trim();
 
+            // Salvar transportes e drones em arquivos CSV
             boolean sucessoTransportes = salvarTransportes(nomeArquivoBase + "_transportes.csv", transportes);
             boolean sucessoDrones = salvarDrones(nomeArquivoBase + "_drones.csv", drones);
 
+            // Verificar o resultado da operação
             if (sucessoTransportes && sucessoDrones) {
-                exibirMensagem("Sucesso", "Dados salvos com sucesso!");
+                exibirMensagem("Sucesso", "Dados salvos com sucesso!\n" +
+                        "Arquivos gerados:\n" +
+                        "- " + nomeArquivoBase + "_transportes.csv\n" +
+                        "- " + nomeArquivoBase + "_drones.csv");
             } else {
-                mostrarErro("Erro ao salvar os dados.");
-                exibirMensagem("Erro", "Erro ao salvar os transportes ou drones.");
+                mostrarErro("Erro ao salvar os dados.\n" +
+                        "Verifique os arquivos:\n" +
+                        "- " + nomeArquivoBase + "_transportes.csv\n" +
+                        "- " + nomeArquivoBase + "_drones.csv");
             }
         } else {
             exibirMensagem("Erro", "Operação cancelada ou nome inválido.");
         }
     }
 
+    @JsonProperty
     private boolean salvarTransportes(String nomeArquivo, ObservableList<Transporte> transportes) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
-            writer.write("Número,Nome Cliente,Descrição,Peso,Latitude Origem,Longitude Origem,Latitude Destino,Longitude Destino,Situação,Drone Alocado,Acrescimos,Custo\n");
+            writer.write("Número,Nome Cliente,Descrição,Peso,Latitude Origem,Longitude Origem,Latitude Destino,Longitude Destino,Situação,Drone Alocado\n");
             for (Transporte transporte : transportes) {
                 writer.write(transporte.getNumero() + "," +
                         transporte.getNomeCliente() + "," +
@@ -179,9 +203,8 @@ public class ControleRelatorioGeral {
                         transporte.getLatitudeDestino() + "," +
                         transporte.getLongitudeDestino() + "," +
                         transporte.getSituacao() + "," +
-                        (transporte.getDroneAlocado() != null ? transporte.getDroneAlocado().getCodigo() : "Nenhum") + "," +
-                        transporte.calculaAcrescimos() + "," +
-                        transporte.calculaCusto() + "\n");
+                        (transporte.getDroneAlocado() != null ? transporte.getDroneAlocado().getCodigo() + "\n" : "Nenhum\n"));
+
             }
             return true;
         } catch (IOException e) {
@@ -190,6 +213,7 @@ public class ControleRelatorioGeral {
         }
     }
 
+    @JsonProperty
     private boolean salvarDrones(String nomeArquivo, ObservableList<Drone> drones) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
             writer.write("Código,Tipo,Custo Fixo,Autonomia,Custo por Km,Adicionais\n");
@@ -215,8 +239,8 @@ public class ControleRelatorioGeral {
                 writer.write(drone.getCodigo() + "," +
                         drone.getTipoDrone() + "," +
                         (drone.getCustoFixo()) + "," +
-                        (drone.getAutonomia()) + "," + // Preservando a autonomia
-                        (drone.calculaCustoKm()) + "," + // Custo por Km na coluna correta
+                        (drone.getAutonomia()) + "," +
+                        (drone.calculaCustoKm()) + "," +
                         informacaoEspecifica.replace(", ", "; ") + "\n");
             }
 
@@ -227,12 +251,7 @@ public class ControleRelatorioGeral {
         }
     }
 
-
-
-
-
-
-
+    // Método auxiliar para exibir mensagens de erro
     private void mostrarErro(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");
@@ -243,6 +262,7 @@ public class ControleRelatorioGeral {
 
 
 
+    @JsonProperty
     @FXML
     public void CarregarDados() {
         TextInputDialog dialog = new TextInputDialog();
@@ -268,6 +288,8 @@ public class ControleRelatorioGeral {
             exibirMensagem("Erro", "Nome do arquivo não fornecido.");
         }
     }
+
+    @JsonProperty
 
     private void exibirMensagem(String tipo, String mensagem) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -321,6 +343,7 @@ public class ControleRelatorioGeral {
         }
     }
 
+    @JsonProperty
     private boolean carregarTransportes(String nomeArquivo) {
         InputStream inputStream = getClass().getResourceAsStream("/resources/" + nomeArquivo);
         if (inputStream == null) {
@@ -341,6 +364,7 @@ public class ControleRelatorioGeral {
                     double longOrigem = Double.parseDouble(dados[6]);
                     double latDestino = Double.parseDouble(dados[7]);
                     double longDestino = Double.parseDouble(dados[8]);
+
 
                     Transporte transporte;
                     if (tipo == 3) {
@@ -368,7 +392,6 @@ public class ControleRelatorioGeral {
             return false;
         }
     }
-
 
 
     @FXML
@@ -407,6 +430,69 @@ public class ControleRelatorioGeral {
             System.out.println("Leitura de dados de simulação concluída.");
         } else {
             mostrarErro("Nome do arquivo não fornecido.");
+        }
+    }
+
+    @FXML
+    public void salvarDadosEmJson() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+
+        // Verificar se há drones ou transportes cadastrados
+        if (transporteService.getTransportes().isEmpty() && droneService.getDrones().isEmpty()) {
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setTitle("Nenhum dado para salvar");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Não há drones ou transportes cadastrados para salvar.");
+            alerta.showAndWait();
+            return; // Interromper o método
+        }
+
+        // Perguntar o nome do arquivo ao usuário
+        TextInputDialog dialog = new TextInputDialog("dados.json");
+        dialog.setTitle("Salvar Dados em JSON");
+        dialog.setHeaderText("Digite o nome do arquivo para salvar os dados:");
+        dialog.setContentText("Nome do arquivo:");
+
+        Optional<String> resultado = dialog.showAndWait();
+
+        // Se o usuário forneceu um nome, tentar salvar
+        if (resultado.isPresent()) {
+            String nomeArquivo = resultado.get();
+
+            try {
+                // Salvar transportes em JSON
+                File arquivoTransportes = new File(nomeArquivo + "_transportes.json");
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(arquivoTransportes, transporteService.getTransportes());
+
+                // Salvar drones em JSON
+                File arquivoDrones = new File(nomeArquivo + "_drones.json");
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(arquivoDrones, droneService.getDrones());
+
+                // Exibir alerta de sucesso
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Dados Salvos");
+                alert.setHeaderText(null);
+                alert.setContentText("Os dados foram salvos com sucesso!\n" +
+                        "Arquivos:\n" +
+                        "- " + nomeArquivo + "_transportes.json\n" +
+                        "- " + nomeArquivo + "_drones.json");
+                alert.showAndWait();
+            } catch (IOException e) {
+                // Exibir alerta de erro
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erro ao Salvar Dados");
+                alert.setHeaderText(null);
+                alert.setContentText("Erro ao salvar dados em JSON: " + e.getMessage());
+                alert.showAndWait();
+            }
+        } else {
+            // Caso o usuário cancele o diálogo
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Operação Cancelada");
+            alert.setHeaderText(null);
+            alert.setContentText("A operação de salvar dados foi cancelada.");
+            alert.showAndWait();
         }
     }
 }

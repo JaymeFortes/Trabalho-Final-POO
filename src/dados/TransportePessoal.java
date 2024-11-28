@@ -1,6 +1,9 @@
 package dados;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TransportePessoal extends Transporte {
+    @JsonProperty
     private int qtdPessoas;
 
 
