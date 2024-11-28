@@ -2,7 +2,7 @@ package dados;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GeoCalculator {
+public class Distancia {
     @JsonProperty
     public double calculaDistancia(double latitude1, double longitude1, double latitude2, double longitude2) {
         int R = 6371;

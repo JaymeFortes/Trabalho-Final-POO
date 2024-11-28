@@ -87,7 +87,8 @@ public class ControleRelatorioGeral {
 
                 try {
                     relatorio.append("Custo do Transporte: R$ ")
-                            .append(transporte.calculaCusto()).append("\n\n");
+                            .append(String.format("%.2f", transporte.calculaCusto())) // Formata para 2 casas decimais
+                            .append("\n\n");
                 } catch (IllegalStateException e) {
                     relatorio.append("Erro: ").append(e.getMessage()).append("\n\n");
                 } catch (NullPointerException e) {
@@ -119,7 +120,9 @@ public class ControleRelatorioGeral {
                 try {
                     if (transporte.getDroneAlocado() != null) {
                         double custo = transporte.calculaCusto();
-                        relatorioTransportes.append("Custo do Transporte: R$ ").append(custo).append("\n\n");
+                        relatorioTransportes.append("Custo do Transporte: R$ ")
+                                .append(String.format("%.2f", custo))
+                                .append("\n\n");
                     } else {
                         relatorioTransportes.append("Custo não calculado devido à falta de drone alocado.\n\n");
                     }
@@ -189,7 +192,7 @@ public class ControleRelatorioGeral {
     @JsonProperty
     private boolean salvarTransportes(String nomeArquivo, ObservableList<Transporte> transportes) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
-            writer.write("Número,Nome Cliente,Descrição,Peso,Latitude Origem,Longitude Origem,Latitude Destino,Longitude Destino,Situação,Drone Alocado,Acrescimos,Custo\n");
+            writer.write("Número,Nome Cliente,Descrição,Peso,Latitude Origem,Longitude Origem,Latitude Destino,Longitude Destino,Situação,Drone Alocado\n");
             for (Transporte transporte : transportes) {
                 writer.write(transporte.getNumero() + "," +
                         transporte.getNomeCliente() + "," +

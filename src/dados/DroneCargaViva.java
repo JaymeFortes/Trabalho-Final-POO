@@ -38,7 +38,7 @@ public class DroneCargaViva extends DroneCarga {
 
     @Override
     public double calculaCustoKm() {
-        return custoVariado() + getCustoFixo();
+        return custoVariado();
     }
 
     public String estadoClimatizado() {

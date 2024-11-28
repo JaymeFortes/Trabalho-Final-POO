@@ -23,7 +23,7 @@ public abstract class Transporte {
     @JsonProperty
     private Estado situacao;
     @JsonIgnore
-    private GeoCalculator geoCalculator = new GeoCalculator();
+    private Distancia geoCalculator = new Distancia();
     @JsonProperty
     private Drone droneAlocado;
 

@@ -34,8 +34,8 @@ public class TransporteCargaViva extends Transporte {
     }
 
     public boolean isTempaturaMaiorque10() {
-        double somaTemperatura = temperaturaMaxima + temperaturaMinima;
-        if (somaTemperatura > 10) {
+        double intervaloTemperatura = Math.abs(temperaturaMaxima - temperaturaMinima);
+        if (intervaloTemperatura > 10) {
             return true;
         }
         return false;

@@ -36,7 +36,7 @@ public class DronePessoal extends Drone {
     @JsonProperty
     @Override
     public double calculaCustoKm() {
-        return custoVariado() + getCustoFixo();
+        return custoVariado();
     }
 
     @JsonProperty
