@@ -1,13 +1,13 @@
 package servicos;
 
 import dados.Transporte;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class TransporteService {
-    private ObservableList<Transporte> transportes = FXCollections.observableArrayList();
+    private Queue<Transporte> transportes = new LinkedList<>();
 
-    public ObservableList<Transporte> getTransportes() {
+    public Queue<Transporte> getTransportes() {
         return transportes;
     }
 
@@ -25,15 +25,13 @@ public class TransporteService {
     }
 
     public void atualizarTransporte(Transporte transporte) {
-        for (int i = 0; i < transportes.size(); i++) {
-            if (transportes.get(i).getNumero() == transporte.getNumero()) {
-                transportes.set(i, transporte);
+        for (Transporte t : transportes) {
+            if (t.getNumero() == transporte.getNumero()) {
+                transportes.remove(t);
+                transportes.add(transporte);
                 return;
             }
         }
         throw new IllegalArgumentException("Transporte com o número " + transporte.getNumero() + " não encontrado.");
     }
 }
-
-
-
